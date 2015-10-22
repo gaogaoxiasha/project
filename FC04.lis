@@ -1,0 +1,65 @@
+                        .module FC04.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile FC04.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\FC04.c
+ 0000                   .dbfunc e FC04Init _FC04Init fV
+                        .even
+ 0000           _FC04Init::
+ 0000                   .dbline -1
+ 0000                   .dbline 18
+ 0000           ; /*******************************************************************************
+ 0000           ; **  MCU        : ATmega16 (Atmel)
+ 0000           ; **  Compiler   : ICCAVR 7.22
+ 0000           ; **  Module Name: FC4.c
+ 0000           ; **  Module Date: 2015-10-16
+ 0000           ; **  Module Auth: 蔡海飘
+ 0000           ; **  Description: 咪头
+ 0000           ; **  Version    : V1.0
+ 0000           ; **  Notes      : 
+ 0000           ; **------------------------------------------------------------------------------
+ 0000           ; /*----------------------------  I N C L U D E S  -----------------------------*/
+ 0000           ; #include "FC04.h"
+ 0000           ; 
+ 0000           ; /*--------------------------  D E F I N I T I O N  ---------------------------*/
+ 0000           ; 
+ 0000           ; /*---------------------------  F U N C T I O N S  ----------------------------*/
+ 0000           ; void FC04Init(void)
+ 0000           ; {
+ 0000                   .dbline 19
+ 0000           ;        DDRD &= ~(0x01<<1);
+ 0000 8998              cbi 0x11,1
+ 0002                   .dbline -2
+ 0002           L1:
+ 0002                   .dbline 0 ; func end
+ 0002 0895              ret
+ 0004                   .dbend
+ 0004                   .dbfunc e Read_FC04 _Read_FC04 fc
+ 0004           ;          state -> R16
+                        .even
+ 0004           _Read_FC04::
+ 0004                   .dbline -1
+ 0004                   .dbline 23
+ 0004           ; }  
+ 0004           ; 
+ 0004           ; unsigned char Read_FC04(void)  
+ 0004           ; {
+ 0004                   .dbline 24
+ 0004           ;     unsigned char state = 0;
+ 0004 0027              clr R16
+ 0006                   .dbline 25
+ 0006           ;       state = PIND&(0x01<<1);
+ 0006 00B3              in R16,0x10
+ 0008 0270              andi R16,2
+ 000A                   .dbline 26
+ 000A           ;       return state;
+ 000A                   .dbline -2
+ 000A           L2:
+ 000A                   .dbline 0 ; func end
+ 000A 0895              ret
+ 000C                   .dbsym r state 16 c
+ 000C                   .dbend
+ 000C           ; }
+ 000C           ; 
+ 000C           ; 
+ 000C           ; //==============================  End Of File  ===============================//
+ 000C           ; 

@@ -1,0 +1,391 @@
+                        .module DS18B20.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile DS18B20.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\DS18B20.c
+ 0000                   .dbfunc e DS18B20Init _DS18B20Init fV
+                        .even
+ 0000           _DS18B20Init::
+ 0000                   .dbline -1
+ 0000                   .dbline 35
+ 0000           ; /**------------------------------------------------------------------------------
+ 0000           ; **  MCU        : ATmega16(Atmel)
+ 0000           ; **  Compiler   : ICCAVR 7.22
+ 0000           ; **  Module Name: 
+ 0000           ; **  Module Date: 
+ 0000           ; **  Module Auth: 
+ 0000           ; **  Description: 
+ 0000           ; **  Version    : V1.0
+ 0000           ; **  Notes      : 
+ 0000           ; **------------------------------------------------------------------------------
+ 0000           ; **  Version    : 
+ 0000           ; **  Modified By: 
+ 0000           ; **  Date       : 
+ 0000           ; **  Content    : 
+ 0000           ; **  Notes      : 
+ 0000           ; *******************************************************************************/
+ 0000           ; 
+ 0000           ; /*----------------------------  I N C L U D E S  -----------------------------*/
+ 0000           ; #include "DS18B20.h"
+ 0000           ; 
+ 0000           ; /*--------------------------  D E F I N I T I O N  ---------------------------*/
+ 0000           ; 
+ 0000           ; /*---------------------------  F U N C T I O N S  ----------------------------*/
+ 0000           ; /*******************************************************************************
+ 0000           ; Function Name: void DS18B20Init(void)
+ 0000           ; Author       : 
+ 0000           ; Date         : 
+ 0000           ; Description  : 
+ 0000           ; Inputs       : None
+ 0000           ; Outputs      : None
+ 0000           ; Notes        : 
+ 0000           ; Revision     : 
+ 0000           ; *******************************************************************************/
+ 0000           ; void DS18B20Init(void)  
+ 0000           ; {  
+ 0000                   .dbline 37
+ 0000           ; 
+ 0000           ;    DDRD|=BIT(DQ); //DQ 为输出状态
+ 0000 8D9A              sbi 0x11,5
+ 0002                   .dbline 38
+ 0002           ;    PORTD&=~BIT(DQ); //输出低电平
+ 0002 9598              cbi 0x12,5
+ 0004                   .dbline 39
+ 0004           ;    Delay_us1(500); //延迟500 微妙
+ 0004 04EF              ldi R16,500
+ 0006 11E0              ldi R17,1
+ 0008 0E940000          xcall _Delay_us1
+ 000C                   .dbline 40
+ 000C           ;    PORTD|=BIT(DQ); //示范总线
+ 000C 959A              sbi 0x12,5
+ 000E                   .dbline 41
+ 000E           ;    Delay_us1(60); //延迟60 微妙
+ 000E 0CE3              ldi R16,60
+ 0010 10E0              ldi R17,0
+ 0012 0E940000          xcall _Delay_us1
+ 0016                   .dbline 42
+ 0016           ;    DDRD&=~BIT(DQ); //DQ 位输入状态
+ 0016 8D98              cbi 0x11,5
+ 0018           L2:
+ 0018                   .dbline 43
+ 0018           ;    while(PIND&BIT(DQ)); //等待从机DS18B20 应答（低电平有效）
+ 0018           L3:
+ 0018                   .dbline 43
+ 0018 8599              sbic 0x10,5
+ 001A FECF              rjmp L2
+ 001C           X0:
+ 001C           L5:
+ 001C                   .dbline 44
+ 001C           ;    while(!(PIND&BIT(DQ)));
+ 001C           L6:
+ 001C                   .dbline 44
+ 001C 859B              sbis 0x10,5
+ 001E FECF              rjmp L5
+ 0020           X1:
+ 0020                   .dbline -2
+ 0020           L1:
+ 0020                   .dbline 0 ; func end
+ 0020 0895              ret
+ 0022                   .dbend
+ 0022                   .dbfunc e write_1820 _write_1820 fV
+ 0022           ;              i -> R20
+ 0022           ;           Data -> R10
+                        .even
+ 0022           _write_1820::
+ 0022 AA92              st -y,R10
+ 0024 4A93              st -y,R20
+ 0026 A02E              mov R10,R16
+ 0028                   .dbline -1
+ 0028                   .dbline 58
+ 0028           ; 
+ 0028           ; }  
+ 0028           ; /*******************************************************************************
+ 0028           ; Function Name: void write_1820(unsigned char Data)  
+ 0028           ; Author       : 
+ 0028           ; Date         : 
+ 0028           ; Description  : 
+ 0028           ; Inputs       : None
+ 0028           ; Outputs      : None
+ 0028           ; Notes        : 
+ 0028           ; Revision     : 
+ 0028           ; *******************************************************************************/
+ 0028           ; void write_1820(unsigned char Data)  
+ 0028           ; {   
+ 0028                   .dbline 61
+ 0028           ; 
+ 0028           ;     unsigned char i;
+ 0028           ;     DDRD|=BIT(DQ); //DQ 为输出
+ 0028 8D9A              sbi 0x11,5
+ 002A                   .dbline 62
+ 002A           ;    for(i=0;i<8;i++)
+ 002A 4427              clr R20
+ 002C 17C0              xjmp L12
+ 002E           L9:
+ 002E                   .dbline 63
+ 002E           ;    {
+ 002E                   .dbline 64
+ 002E           ;     PORTD&=~BIT(DQ); //拉低总线
+ 002E 9598              cbi 0x12,5
+ 0030                   .dbline 65
+ 0030           ;     Delay_us1(10); //延迟10 微妙（最大15 微妙）
+ 0030 0AE0              ldi R16,10
+ 0032 10E0              ldi R17,0
+ 0034 0E940000          xcall _Delay_us1
+ 0038                   .dbline 66
+ 0038           ;     if(Data&0x01) 
+ 0038 A0FE              sbrs R10,0
+ 003A 02C0              rjmp L13
+ 003C           X2:
+ 003C                   .dbline 67
+ 003C           ;         PORTD|=BIT(DQ);
+ 003C 959A              sbi 0x12,5
+ 003E 01C0              xjmp L14
+ 0040           L13:
+ 0040                   .dbline 68
+ 0040           ;     else PORTD&=~BIT(DQ);
+ 0040 9598              cbi 0x12,5
+ 0042           L14:
+ 0042                   .dbline 69
+ 0042           ;       Delay_us(40); //延迟40 微妙（最大45 微妙） 
+ 0042 08E2              ldi R16,40
+ 0044 10E0              ldi R17,0
+ 0046 20E0              ldi R18,0
+ 0048 30E0              ldi R19,0
+ 004A 0E940000          xcall _Delay_us
+ 004E                   .dbline 70
+ 004E           ;       PORTD|=BIT(DQ); //释放总线
+ 004E 959A              sbi 0x12,5
+ 0050                   .dbline 71
+ 0050           ;    Delay_us1(1); //稍微延迟
+ 0050 01E0              ldi R16,1
+ 0052 10E0              ldi R17,0
+ 0054 0E940000          xcall _Delay_us1
+ 0058                   .dbline 72
+ 0058           ;     Data>>=1;}
+ 0058 A694              lsr R10
+ 005A                   .dbline 72
+ 005A           L10:
+ 005A                   .dbline 62
+ 005A 4395              inc R20
+ 005C           L12:
+ 005C                   .dbline 62
+ 005C 4830              cpi R20,8
+ 005E 38F3              brlo L9
+ 0060           X3:
+ 0060                   .dbline -2
+ 0060           L8:
+ 0060                   .dbline 0 ; func end
+ 0060 4991              ld R20,y+
+ 0062 A990              ld R10,y+
+ 0064 0895              ret
+ 0066                   .dbsym r i 20 c
+ 0066                   .dbsym r Data 10 c
+ 0066                   .dbend
+ 0066                   .dbfunc e read_1820 _read_1820 fc
+ 0066           ;           Temp -> R20
+ 0066           ;              i -> R22
+                        .even
+ 0066           _read_1820::
+ 0066 4A93              st -y,R20
+ 0068 6A93              st -y,R22
+ 006A                   .dbline -1
+ 006A                   .dbline 86
+ 006A           ; 
+ 006A           ; }  
+ 006A           ; /*******************************************************************************
+ 006A           ; Function Name: 
+ 006A           ; Author       : 
+ 006A           ; Date         : 
+ 006A           ; Description  : 
+ 006A           ; Inputs       : None
+ 006A           ; Outputs      : None
+ 006A           ; Notes        : 
+ 006A           ; Revision     : 
+ 006A           ; *******************************************************************************/
+ 006A           ; unsigned char read_1820(void)  
+ 006A           ; {   
+ 006A                   .dbline 88
+ 006A           ;    unsigned char i,Temp;
+ 006A           ;    for(i=0;i<8;i++)
+ 006A 6627              clr R22
+ 006C 0DC0              xjmp L19
+ 006E           L16:
+ 006E                   .dbline 89
+ 006E           ;  {
+ 006E                   .dbline 90
+ 006E           ;    Temp>>=1; //数据右移
+ 006E 4695              lsr R20
+ 0070                   .dbline 91
+ 0070           ;    DDRD|=BIT(DQ); //DQ 为输出状态
+ 0070 8D9A              sbi 0x11,5
+ 0072                   .dbline 92
+ 0072           ;    PORTD&=~BIT(DQ); //拉低总线，启动输入
+ 0072 9598              cbi 0x12,5
+ 0074                   .dbline 93
+ 0074           ;   PORTD|=BIT(DQ); //释放总线
+ 0074 959A              sbi 0x12,5
+ 0076                   .dbline 94
+ 0076           ;    DDRD&=~BIT(DQ); //DQ 为输入状态
+ 0076 8D98              cbi 0x11,5
+ 0078                   .dbline 95
+ 0078           ;   if(PIND&BIT(DQ)) 
+ 0078 859B              sbis 0x10,5
+ 007A 01C0              rjmp L20
+ 007C           X4:
+ 007C                   .dbline 96
+ 007C           ;   Temp|=0x80;
+ 007C 4068              ori R20,128
+ 007E           L20:
+ 007E                   .dbline 97
+ 007E           ;   Delay_us1(45); //延迟45 微妙（最大45 微妙）
+ 007E 0DE2              ldi R16,45
+ 0080 10E0              ldi R17,0
+ 0082 0E940000          xcall _Delay_us1
+ 0086                   .dbline 98
+ 0086           ;    }
+ 0086           L17:
+ 0086                   .dbline 88
+ 0086 6395              inc R22
+ 0088           L19:
+ 0088                   .dbline 88
+ 0088 6830              cpi R22,8
+ 008A 88F3              brlo L16
+ 008C           X5:
+ 008C                   .dbline 101
+ 008C           ; 
+ 008C           ; 
+ 008C           ; return Temp; } 
+ 008C 042F              mov R16,R20
+ 008E                   .dbline -2
+ 008E           L15:
+ 008E                   .dbline 0 ; func end
+ 008E 6991              ld R22,y+
+ 0090 4991              ld R20,y+
+ 0092 0895              ret
+ 0094                   .dbsym r Temp 20 c
+ 0094                   .dbsym r i 22 c
+ 0094                   .dbend
+ 0094                   .dbfunc e gettemp _gettemp fl
+ 0094           ;    Temperature -> R10,R11
+ 0094           ;            TEM -> R10,R11
+ 0094           ;           teml -> R10,R11
+ 0094           ;           temh -> R12,R13
+                        .even
+ 0094           _gettemp::
+ 0094 0E940000          xcall push_xgset003C
+ 0098                   .dbline -1
+ 0098                   .dbline 117
+ 0098           ; 
+ 0098           ; 
+ 0098           ; 
+ 0098           ; 
+ 0098           ; /*******************************************************************************
+ 0098           ; Function Name: 
+ 0098           ; Author       : 
+ 0098           ; Date         : 
+ 0098           ; Description  : 
+ 0098           ; Inputs       : None
+ 0098           ; Outputs      : None
+ 0098           ; Notes        : 
+ 0098           ; Revision     : 
+ 0098           ; *******************************************************************************/
+ 0098           ; INT32U gettemp(void)  //读取温度值 
+ 0098           ; {  //约5 ms
+ 0098                   .dbline 120
+ 0098           ;      unsigned int temh,teml;  
+ 0098           ;        INT16U TEM;
+ 0098           ;      unsigned int  Temperature=0; //返回Tc,实际的温度T=Tc*0.1,这里用整数运算
+ 0098                   .dbline 122
+ 0098           ;       
+ 0098           ;      DS18B20Init();        //复位18b20  
+ 0098 B3DF              xcall _DS18B20Init
+ 009A                   .dbline 123
+ 009A           ;      write_1820(0xcc);   // 发出转换命令  
+ 009A 0CEC              ldi R16,204
+ 009C C2DF              xcall _write_1820
+ 009E                   .dbline 124
+ 009E           ;      write_1820(0x44); 
+ 009E 04E4              ldi R16,68
+ 00A0 C0DF              xcall _write_1820
+ 00A2                   .dbline 126
+ 00A2           ;      
+ 00A2           ;      DS18B20Init();  
+ 00A2 AEDF              xcall _DS18B20Init
+ 00A4                   .dbline 127
+ 00A4           ;      write_1820(0xcc);  //发出读命令  
+ 00A4 0CEC              ldi R16,204
+ 00A6 BDDF              xcall _write_1820
+ 00A8                   .dbline 128
+ 00A8           ;      write_1820(0xbe);  
+ 00A8 0EEB              ldi R16,190
+ 00AA BBDF              xcall _write_1820
+ 00AC                   .dbline 129
+ 00AC           ;      teml=read_1820();   
+ 00AC DCDF              xcall _read_1820
+ 00AE A02E              mov R10,R16
+ 00B0 BB24              clr R11
+ 00B2                   .dbline 130
+ 00B2           ;      temh=read_1820();  //读数据
+ 00B2 D9DF              xcall _read_1820
+ 00B4 C02E              mov R12,R16
+ 00B6 DD24              clr R13
+ 00B8                   .dbline 132
+ 00B8           ;        
+ 00B8           ;        TEM = ((temh<<8)|teml);
+ 00B8 1601              movw R2,R12
+ 00BA 322C              mov R3,R2
+ 00BC 2224              clr R2
+ 00BE 2A28              or R2,R10
+ 00C0 3B28              or R3,R11
+ 00C2 5101              movw R10,R2
+ 00C4                   .dbline 141
+ 00C4           ;       /* if((1<<15)&(TEM))//等于1，表示为负
+ 00C4           ;        {
+ 00C4           ;         TEM = ((1<<12)-(TEM&~(0X1F<<15)));//负数求补码
+ 00C4           ;        } 
+ 00C4           ;        else
+ 00C4           ;        {
+ 00C4           ;         TEM = ((temh<<8)|teml);
+ 00C4           ;        }*/             
+ 00C4           ;        DS18B20Init(); 
+ 00C4 9DDF              xcall _DS18B20Init
+ 00C6                   .dbline 142
+ 00C6           ;        return TEM;//*6.25;//(((temh<<8)|teml)*6.25);
+ 00C6 8501              movw R16,R10
+ 00C8 9601              movw R18,R12
+ 00CA 2227              clr R18
+ 00CC 3327              clr R19
+ 00CE                   .dbline -2
+ 00CE           L22:
+ 00CE                   .dbline 0 ; func end
+ 00CE 0C940000          xjmp pop_xgset003C
+ 00D2                   .dbsym r Temperature 10 i
+ 00D2                   .dbsym r TEM 10 s
+ 00D2                   .dbsym r teml 10 i
+ 00D2                   .dbsym r temh 12 i
+ 00D2                   .dbend
+ 00D2           ;       // return (((unsigned int)(temh)<<8)+teml);
+ 00D2           ;        
+ 00D2           ; } 
+ 00D2           ; 
+ 00D2           ;        
+ 00D2           ;       /* if(temh&0xFC) //判断符号位是否为1
+ 00D2           ;    {
+ 00D2           ;    
+ 00D2           ;    Temperature = ((temh<<8 ) | teml ); //高八位第八位进行整合
+ 00D2           ;    Temperature= ((~Temperature)+1); //求反，补一
+ 00D2           ;    Temperature*= 0.0625; //求出十进制
+ 00D2           ;       } //Temperature=55;
+ 00D2           ;    else
+ 00D2           ;    {
+ 00D2           ;  
+ 00D2           ; 
+ 00D2           ;    Temperature = ((temh<<8 ) | teml ) * (0.0625 * 10) ;
+ 00D2           ;   }*/
+ 00D2           ; 
+ 00D2           ;    
+ 00D2           ;    
+ 00D2           ;     
+ 00D2           ;   
+ 00D2           ; 
+ 00D2           ; //==============================  End Of File  ===============================//
+ 00D2           ; 

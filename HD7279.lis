@@ -1,0 +1,1923 @@
+                        .module HD7279.C
+                        .area text(rom, con, rel)
+ 0000                   .dbfile HD7279.C
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\HD7279.C
+ 0000                   .dbfunc e init_7279 _init_7279 fV
+ 0000           ;            tmr -> R20,R21
+                        .even
+ 0000           _init_7279::
+ 0000 4A93              st -y,R20
+ 0002 5A93              st -y,R21
+ 0004                   .dbline -1
+ 0004                   .dbline 26
+ 0004           ; /********************************************************
+ 0004           ; 
+ 0004           ; 电子技术实习基地
+ 0004           ; 
+ 0004           ; ************************************************************/
+ 0004           ; /************************ MEI *******************************
+ 0004           ;       Module Name: HD7279.c
+ 0004           ;       Module Date: 11/14/2013
+ 0004           ;       Module Auth: 吕振
+ 0004           ;       
+ 0004           ;       Description: 7279键盘的使用
+ 0004           ; ************************* MEI *****************************/
+ 0004           ; /*------------------------Includes------------------------*/
+ 0004           ; #include "HD7279.h"
+ 0004           ; 
+ 0004           ; /***************外部调用函数*******************************/
+ 0004           ; 
+ 0004           ; /**********************************************************
+ 0004           ; 函数名：HD7279初始化函数      
+ 0004           ; 功  能：初始化HD7279（管脚配置、HD7279复位）
+ 0004           ; 输  入：无
+ 0004           ; 返  回：无
+ 0004           ; 备  注：使用先，选配置管脚的宏定义
+ 0004           ; *********************************************************/            
+ 0004           ; void init_7279(void)  
+ 0004           ; {
+ 0004                   .dbline 29
+ 0004           ;       unsigned int tmr;
+ 0004           ;       
+ 0004           ;       DR7279 |= cs7279;                        //cs7279定义为输出
+ 0004 D59A              sbi 0x1a,5
+ 0006                   .dbline 30
+ 0006           ;       DR7279 |= clk7279;                       //clk7279定义为输出
+ 0006 D49A              sbi 0x1a,4
+ 0008                   .dbline 31
+ 0008           ;       DR7279 |= dat7279;                       //dat7279定义为输出
+ 0008 D39A              sbi 0x1a,3
+ 000A                   .dbline 32
+ 000A           ;       DR7279 &= ~(key7279);                //key7279定义为输入
+ 000A D298              cbi 0x1a,2
+ 000C                   .dbline 34
+ 000C           ;       
+ 000C           ;       WR7279 |= cs7279;                        //cs7279初始化为1
+ 000C DD9A              sbi 0x1b,5
+ 000E                   .dbline 35
+ 000E           ;       WR7279 |= clk7279;                       //clk7279初始化为1
+ 000E DC9A              sbi 0x1b,4
+ 0010                   .dbline 36
+ 0010           ;       WR7279 |= dat7279;                       //dat7279初始化为1
+ 0010 DB9A              sbi 0x1b,3
+ 0012                   .dbline 37
+ 0012           ;       WR7279 |= key7279;                       //key7279初始化为有弱上拉 
+ 0012 DA9A              sbi 0x1b,2
+ 0014                   .dbline 39
+ 0014           ;       
+ 0014           ;       for(tmr=0;tmr<0xf000;tmr++);     //上电延时
+ 0014 4427              clr R20
+ 0016 5527              clr R21
+ 0018 02C0              xjmp L5
+ 001A           L2:
+ 001A                   .dbline 39
+ 001A           L3:
+ 001A                   .dbline 39
+ 001A 4F5F              subi R20,255  ; offset = 1
+ 001C 5F4F              sbci R21,255
+ 001E           L5:
+ 001E                   .dbline 39
+ 001E 4030              cpi R20,0
+ 0020 E0EF              ldi R30,240
+ 0022 5E07              cpc R21,R30
+ 0024 D0F3              brlo L2
+ 0026           X0:
+ 0026                   .dbline 41
+ 0026           ;               
+ 0026           ;       send_byte(CMD_RESET);                //复位HD7279
+ 0026 04EA              ldi R16,164
+ 0028 44D0              xcall _send_byte
+ 002A                   .dbline -2
+ 002A           L1:
+ 002A                   .dbline 0 ; func end
+ 002A 5991              ld R21,y+
+ 002C 4991              ld R20,y+
+ 002E 0895              ret
+ 0030                   .dbsym r tmr 20 i
+ 0030                   .dbend
+ 0030                   .dbfunc e write7279 _write7279 fV
+ 0030           ;            dta -> R10
+ 0030           ;            cmd -> R12
+                        .even
+ 0030           _write7279::
+ 0030 AA92              st -y,R10
+ 0032 CA92              st -y,R12
+ 0034 A22E              mov R10,R18
+ 0036 C02E              mov R12,R16
+ 0038                   .dbline -1
+ 0038                   .dbline 53
+ 0038           ;                                       
+ 0038           ; }      
+ 0038           ; 
+ 0038           ; /****************** **********************
+ 0038           ; 函数名：HD7279写入函数        
+ 0038           ; 功  能：对HD7279写数据
+ 0038           ; 输  入：cmd为指令数据;        dta为数据数据
+ 0038           ; 返  回：无
+ 0038           ; 备  注：HD7279的控制函数
+ 0038           ; ******************************************/
+ 0038           ; void write7279(unsigned char cmd,unsigned char dta)   //写入到HD7279
+ 0038           ; {     
+ 0038                   .dbline 54
+ 0038           ;       send_byte(cmd);         //写指令
+ 0038 0C2D              mov R16,R12
+ 003A 3BD0              xcall _send_byte
+ 003C                   .dbline 55
+ 003C           ;       send_byte(dta);         //定数据
+ 003C 0A2D              mov R16,R10
+ 003E 39D0              xcall _send_byte
+ 0040                   .dbline -2
+ 0040           L6:
+ 0040                   .dbline 0 ; func end
+ 0040 C990              ld R12,y+
+ 0042 A990              ld R10,y+
+ 0044 0895              ret
+ 0046                   .dbsym r dta 10 c
+ 0046                   .dbsym r cmd 12 c
+ 0046                   .dbend
+ 0046                   .dbfunc e read7279 _read7279 fc
+                        .even
+ 0046           _read7279::
+ 0046                   .dbline -1
+ 0046                   .dbline 66
+ 0046           ; }
+ 0046           ; 
+ 0046           ; /****************** **********************
+ 0046           ; 函数名：HD7279读取函数        
+ 0046           ; 功  能：对HD7279读取原始键值
+ 0046           ; 输  入：无
+ 0046           ; 返  回：键盘原始键值
+ 0046           ; 备  注：HD7279的控制函数
+ 0046           ; ******************************************/
+ 0046           ; unsigned char read7279(void)
+ 0046           ; {
+ 0046                   .dbline 67
+ 0046           ;       send_byte(0x15);                //发送读取指令
+ 0046 05E1              ldi R16,21
+ 0048 34D0              xcall _send_byte
+ 004A                   .dbline 68
+ 004A           ;       return(receive_byte());     //返回键值
+ 004A                   .dbline -2
+ 004A           L7:
+ 004A                   .dbline 0 ; func end
+ 004A 4CC0              xjmp _receive_byte
+ 004C                   .dbend
+ 004C                   .dbfunc e get_key7279 _get_key7279 fc
+ 004C           ;         KeyNum -> R10
+                        .even
+ 004C           _get_key7279::
+ 004C AA92              st -y,R10
+ 004E                   .dbline -1
+ 004E                   .dbline 80
+ 004E           ;       
+ 004E           ; }
+ 004E           ; 
+ 004E           ; /****************** **********************
+ 004E           ; 函数名：HD7279按键等待接收函数        
+ 004E           ; 功  能：当完成一次按键，返回键值
+ 004E           ; 输  入：无
+ 004E           ; 返  回：键盘键值
+ 004E           ; 备  注：HD7279的控制函数
+ 004E           ; ******************************************/
+ 004E           ; unsigned char get_key7279(void)
+ 004E           ; {
+ 004E           L9:
+ 004E                   .dbline 82
+ 004E           ;       unsigned char KeyNum;
+ 004E           ;       while( (RD7279&key7279) );              //等待有键按下,无时为高电平
+ 004E           L10:
+ 004E                   .dbline 82
+ 004E CA99              sbic 0x19,2
+ 0050 FECF              rjmp L9
+ 0052           X1:
+ 0052                   .dbline 84
+ 0052           ;       
+ 0052           ;       delay10ms(1);                               //时延100ms
+ 0052 01E0              ldi R16,1
+ 0054 10E0              ldi R17,0
+ 0056 17D0              xcall _delay10ms
+ 0058                   .dbline 86
+ 0058           ;       
+ 0058           ;       KeyNum=read7279();                          //读出键码  
+ 0058 F6DF              xcall _read7279
+ 005A                   .dbline 88
+ 005A           ;       
+ 005A           ;       KeyNum=num_change7279(KeyNum);  //键码转为十进制
+ 005A 5BD0              xcall _num_change7279
+ 005C A02E              mov R10,R16
+ 005E                   .dbline 90
+ 005E           ;       
+ 005E           ;       delay10ms(1);                               //时延100ms
+ 005E 01E0              ldi R16,1
+ 0060 10E0              ldi R17,0
+ 0062 11D0              xcall _delay10ms
+ 0064           L12:
+ 0064                   .dbline 92
+ 0064           ;       
+ 0064           ;       while( !(RD7279&key7279) );             //等待按键松开
+ 0064           L13:
+ 0064                   .dbline 92
+ 0064 CA9B              sbis 0x19,2
+ 0066 FECF              rjmp L12
+ 0068           X2:
+ 0068                   .dbline 94
+ 0068           ;       
+ 0068           ;       return KeyNum;                              //返回键值
+ 0068 0A2D              mov R16,R10
+ 006A                   .dbline -2
+ 006A           L8:
+ 006A                   .dbline 0 ; func end
+ 006A A990              ld R10,y+
+ 006C 0895              ret
+ 006E                   .dbsym r KeyNum 10 c
+ 006E                   .dbend
+ 006E                   .dbfunc e long_delay _long_delay fV
+ 006E           ;              i -> R16
+                        .even
+ 006E           _long_delay::
+ 006E                   .dbline -1
+ 006E                   .dbline 99
+ 006E           ; }
+ 006E           ; 
+ 006E           ; /******************************内部函数************************************/
+ 006E           ; void long_delay(void)               //长时延函数
+ 006E           ; {
+ 006E                   .dbline 101
+ 006E           ;       unsigned char i;
+ 006E           ;       for(i=0;i<80;i++);
+ 006E 0027              clr R16
+ 0070 01C0              xjmp L19
+ 0072           L16:
+ 0072                   .dbline 101
+ 0072           L17:
+ 0072                   .dbline 101
+ 0072 0395              inc R16
+ 0074           L19:
+ 0074                   .dbline 101
+ 0074 0035              cpi R16,80
+ 0076 E8F3              brlo L16
+ 0078           X3:
+ 0078                   .dbline -2
+ 0078           L15:
+ 0078                   .dbline 0 ; func end
+ 0078 0895              ret
+ 007A                   .dbsym r i 16 c
+ 007A                   .dbend
+ 007A                   .dbfunc e short_delay _short_delay fV
+ 007A           ;              i -> R16
+                        .even
+ 007A           _short_delay::
+ 007A                   .dbline -1
+ 007A                   .dbline 106
+ 007A           ; }     
+ 007A           ; 
+ 007A           ; void short_delay(void)            //短时延函数                                        
+ 007A           ; 
+ 007A           ; {
+ 007A                   .dbline 108
+ 007A           ;       unsigned char i;
+ 007A           ;       for(i=0;i<46;i++);
+ 007A 0027              clr R16
+ 007C 01C0              xjmp L24
+ 007E           L21:
+ 007E                   .dbline 108
+ 007E           L22:
+ 007E                   .dbline 108
+ 007E 0395              inc R16
+ 0080           L24:
+ 0080                   .dbline 108
+ 0080 0E32              cpi R16,46
+ 0082 E8F3              brlo L21
+ 0084           X4:
+ 0084                   .dbline -2
+ 0084           L20:
+ 0084                   .dbline 0 ; func end
+ 0084 0895              ret
+ 0086                   .dbsym r i 16 c
+ 0086                   .dbend
+ 0086                   .dbfunc e delay10ms _delay10ms fV
+ 0086           ;              i -> R10
+ 0086           ;              j -> R20
+ 0086           ;              k -> R22
+ 0086           ;          count -> R16,R17
+                        .even
+ 0086           _delay10ms::
+ 0086 0E940000          xcall push_xgsetF00C
+ 008A                   .dbline -1
+ 008A                   .dbline 112
+ 008A           ; }
+ 008A           ;                               
+ 008A           ; void delay10ms(unsigned int count)//10ms时延函数
+ 008A           ; {
+ 008A                   .dbline 114
+ 008A           ;       unsigned char i,j,k;
+ 008A           ;       for (i=0;i<count;i++)
+ 008A AA24              clr R10
+ 008C 0BC0              xjmp L29
+ 008E           L26:
+ 008E                   .dbline 115
+ 008E           ;                       for(j=0;j<100;j++)
+ 008E 4427              clr R20
+ 0090 06C0              xjmp L33
+ 0092           L30:
+ 0092                   .dbline 116
+ 0092           ;                               for(k=0;k<100;k++);
+ 0092 6627              clr R22
+ 0094 01C0              xjmp L37
+ 0096           L34:
+ 0096                   .dbline 116
+ 0096           L35:
+ 0096                   .dbline 116
+ 0096 6395              inc R22
+ 0098           L37:
+ 0098                   .dbline 116
+ 0098 6436              cpi R22,100
+ 009A E8F3              brlo L34
+ 009C           X5:
+ 009C           L31:
+ 009C                   .dbline 115
+ 009C 4395              inc R20
+ 009E           L33:
+ 009E                   .dbline 115
+ 009E 4436              cpi R20,100
+ 00A0 C0F3              brlo L30
+ 00A2           X6:
+ 00A2           L27:
+ 00A2                   .dbline 114
+ 00A2 A394              inc R10
+ 00A4           L29:
+ 00A4                   .dbline 114
+ 00A4 2A2C              mov R2,R10
+ 00A6 3324              clr R3
+ 00A8 2016              cp R2,R16
+ 00AA 3106              cpc R3,R17
+ 00AC 80F3              brlo L26
+ 00AE           X7:
+ 00AE                   .dbline -2
+ 00AE           L25:
+ 00AE                   .dbline 0 ; func end
+ 00AE 0C940000          xjmp pop_xgsetF00C
+ 00B2                   .dbsym r i 10 c
+ 00B2                   .dbsym r j 20 c
+ 00B2                   .dbsym r k 22 c
+ 00B2                   .dbsym r count 16 i
+ 00B2                   .dbend
+ 00B2                   .dbfunc e send_byte _send_byte fV
+ 00B2           ;              i -> R20
+ 00B2           ;       out_byte -> R10
+                        .even
+ 00B2           _send_byte::
+ 00B2 AA92              st -y,R10
+ 00B4 4A93              st -y,R20
+ 00B6 A02E              mov R10,R16
+ 00B8                   .dbline -1
+ 00B8                   .dbline 127
+ 00B8           ; }     
+ 00B8           ;       
+ 00B8           ; /****************** **********************
+ 00B8           ; 函数名：HD7279字节发送函数    
+ 00B8           ; 功  能：HD7279发送一个字节
+ 00B8           ; 输  入：一个字节
+ 00B8           ; 返  回：无
+ 00B8           ; 备  注：HD7279硬件函数
+ 00B8           ; ******************************************/
+ 00B8           ; void send_byte(unsigned char out_byte)
+ 00B8           ; {     
+ 00B8                   .dbline 130
+ 00B8           ;       unsigned char i;
+ 00B8           ;       
+ 00B8           ;       WR7279&=~clk7279;                   //clk7279=0;
+ 00B8 DC98              cbi 0x1b,4
+ 00BA                   .dbline 131
+ 00BA           ;       WR7279&=~cs7279;                    //cs7279=0
+ 00BA DD98              cbi 0x1b,5
+ 00BC                   .dbline 132
+ 00BC           ;       long_delay();
+ 00BC D8DF              xcall _long_delay
+ 00BE                   .dbline 134
+ 00BE           ;       
+ 00BE           ;       for(i=0;i<8;i++)
+ 00BE 4427              clr R20
+ 00C0 0BC0              xjmp L42
+ 00C2           L39:
+ 00C2                   .dbline 135
+ 00C2           ;       {
+ 00C2                   .dbline 136
+ 00C2           ;               if(out_byte&0x80)
+ 00C2 A7FE              sbrs R10,7
+ 00C4 02C0              rjmp L43
+ 00C6           X8:
+ 00C6                   .dbline 137
+ 00C6           ;               {
+ 00C6                   .dbline 138
+ 00C6           ;                       WR7279|=dat7279;        //dat7279=1;
+ 00C6 DB9A              sbi 0x1b,3
+ 00C8                   .dbline 139
+ 00C8           ;                }
+ 00C8 01C0              xjmp L44
+ 00CA           L43:
+ 00CA                   .dbline 141
+ 00CA           ;                else
+ 00CA           ;                {
+ 00CA                   .dbline 142
+ 00CA           ;                       WR7279&=~dat7279;       //dat7279=0;
+ 00CA DB98              cbi 0x1b,3
+ 00CC                   .dbline 143
+ 00CC           ;                }
+ 00CC           L44:
+ 00CC                   .dbline 144
+ 00CC           ;                WR7279|=clk7279;               //clk7279=1;
+ 00CC DC9A              sbi 0x1b,4
+ 00CE                   .dbline 145
+ 00CE           ;                short_delay();
+ 00CE D5DF              xcall _short_delay
+ 00D0                   .dbline 146
+ 00D0           ;                WR7279&=~clk7279;              //clk7279=0;
+ 00D0 DC98              cbi 0x1b,4
+ 00D2                   .dbline 147
+ 00D2           ;                short_delay();
+ 00D2 D3DF              xcall _short_delay
+ 00D4                   .dbline 148
+ 00D4           ;                out_byte=out_byte<<1;
+ 00D4 AA0C              lsl R10
+ 00D6                   .dbline 149
+ 00D6           ;        }
+ 00D6           L40:
+ 00D6                   .dbline 134
+ 00D6 4395              inc R20
+ 00D8           L42:
+ 00D8                   .dbline 134
+ 00D8 4830              cpi R20,8
+ 00DA 98F3              brlo L39
+ 00DC           X9:
+ 00DC                   .dbline 150
+ 00DC           ;        WR7279|=dat7279;                       //dat7279=1;     
+ 00DC DB9A              sbi 0x1b,3
+ 00DE                   .dbline -2
+ 00DE           L38:
+ 00DE                   .dbline 0 ; func end
+ 00DE 4991              ld R20,y+
+ 00E0 A990              ld R10,y+
+ 00E2 0895              ret
+ 00E4                   .dbsym r i 20 c
+ 00E4                   .dbsym r out_byte 10 c
+ 00E4                   .dbend
+ 00E4                   .dbfunc e receive_byte _receive_byte fc
+ 00E4           ;              i -> R22
+ 00E4           ;        in_byte -> R20
+                        .even
+ 00E4           _receive_byte::
+ 00E4 4A93              st -y,R20
+ 00E6 6A93              st -y,R22
+ 00E8                   .dbline -1
+ 00E8                   .dbline 161
+ 00E8           ; }
+ 00E8           ;       
+ 00E8           ; /****************** **********************
+ 00E8           ; 函数名：HD7279字节接收函数    
+ 00E8           ; 功  能：从HD7279接收一个字节
+ 00E8           ; 输  入：无
+ 00E8           ; 返  回：一个字节
+ 00E8           ; 备  注：HD7279硬件函数
+ 00E8           ; ******************************************/
+ 00E8           ; unsigned char receive_byte(void)
+ 00E8           ; {
+ 00E8                   .dbline 164
+ 00E8           ;       unsigned char i,in_byte;
+ 00E8           ;       
+ 00E8           ;       WR7279|=clk7279;                    //clk7279=1;
+ 00E8 DC9A              sbi 0x1b,4
+ 00EA                   .dbline 166
+ 00EA           ;       
+ 00EA           ;       DR7279&=~dat7279;                       //改dat7279为输入
+ 00EA D398              cbi 0x1a,3
+ 00EC                   .dbline 168
+ 00EC           ;       
+ 00EC           ;       long_delay();
+ 00EC C0DF              xcall _long_delay
+ 00EE                   .dbline 170
+ 00EE           ;       
+ 00EE           ;       for(i=0;i<8;i++)
+ 00EE 6627              clr R22
+ 00F0 09C0              xjmp L49
+ 00F2           L46:
+ 00F2                   .dbline 171
+ 00F2           ;       {       
+ 00F2                   .dbline 172
+ 00F2           ;               WR7279|=clk7279;                //clk7279=1;
+ 00F2 DC9A              sbi 0x1b,4
+ 00F4                   .dbline 173
+ 00F4           ;               short_delay();
+ 00F4 C2DF              xcall _short_delay
+ 00F6                   .dbline 174
+ 00F6           ;               in_byte=in_byte<<1;
+ 00F6 440F              lsl R20
+ 00F8                   .dbline 175
+ 00F8           ;               if(RD7279&dat7279)
+ 00F8 CB9B              sbis 0x19,3
+ 00FA 01C0              rjmp L50
+ 00FC           X10:
+ 00FC                   .dbline 176
+ 00FC           ;               {
+ 00FC                   .dbline 177
+ 00FC           ;                       in_byte=in_byte|0x01;
+ 00FC 4160              ori R20,1
+ 00FE                   .dbline 178
+ 00FE           ;               }
+ 00FE           L50:
+ 00FE                   .dbline 179
+ 00FE           ;               WR7279&=~clk7279;               //clk7279=0;
+ 00FE DC98              cbi 0x1b,4
+ 0100                   .dbline 180
+ 0100           ;               short_delay();
+ 0100 BCDF              xcall _short_delay
+ 0102                   .dbline 182
+ 0102           ;       
+ 0102           ;       }
+ 0102           L47:
+ 0102                   .dbline 170
+ 0102 6395              inc R22
+ 0104           L49:
+ 0104                   .dbline 170
+ 0104 6830              cpi R22,8
+ 0106 A8F3              brlo L46
+ 0108           X11:
+ 0108                   .dbline 183
+ 0108           ;       DR7279|=dat7279;                        //dat7279还原为输出口
+ 0108 D39A              sbi 0x1a,3
+ 010A                   .dbline 184
+ 010A           ;       return(in_byte);
+ 010A 042F              mov R16,R20
+ 010C                   .dbline -2
+ 010C           L45:
+ 010C                   .dbline 0 ; func end
+ 010C 6991              ld R22,y+
+ 010E 4991              ld R20,y+
+ 0110 0895              ret
+ 0112                   .dbsym r i 22 c
+ 0112                   .dbsym r in_byte 20 c
+ 0112                   .dbend
+ 0112                   .dbfunc e num_change7279 _num_change7279 fc
+                        .area  func_lit(rom, con, rel)
+ 0000           L72:
+ 0000 A900              .word `L59
+ 0002 A700              .word `L58
+ 0004 A500              .word `L57
+ 0006 A300              .word `L56
+ 0008 C300              .word `L53
+ 000A C300              .word `L53
+ 000C C300              .word `L53
+ 000E C300              .word `L53
+ 0010 B100              .word `L63
+ 0012 AF00              .word `L62
+ 0014 AD00              .word `L61
+ 0016 AB00              .word `L60
+ 0018 C300              .word `L53
+ 001A C300              .word `L53
+ 001C C300              .word `L53
+ 001E C300              .word `L53
+ 0020 B900              .word `L67
+ 0022 B700              .word `L66
+ 0024 B500              .word `L65
+ 0026 B300              .word `L64
+ 0028 C300              .word `L53
+ 002A C300              .word `L53
+ 002C C300              .word `L53
+ 002E C300              .word `L53
+ 0030 C100              .word `L71
+ 0032 BF00              .word `L70
+ 0034 BD00              .word `L69
+ 0036 BB00              .word `L68
+                        .area text(rom, con, rel)
+                ;              X -> R16
+                        .even
+ 0112           _num_change7279::
+ 0112 4A93              st -y,R20
+ 0114 5A93              st -y,R21
+ 0116                   .dbline -1
+ 0116                   .dbline 195
+ 0116           ; }
+ 0116           ; 
+ 0116           ; /****************** **********************
+ 0116           ; 函数名：HD7279按键等待接收函数        
+ 0116           ; 功  能：当完成一次按键，返回键值
+ 0116           ; 输  入：无
+ 0116           ; 返  回：键盘键值
+ 0116           ; 备  注：HD7279的控制函数
+ 0116           ; ******************************************/
+ 0116           ; unsigned char  num_change7279 (unsigned char X)
+ 0116           ;  {
+ 0116                   .dbline 196
+ 0116           ;       switch (X)
+ 0116 402F              mov R20,R16
+ 0118 5527              clr R21
+ 011A 4030              cpi R20,0
+ 011C E0E0              ldi R30,0
+ 011E 5E07              cpc R21,R30
+ 0120 0CF4              brge X15
+ 0122 31C0              xjmp L53
+ 0124           X15:
+ 0124           X12:
+ 0124 8BE1              ldi R24,27
+ 0126 90E0              ldi R25,0
+ 0128 8417              cp R24,R20
+ 012A 9507              cpc R25,R21
+ 012C 0CF4              brge X16
+ 012E 2BC0              xjmp L53
+ 0130           X16:
+ 0130           X13:
+ 0130 80E0              ldi R24,<L72
+ 0132 90E0              ldi R25,>L72
+ 0134 FA01              movw R30,R20
+ 0136 EE0F              lsl R30
+ 0138 FF1F              rol R31
+ 013A E80F              add R30,R24
+ 013C F91F              adc R31,R25
+ 013E 2590              lpm R2,Z+
+ 0140 3490              lpm R3,Z
+ 0142 F101              movw R30,R2
+ 0144 0994               ijmp
+ 0146           X14:
+ 0146                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\HD7279.C
+ 0146                   .dbline 197
+ 0146           ;       {
+ 0146           L56:
+ 0146                   .dbline 198
+ 0146           ;               case  ONE       : return 0X01;
+ 0146 01E0              ldi R16,1
+ 0148 1FC0              xjmp L52
+ 014A           L57:
+ 014A                   .dbline 199
+ 014A           ;               case  TWO       : return 0X02;
+ 014A 02E0              ldi R16,2
+ 014C 1DC0              xjmp L52
+ 014E           L58:
+ 014E                   .dbline 200
+ 014E           ;               case  THREE     : return 0X03;
+ 014E 03E0              ldi R16,3
+ 0150 1BC0              xjmp L52
+ 0152           L59:
+ 0152                   .dbline 201
+ 0152           ;               case  FOUR      : return 0X04;
+ 0152 04E0              ldi R16,4
+ 0154 19C0              xjmp L52
+ 0156           L60:
+ 0156                   .dbline 202
+ 0156           ;               case  FIVE      : return 0X05;
+ 0156 05E0              ldi R16,5
+ 0158 17C0              xjmp L52
+ 015A           L61:
+ 015A                   .dbline 203
+ 015A           ;               case  SIX       : return 0X06;
+ 015A 06E0              ldi R16,6
+ 015C 15C0              xjmp L52
+ 015E           L62:
+ 015E                   .dbline 204
+ 015E           ;               case  SEVEN     : return 0X07;
+ 015E 07E0              ldi R16,7
+ 0160 13C0              xjmp L52
+ 0162           L63:
+ 0162                   .dbline 205
+ 0162           ;               case  EIGHT     : return 0X08;
+ 0162 08E0              ldi R16,8
+ 0164 11C0              xjmp L52
+ 0166           L64:
+ 0166                   .dbline 206
+ 0166           ;               case  NINE      : return 0X09;
+ 0166 09E0              ldi R16,9
+ 0168 0FC0              xjmp L52
+ 016A           L65:
+ 016A                   .dbline 207
+ 016A           ;               case  ZERO      : return 0X00;
+ 016A 0027              clr R16
+ 016C 0DC0              xjmp L52
+ 016E           L66:
+ 016E                   .dbline 208
+ 016E           ;               case  AAAA      : return 0x0A;
+ 016E 0AE0              ldi R16,10
+ 0170 0BC0              xjmp L52
+ 0172           L67:
+ 0172                   .dbline 209
+ 0172           ;               case  BBBB      : return 0x0B;
+ 0172 0BE0              ldi R16,11
+ 0174 09C0              xjmp L52
+ 0176           L68:
+ 0176                   .dbline 210
+ 0176           ;               case  CCCC      : return 0x0C;
+ 0176 0CE0              ldi R16,12
+ 0178 07C0              xjmp L52
+ 017A           L69:
+ 017A                   .dbline 211
+ 017A           ;               case  DDDD      : return 0x0D;
+ 017A 0DE0              ldi R16,13
+ 017C 05C0              xjmp L52
+ 017E           L70:
+ 017E                   .dbline 212
+ 017E           ;               case  EEEE      : return 0x0E;
+ 017E 0EE0              ldi R16,14
+ 0180 03C0              xjmp L52
+ 0182           L71:
+ 0182                   .dbline 213
+ 0182           ;               case  FFFF      : return 0x0F;
+ 0182 0FE0              ldi R16,15
+ 0184 01C0              xjmp L52
+ 0186           L53:
+ 0186                   .dbline 214
+ 0186           ;               default         : return 0xFF;
+ 0186 0FEF              ldi R16,255
+ 0188                   .dbline -2
+ 0188           L52:
+ 0188                   .dbline 0 ; func end
+ 0188 5991              ld R21,y+
+ 018A 4991              ld R20,y+
+ 018C 0895              ret
+ 018E                   .dbsym r X 16 c
+ 018E                   .dbend
+ 018E                   .dbfunc e test_7279 _test_7279 fV
+ 018E           ; key7279_number -> R20
+ 018E           ;     wait_cnter -> y+12
+ 018E           ;            tmr -> y+8
+ 018E           ;              k -> y+4
+ 018E           ;              j -> y+0
+                        .even
+ 018E           _test_7279::
+ 018E 4A93              st -y,R20
+ 0190 6097              sbiw R28,16
+ 0192                   .dbline -1
+ 0192                   .dbline 224
+ 0192           ;       }
+ 0192           ; }
+ 0192           ; 
+ 0192           ; 
+ 0192           ;               
+ 0192           ; 
+ 0192           ; 
+ 0192           ; /****************** HD7279测试函数*************************/
+ 0192           ; void test_7279(void)
+ 0192           ; {
+ 0192                   .dbline 228
+ 0192           ;       unsigned long wait_cnter;
+ 0192           ;       unsigned long tmr,j,k;
+ 0192           ;       unsigned char key7279_number;
+ 0192           ;       init_7279();
+ 0192 36DF              xcall _init_7279
+ 0194 E1C1              xjmp L75
+ 0196           L74:
+ 0196                   .dbline 230
+ 0196           ;       while(1)
+ 0196           ;       {
+ 0196                   .dbline 231
+ 0196           ;               for(tmr=0;tmr<0xf000;tmr++);    //上电延时
+ 0196 80E0              ldi R24,0
+ 0198 8887              std y+8+0,R24
+ 019A 8987              std y+8+1,R24
+ 019C 8A87              std y+8+2,R24
+ 019E 8B87              std y+8+3,R24
+ 01A0 10C0              xjmp L80
+ 01A2           L77:
+ 01A2                   .dbline 231
+ 01A2           L78:
+ 01A2                   .dbline 231
+ 01A2 81E0              ldi R24,1
+ 01A4 90E0              ldi R25,0
+ 01A6 A0E0              ldi R26,0
+ 01A8 B0E0              ldi R27,0
+ 01AA 2884              ldd R2,y+8
+ 01AC 3984              ldd R3,y+9
+ 01AE 4A84              ldd R4,y+10
+ 01B0 5B84              ldd R5,y+11
+ 01B2 280E              add R2,R24
+ 01B4 391E              adc R3,R25
+ 01B6 4A1E              adc R4,R26
+ 01B8 5B1E              adc R5,R27
+ 01BA 2886              std y+8,R2
+ 01BC 3986              std y+9,R3
+ 01BE 4A86              std y+10,R4
+ 01C0 5B86              std y+11,R5
+ 01C2           L80:
+ 01C2                   .dbline 231
+ 01C2 80E0              ldi R24,0
+ 01C4 90EF              ldi R25,240
+ 01C6 A0E0              ldi R26,0
+ 01C8 B0E0              ldi R27,0
+ 01CA 2884              ldd R2,y+8
+ 01CC 3984              ldd R3,y+9
+ 01CE 4A84              ldd R4,y+10
+ 01D0 5B84              ldd R5,y+11
+ 01D2 2816              cp R2,R24
+ 01D4 3906              cpc R3,R25
+ 01D6 4A06              cpc R4,R26
+ 01D8 5B06              cpc R5,R27
+ 01DA 18F3              brlo L77
+ 01DC           X17:
+ 01DC                   .dbline 232
+ 01DC           ;               send_byte(CMD_RESET);               //复位HD7279
+ 01DC 04EA              ldi R16,164
+ 01DE 69DF              xcall _send_byte
+ 01E0                   .dbline 236
+ 01E0           ; 
+ 01E0           ;               //测试指令演示
+ 01E0           ; 
+ 01E0           ;               send_byte(CMD_TEST);
+ 01E0 0FEB              ldi R16,191
+ 01E2 67DF              xcall _send_byte
+ 01E4                   .dbline 237
+ 01E4           ;               for(j=0;j<3;j++)                        //延时约3秒
+ 01E4 80E0              ldi R24,0
+ 01E6 8883              std y+0,R24
+ 01E8 8983              std y+1,R24
+ 01EA 8A83              std y+2,R24
+ 01EC 8B83              std y+3,R24
+ 01EE 13C0              xjmp L84
+ 01F0           L81:
+ 01F0                   .dbline 238
+ 01F0           ;               {       
+ 01F0                   .dbline 239
+ 01F0           ;                       delay10ms(100);
+ 01F0 04E6              ldi R16,100
+ 01F2 10E0              ldi R17,0
+ 01F4 48DF              xcall _delay10ms
+ 01F6                   .dbline 240
+ 01F6           ;               }
+ 01F6           L82:
+ 01F6                   .dbline 237
+ 01F6 81E0              ldi R24,1
+ 01F8 90E0              ldi R25,0
+ 01FA A0E0              ldi R26,0
+ 01FC B0E0              ldi R27,0
+ 01FE 2880              ldd R2,y+0
+ 0200 3980              ldd R3,y+1
+ 0202 4A80              ldd R4,y+2
+ 0204 5B80              ldd R5,y+3
+ 0206 280E              add R2,R24
+ 0208 391E              adc R3,R25
+ 020A 4A1E              adc R4,R26
+ 020C 5B1E              adc R5,R27
+ 020E 2882              std y+0,R2
+ 0210 3982              std y+1,R3
+ 0212 4A82              std y+2,R4
+ 0214 5B82              std y+3,R5
+ 0216           L84:
+ 0216                   .dbline 237
+ 0216 83E0              ldi R24,3
+ 0218 90E0              ldi R25,0
+ 021A A0E0              ldi R26,0
+ 021C B0E0              ldi R27,0
+ 021E 2880              ldd R2,y+0
+ 0220 3980              ldd R3,y+1
+ 0222 4A80              ldd R4,y+2
+ 0224 5B80              ldd R5,y+3
+ 0226 2816              cp R2,R24
+ 0228 3906              cpc R3,R25
+ 022A 4A06              cpc R4,R26
+ 022C 5B06              cpc R5,R27
+ 022E 00F3              brlo L81
+ 0230           X18:
+ 0230                   .dbline 241
+ 0230           ;               send_byte(CMD_RESET);               //清除显示
+ 0230 04EA              ldi R16,164
+ 0232 3FDF              xcall _send_byte
+ 0234                   .dbline 244
+ 0234           ;               
+ 0234           ;       
+ 0234           ;               {       
+ 0234                   .dbline 245
+ 0234           ;                write7279(DECODE0+0,0x80);
+ 0234 20E8              ldi R18,128
+ 0236 00E8              ldi R16,128
+ 0238 FBDE              xcall _write7279
+ 023A                   .dbline 246
+ 023A           ;                write7279(DECODE0+1,0x81);
+ 023A 21E8              ldi R18,129
+ 023C 01E8              ldi R16,129
+ 023E F8DE              xcall _write7279
+ 0240                   .dbline 247
+ 0240           ;                write7279(DECODE0+2,0x82);
+ 0240 22E8              ldi R18,130
+ 0242 02E8              ldi R16,130
+ 0244 F5DE              xcall _write7279
+ 0246                   .dbline 248
+ 0246           ;                write7279(DECODE0+3,0x83);
+ 0246 23E8              ldi R18,131
+ 0248 03E8              ldi R16,131
+ 024A F2DE              xcall _write7279
+ 024C                   .dbline 249
+ 024C           ;                write7279(DECODE0+4,0x84);
+ 024C 24E8              ldi R18,132
+ 024E 04E8              ldi R16,132
+ 0250 EFDE              xcall _write7279
+ 0252                   .dbline 250
+ 0252           ;                write7279(DECODE0+5,0x85);
+ 0252 25E8              ldi R18,133
+ 0254 05E8              ldi R16,133
+ 0256 ECDE              xcall _write7279
+ 0258                   .dbline 251
+ 0258           ;                write7279(DECODE0+6,0x86);
+ 0258 26E8              ldi R18,134
+ 025A 06E8              ldi R16,134
+ 025C E9DE              xcall _write7279
+ 025E                   .dbline 252
+ 025E           ;                write7279(DECODE0+7,0x87);
+ 025E 27E8              ldi R18,135
+ 0260 07E8              ldi R16,135
+ 0262 E6DE              xcall _write7279
+ 0264                   .dbline 253
+ 0264           ;                }
+ 0264                   .dbline 255
+ 0264           ;                
+ 0264           ;               delay10ms(200);
+ 0264 08EC              ldi R16,200
+ 0266 10E0              ldi R17,0
+ 0268 0EDF              xcall _delay10ms
+ 026A                   .dbline 260
+ 026A           ; 
+ 026A           ;               //闪烁指令及键盘接口测试，
+ 026A           ;               //将用户按键的键码显示出来，
+ 026A           ;               //如果10秒内无按键或按S0键即进入下一步演示
+ 026A           ;               wait_cnter=0;
+ 026A 80E0              ldi R24,0
+ 026C 8C87              std y+12+0,R24
+ 026E 8D87              std y+12+1,R24
+ 0270 8E87              std y+12+2,R24
+ 0272 8F87              std y+12+3,R24
+ 0274                   .dbline 261
+ 0274           ;               key7279_number=0xff;
+ 0274 4FEF              ldi R20,255
+ 0276                   .dbline 262
+ 0276           ;               write7279(BLINKCTL,0xfc);                       //第1?2两位设为闪烁显示 1111，1100
+ 0276 2CEF              ldi R18,252
+ 0278 08E8              ldi R16,136
+ 027A DADE              xcall _write7279
+ 027C                   .dbline 263
+ 027C           ;               write7279(UNDECODE,0x08);           //0x08 is '_'
+ 027C 28E0              ldi R18,8
+ 027E 00E9              ldi R16,144
+ 0280 D7DE              xcall _write7279
+ 0282                   .dbline 264
+ 0282           ;               write7279(UNDECODE+1,0x08);                     //在第1?2位显示下划线'_'
+ 0282 28E0              ldi R18,8
+ 0284 01E9              ldi R16,145
+ 0286 D4DE              xcall _write7279
+ 0288           L85:
+ 0288                   .dbline 266
+ 0288           ;               do
+ 0288           ;               {
+ 0288                   .dbline 267
+ 0288           ;                       if(!(RD7279&key7279))                   //如果有键按下
+ 0288 CA99              sbic 0x19,2
+ 028A 1BC0              rjmp L88
+ 028C           X19:
+ 028C                   .dbline 268
+ 028C           ;                       {   
+ 028C                   .dbline 269
+ 028C           ;                        write7279(DECODE0+7,0x88);
+ 028C 28E8              ldi R18,136
+ 028E 07E8              ldi R16,135
+ 0290 CFDE              xcall _write7279
+ 0292                   .dbline 270
+ 0292           ;                        key7279_number=read7279();     //读出键码
+ 0292 D9DE              xcall _read7279
+ 0294 402F              mov R20,R16
+ 0296                   .dbline 271
+ 0296           ;                        write7279(BLINKCTL,0xff);
+ 0296 2FEF              ldi R18,255
+ 0298 08E8              ldi R16,136
+ 029A CADE              xcall _write7279
+ 029C                   .dbline 272
+ 029C           ;                        write7279(DECODE1+1,key7279_number/16);        //在第2 位显示键码高8位
+ 029C 242F              mov R18,R20
+ 029E 2295              swap R18
+ 02A0 2F70              andi R18,#0x0F
+ 02A2 09EC              ldi R16,201
+ 02A4 C5DE              xcall _write7279
+ 02A6                   .dbline 273
+ 02A6           ;                        write7279(DECODE1,key7279_number&0x0f);        //在第1位显示键码低8位
+ 02A6 242F              mov R18,R20
+ 02A8 2F70              andi R18,15
+ 02AA 08EC              ldi R16,200
+ 02AC C1DE              xcall _write7279
+ 02AE           L90:
+ 02AE                   .dbline 274
+ 02AE           ;                        while(!(RD7279&key7279));                              //等待按键放开
+ 02AE           L91:
+ 02AE                   .dbline 274
+ 02AE CA9B              sbis 0x19,2
+ 02B0 FECF              rjmp L90
+ 02B2           X20:
+ 02B2                   .dbline 275
+ 02B2           ;                        wait_cnter=0;
+ 02B2 80E0              ldi R24,0
+ 02B4 8C87              std y+12+0,R24
+ 02B6 8D87              std y+12+1,R24
+ 02B8 8E87              std y+12+2,R24
+ 02BA 8F87              std y+12+3,R24
+ 02BC                   .dbline 276
+ 02BC           ;                        delay10ms(10); 
+ 02BC 0AE0              ldi R16,10
+ 02BE 10E0              ldi R17,0
+ 02C0 E2DE              xcall _delay10ms
+ 02C2                   .dbline 277
+ 02C2           ;                       }       
+ 02C2           L88:
+ 02C2                   .dbline 278
+ 02C2           ;               }
+ 02C2           L86:
+ 02C2                   .dbline 279
+ 02C2           ;               while(wait_cnter<1000); 
+ 02C2 88EE              ldi R24,232
+ 02C4 93E0              ldi R25,3
+ 02C6 A0E0              ldi R26,0
+ 02C8 B0E0              ldi R27,0
+ 02CA 2C84              ldd R2,y+12
+ 02CC 3D84              ldd R3,y+13
+ 02CE 4E84              ldd R4,y+14
+ 02D0 5F84              ldd R5,y+15
+ 02D2 2816              cp R2,R24
+ 02D4 3906              cpc R3,R25
+ 02D6 4A06              cpc R4,R26
+ 02D8 5B06              cpc R5,R27
+ 02DA B0F2              brlo L85
+ 02DC           X21:
+ 02DC                   .dbline 282
+ 02DC           ;               
+ 02DC           ;               //如果按键为'0'和超时则进入下一步演示
+ 02DC           ;               write7279(BLINKCTL,0xff);                       //清除闪烁设置 无位显示闪烁1111,1111
+ 02DC 2FEF              ldi R18,255
+ 02DE 08E8              ldi R16,136
+ 02E0 A7DE              xcall _write7279
+ 02E2                   .dbline 283
+ 02E2           ;               send_byte(CMD_RESET);                           //清除显示
+ 02E2 04EA              ldi R16,164
+ 02E4 E6DE              xcall _send_byte
+ 02E6                   .dbline 286
+ 02E6           ;       
+ 02E6           ;               //下载数据但不译码指令测试
+ 02E6           ;               write7279(UNDECODE+7,0x49);             //在第8位按不译码方式显示一个字符‘三’。
+ 02E6 29E4              ldi R18,73
+ 02E8 07E9              ldi R16,151
+ 02EA A2DE              xcall _write7279
+ 02EC                   .dbline 287
+ 02EC           ;               delay10ms(80);
+ 02EC 00E5              ldi R16,80
+ 02EE 10E0              ldi R17,0
+ 02F0 CADE              xcall _delay10ms
+ 02F2                   .dbline 290
+ 02F2           ;       
+ 02F2           ;               //循环左右移测试，‘三’字向右移3次，再向左移3次。
+ 02F2           ;               for(j=0;j<23;j++)
+ 02F2 80E0              ldi R24,0
+ 02F4 8883              std y+0,R24
+ 02F6 8983              std y+1,R24
+ 02F8 8A83              std y+2,R24
+ 02FA 8B83              std y+3,R24
+ 02FC 15C0              xjmp L96
+ 02FE           L93:
+ 02FE                   .dbline 291
+ 02FE           ;               {
+ 02FE                   .dbline 292
+ 02FE           ;                       send_byte(RTR_CYCLE);                   //循环右移23次
+ 02FE 02EA              ldi R16,162
+ 0300 D8DE              xcall _send_byte
+ 0302                   .dbline 293
+ 0302           ;                       delay10ms(12);
+ 0302 0CE0              ldi R16,12
+ 0304 10E0              ldi R17,0
+ 0306 BFDE              xcall _delay10ms
+ 0308                   .dbline 294
+ 0308           ;               }
+ 0308           L94:
+ 0308                   .dbline 290
+ 0308 81E0              ldi R24,1
+ 030A 90E0              ldi R25,0
+ 030C A0E0              ldi R26,0
+ 030E B0E0              ldi R27,0
+ 0310 2880              ldd R2,y+0
+ 0312 3980              ldd R3,y+1
+ 0314 4A80              ldd R4,y+2
+ 0316 5B80              ldd R5,y+3
+ 0318 280E              add R2,R24
+ 031A 391E              adc R3,R25
+ 031C 4A1E              adc R4,R26
+ 031E 5B1E              adc R5,R27
+ 0320 2882              std y+0,R2
+ 0322 3982              std y+1,R3
+ 0324 4A82              std y+2,R4
+ 0326 5B82              std y+3,R5
+ 0328           L96:
+ 0328                   .dbline 290
+ 0328 87E1              ldi R24,23
+ 032A 90E0              ldi R25,0
+ 032C A0E0              ldi R26,0
+ 032E B0E0              ldi R27,0
+ 0330 2880              ldd R2,y+0
+ 0332 3980              ldd R3,y+1
+ 0334 4A80              ldd R4,y+2
+ 0336 5B80              ldd R5,y+3
+ 0338 2816              cp R2,R24
+ 033A 3906              cpc R3,R25
+ 033C 4A06              cpc R4,R26
+ 033E 5B06              cpc R5,R27
+ 0340 F0F2              brlo L93
+ 0342           X22:
+ 0342                   .dbline 296
+ 0342           ;               
+ 0342           ;               for(j=0;j<23;j++)
+ 0342 80E0              ldi R24,0
+ 0344 8883              std y+0,R24
+ 0346 8983              std y+1,R24
+ 0348 8A83              std y+2,R24
+ 034A 8B83              std y+3,R24
+ 034C 15C0              xjmp L100
+ 034E           L97:
+ 034E                   .dbline 297
+ 034E           ;               {
+ 034E                   .dbline 298
+ 034E           ;                       send_byte(RTL_CYCLE);                   //循环左移23次
+ 034E 03EA              ldi R16,163
+ 0350 B0DE              xcall _send_byte
+ 0352                   .dbline 299
+ 0352           ;                       delay10ms(12);
+ 0352 0CE0              ldi R16,12
+ 0354 10E0              ldi R17,0
+ 0356 97DE              xcall _delay10ms
+ 0358                   .dbline 300
+ 0358           ;               }
+ 0358           L98:
+ 0358                   .dbline 296
+ 0358 81E0              ldi R24,1
+ 035A 90E0              ldi R25,0
+ 035C A0E0              ldi R26,0
+ 035E B0E0              ldi R27,0
+ 0360 2880              ldd R2,y+0
+ 0362 3980              ldd R3,y+1
+ 0364 4A80              ldd R4,y+2
+ 0366 5B80              ldd R5,y+3
+ 0368 280E              add R2,R24
+ 036A 391E              adc R3,R25
+ 036C 4A1E              adc R4,R26
+ 036E 5B1E              adc R5,R27
+ 0370 2882              std y+0,R2
+ 0372 3982              std y+1,R3
+ 0374 4A82              std y+2,R4
+ 0376 5B82              std y+3,R5
+ 0378           L100:
+ 0378                   .dbline 296
+ 0378 87E1              ldi R24,23
+ 037A 90E0              ldi R25,0
+ 037C A0E0              ldi R26,0
+ 037E B0E0              ldi R27,0
+ 0380 2880              ldd R2,y+0
+ 0382 3980              ldd R3,y+1
+ 0384 4A80              ldd R4,y+2
+ 0386 5B80              ldd R5,y+3
+ 0388 2816              cp R2,R24
+ 038A 3906              cpc R3,R25
+ 038C 4A06              cpc R4,R26
+ 038E 5B06              cpc R5,R27
+ 0390 F0F2              brlo L97
+ 0392           X23:
+ 0392                   .dbline 303
+ 0392           ;       
+ 0392           ;               //译码方式0及左移指令测试
+ 0392           ;               for(j=0;j<16;j++)
+ 0392 80E0              ldi R24,0
+ 0394 8883              std y+0,R24
+ 0396 8983              std y+1,R24
+ 0398 8A83              std y+2,R24
+ 039A 8B83              std y+3,R24
+ 039C 1CC0              xjmp L104
+ 039E           L101:
+ 039E                   .dbline 304
+ 039E           ;               {
+ 039E                   .dbline 305
+ 039E           ;                       send_byte(RTL_UNCYL);                   //不循环左移指令
+ 039E 01EA              ldi R16,161
+ 03A0 88DE              xcall _send_byte
+ 03A2                   .dbline 306
+ 03A2           ;                       write7279(DECODE0,j);                   //译码方式0，显示在第1位
+ 03A2 2880              ldd R2,y+0
+ 03A4 3980              ldd R3,y+1
+ 03A6 4A80              ldd R4,y+2
+ 03A8 5B80              ldd R5,y+3
+ 03AA 222D              mov R18,R2
+ 03AC 00E8              ldi R16,128
+ 03AE 40DE              xcall _write7279
+ 03B0                   .dbline 307
+ 03B0           ;                       delay10ms(50);
+ 03B0 02E3              ldi R16,50
+ 03B2 10E0              ldi R17,0
+ 03B4 68DE              xcall _delay10ms
+ 03B6                   .dbline 308
+ 03B6           ;               }
+ 03B6           L102:
+ 03B6                   .dbline 303
+ 03B6 81E0              ldi R24,1
+ 03B8 90E0              ldi R25,0
+ 03BA A0E0              ldi R26,0
+ 03BC B0E0              ldi R27,0
+ 03BE 2880              ldd R2,y+0
+ 03C0 3980              ldd R3,y+1
+ 03C2 4A80              ldd R4,y+2
+ 03C4 5B80              ldd R5,y+3
+ 03C6 280E              add R2,R24
+ 03C8 391E              adc R3,R25
+ 03CA 4A1E              adc R4,R26
+ 03CC 5B1E              adc R5,R27
+ 03CE 2882              std y+0,R2
+ 03D0 3982              std y+1,R3
+ 03D2 4A82              std y+2,R4
+ 03D4 5B82              std y+3,R5
+ 03D6           L104:
+ 03D6                   .dbline 303
+ 03D6 80E1              ldi R24,16
+ 03D8 90E0              ldi R25,0
+ 03DA A0E0              ldi R26,0
+ 03DC B0E0              ldi R27,0
+ 03DE 2880              ldd R2,y+0
+ 03E0 3980              ldd R3,y+1
+ 03E2 4A80              ldd R4,y+2
+ 03E4 5B80              ldd R5,y+3
+ 03E6 2816              cp R2,R24
+ 03E8 3906              cpc R3,R25
+ 03EA 4A06              cpc R4,R26
+ 03EC 5B06              cpc R5,R27
+ 03EE B8F2              brlo L101
+ 03F0           X24:
+ 03F0                   .dbline 309
+ 03F0           ;                       delay10ms(150);
+ 03F0 06E9              ldi R16,150
+ 03F2 10E0              ldi R17,0
+ 03F4 48DE              xcall _delay10ms
+ 03F6                   .dbline 310
+ 03F6           ;                       send_byte(CMD_RESET);
+ 03F6 04EA              ldi R16,164
+ 03F8 5CDE              xcall _send_byte
+ 03FA                   .dbline 313
+ 03FA           ;       
+ 03FA           ;               //译码方式1及右移指令测试
+ 03FA           ;               for(j=0;j<16;j++)
+ 03FA 80E0              ldi R24,0
+ 03FC 8883              std y+0,R24
+ 03FE 8983              std y+1,R24
+ 0400 8A83              std y+2,R24
+ 0402 8B83              std y+3,R24
+ 0404 1CC0              xjmp L108
+ 0406           L105:
+ 0406                   .dbline 314
+ 0406           ;               {
+ 0406                   .dbline 315
+ 0406           ;                       send_byte(RTR_UNCYL);                   //不循环左移指令
+ 0406 00EA              ldi R16,160
+ 0408 54DE              xcall _send_byte
+ 040A                   .dbline 316
+ 040A           ;                       write7279(DECODE1+7,j);                 //译码方式1，显示在第8位
+ 040A 2880              ldd R2,y+0
+ 040C 3980              ldd R3,y+1
+ 040E 4A80              ldd R4,y+2
+ 0410 5B80              ldd R5,y+3
+ 0412 222D              mov R18,R2
+ 0414 0FEC              ldi R16,207
+ 0416 0CDE              xcall _write7279
+ 0418                   .dbline 317
+ 0418           ;                       delay10ms(50);
+ 0418 02E3              ldi R16,50
+ 041A 10E0              ldi R17,0
+ 041C 34DE              xcall _delay10ms
+ 041E                   .dbline 318
+ 041E           ;               }
+ 041E           L106:
+ 041E                   .dbline 313
+ 041E 81E0              ldi R24,1
+ 0420 90E0              ldi R25,0
+ 0422 A0E0              ldi R26,0
+ 0424 B0E0              ldi R27,0
+ 0426 2880              ldd R2,y+0
+ 0428 3980              ldd R3,y+1
+ 042A 4A80              ldd R4,y+2
+ 042C 5B80              ldd R5,y+3
+ 042E 280E              add R2,R24
+ 0430 391E              adc R3,R25
+ 0432 4A1E              adc R4,R26
+ 0434 5B1E              adc R5,R27
+ 0436 2882              std y+0,R2
+ 0438 3982              std y+1,R3
+ 043A 4A82              std y+2,R4
+ 043C 5B82              std y+3,R5
+ 043E           L108:
+ 043E                   .dbline 313
+ 043E 80E1              ldi R24,16
+ 0440 90E0              ldi R25,0
+ 0442 A0E0              ldi R26,0
+ 0444 B0E0              ldi R27,0
+ 0446 2880              ldd R2,y+0
+ 0448 3980              ldd R3,y+1
+ 044A 4A80              ldd R4,y+2
+ 044C 5B80              ldd R5,y+3
+ 044E 2816              cp R2,R24
+ 0450 3906              cpc R3,R25
+ 0452 4A06              cpc R4,R26
+ 0454 5B06              cpc R5,R27
+ 0456 B8F2              brlo L105
+ 0458           X25:
+ 0458                   .dbline 319
+ 0458           ;               delay10ms(150);
+ 0458 06E9              ldi R16,150
+ 045A 10E0              ldi R17,0
+ 045C 14DE              xcall _delay10ms
+ 045E                   .dbline 323
+ 045E           ;       
+ 045E           ;               //消隐指令测试
+ 045E           ;       
+ 045E           ;               for(j=0;j<6;j++)
+ 045E 80E0              ldi R24,0
+ 0460 8883              std y+0,R24
+ 0462 8983              std y+1,R24
+ 0464 8A83              std y+2,R24
+ 0466 8B83              std y+3,R24
+ 0468 26C0              xjmp L112
+ 046A           L109:
+ 046A                   .dbline 324
+ 046A           ;               {
+ 046A                   .dbline 325
+ 046A           ;                       k=k>>1;
+ 046A 2C80              ldd R2,y+4
+ 046C 3D80              ldd R3,y+5
+ 046E 4E80              ldd R4,y+6
+ 0470 5F80              ldd R5,y+7
+ 0472 5694              lsr R5
+ 0474 4794              ror R4
+ 0476 3794              ror R3
+ 0478 2794              ror R2
+ 047A 2C82              std y+4,R2
+ 047C 3D82              std y+5,R3
+ 047E 4E82              std y+6,R4
+ 0480 5F82              std y+7,R5
+ 0482                   .dbline 326
+ 0482           ;                       write7279(ACTCTL,k);                    //每隔一秒钟增加一个消隐位
+ 0482 2C80              ldd R2,y+4
+ 0484 3D80              ldd R3,y+5
+ 0486 4E80              ldd R4,y+6
+ 0488 5F80              ldd R5,y+7
+ 048A 222D              mov R18,R2
+ 048C 08E9              ldi R16,152
+ 048E D0DD              xcall _write7279
+ 0490                   .dbline 327
+ 0490           ;                       delay10ms(100);
+ 0490 04E6              ldi R16,100
+ 0492 10E0              ldi R17,0
+ 0494 F8DD              xcall _delay10ms
+ 0496                   .dbline 328
+ 0496           ;               }
+ 0496           L110:
+ 0496                   .dbline 323
+ 0496 81E0              ldi R24,1
+ 0498 90E0              ldi R25,0
+ 049A A0E0              ldi R26,0
+ 049C B0E0              ldi R27,0
+ 049E 2880              ldd R2,y+0
+ 04A0 3980              ldd R3,y+1
+ 04A2 4A80              ldd R4,y+2
+ 04A4 5B80              ldd R5,y+3
+ 04A6 280E              add R2,R24
+ 04A8 391E              adc R3,R25
+ 04AA 4A1E              adc R4,R26
+ 04AC 5B1E              adc R5,R27
+ 04AE 2882              std y+0,R2
+ 04B0 3982              std y+1,R3
+ 04B2 4A82              std y+2,R4
+ 04B4 5B82              std y+3,R5
+ 04B6           L112:
+ 04B6                   .dbline 323
+ 04B6 86E0              ldi R24,6
+ 04B8 90E0              ldi R25,0
+ 04BA A0E0              ldi R26,0
+ 04BC B0E0              ldi R27,0
+ 04BE 2880              ldd R2,y+0
+ 04C0 3980              ldd R3,y+1
+ 04C2 4A80              ldd R4,y+2
+ 04C4 5B80              ldd R5,y+3
+ 04C6 2816              cp R2,R24
+ 04C8 3906              cpc R3,R25
+ 04CA 4A06              cpc R4,R26
+ 04CC 5B06              cpc R5,R27
+ 04CE 68F2              brlo L109
+ 04D0           X26:
+ 04D0                   .dbline 329
+ 04D0           ;               write7279(ACTCTL,0xff);                         //恢复8位显示
+ 04D0 2FEF              ldi R18,255
+ 04D2 08E9              ldi R16,152
+ 04D4 ADDD              xcall _write7279
+ 04D6                   .dbline 330
+ 04D6           ;               delay10ms(100);
+ 04D6 04E6              ldi R16,100
+ 04D8 10E0              ldi R17,0
+ 04DA D5DD              xcall _delay10ms
+ 04DC                   .dbline 331
+ 04DC           ;               send_byte(CMD_RESET);                           //清除显示
+ 04DC 04EA              ldi R16,164
+ 04DE E9DD              xcall _send_byte
+ 04E0                   .dbline 334
+ 04E0           ;       
+ 04E0           ;               //段点亮指令和段关闭指令
+ 04E0           ;               for(j=0;j<64;j++)
+ 04E0 80E0              ldi R24,0
+ 04E2 8883              std y+0,R24
+ 04E4 8983              std y+1,R24
+ 04E6 8A83              std y+2,R24
+ 04E8 8B83              std y+3,R24
+ 04EA 29C0              xjmp L116
+ 04EC           L113:
+ 04EC                   .dbline 335
+ 04EC           ;               {
+ 04EC                   .dbline 336
+ 04EC           ;                       write7279(SEGON,j);                     //将64个显示段逐个点亮
+ 04EC 2880              ldd R2,y+0
+ 04EE 3980              ldd R3,y+1
+ 04F0 4A80              ldd R4,y+2
+ 04F2 5B80              ldd R5,y+3
+ 04F4 222D              mov R18,R2
+ 04F6 00EE              ldi R16,224
+ 04F8 9BDD              xcall _write7279
+ 04FA                   .dbline 337
+ 04FA           ;                       write7279(SEGOFF,j-1);                  //同时将前一个显示段关闭
+ 04FA 81E0              ldi R24,1
+ 04FC 90E0              ldi R25,0
+ 04FE A0E0              ldi R26,0
+ 0500 B0E0              ldi R27,0
+ 0502 2880              ldd R2,y+0
+ 0504 3980              ldd R3,y+1
+ 0506 4A80              ldd R4,y+2
+ 0508 5B80              ldd R5,y+3
+ 050A 281A              sub R2,R24
+ 050C 390A              sbc R3,R25
+ 050E 4A0A              sbc R4,R26
+ 0510 5B0A              sbc R5,R27
+ 0512 222D              mov R18,R2
+ 0514 00EC              ldi R16,192
+ 0516 8CDD              xcall _write7279
+ 0518                   .dbline 338
+ 0518           ;                       delay10ms(20);
+ 0518 04E1              ldi R16,20
+ 051A 10E0              ldi R17,0
+ 051C B4DD              xcall _delay10ms
+ 051E                   .dbline 339
+ 051E           ;               }
+ 051E           L114:
+ 051E                   .dbline 334
+ 051E 81E0              ldi R24,1
+ 0520 90E0              ldi R25,0
+ 0522 A0E0              ldi R26,0
+ 0524 B0E0              ldi R27,0
+ 0526 2880              ldd R2,y+0
+ 0528 3980              ldd R3,y+1
+ 052A 4A80              ldd R4,y+2
+ 052C 5B80              ldd R5,y+3
+ 052E 280E              add R2,R24
+ 0530 391E              adc R3,R25
+ 0532 4A1E              adc R4,R26
+ 0534 5B1E              adc R5,R27
+ 0536 2882              std y+0,R2
+ 0538 3982              std y+1,R3
+ 053A 4A82              std y+2,R4
+ 053C 5B82              std y+3,R5
+ 053E           L116:
+ 053E                   .dbline 334
+ 053E 80E4              ldi R24,64
+ 0540 90E0              ldi R25,0
+ 0542 A0E0              ldi R26,0
+ 0544 B0E0              ldi R27,0
+ 0546 2880              ldd R2,y+0
+ 0548 3980              ldd R3,y+1
+ 054A 4A80              ldd R4,y+2
+ 054C 5B80              ldd R5,y+3
+ 054E 2816              cp R2,R24
+ 0550 3906              cpc R3,R25
+ 0552 4A06              cpc R4,R26
+ 0554 5B06              cpc R5,R27
+ 0556 50F2              brlo L113
+ 0558           X27:
+ 0558                   .dbline 340
+ 0558           ;       }
+ 0558           L75:
+ 0558                   .dbline 229
+ 0558 1ECE              xjmp L74
+ 055A           X28:
+ 055A                   .dbline -2
+ 055A           L73:
+ 055A                   .dbline 0 ; func end
+ 055A 6096              adiw R28,16
+ 055C 4991              ld R20,y+
+ 055E 0895              ret
+ 0560                   .dbsym r key7279_number 20 c
+ 0560                   .dbsym l wait_cnter 12 l
+ 0560                   .dbsym l tmr 8 l
+ 0560                   .dbsym l k 4 l
+ 0560                   .dbsym l j 0 l
+ 0560                   .dbend
+ 0560                   .dbfunc e dis_data _dis_data fV
+ 0560           ;      temp_char -> R14
+ 0560           ;              i -> R10
+ 0560           ;            num -> y+10
+ 0560           ;        dig_end -> R12
+ 0560           ;      dig_start -> R14
+                        .even
+ 0560           _dis_data::
+ 0560 0E940000          xcall push_xgsetF0FC
+ 0564 C22E              mov R12,R18
+ 0566 E02E              mov R14,R16
+ 0568                   .dbline -1
+ 0568                   .dbline 349
+ 0568           ; }
+ 0568           ; 
+ 0568           ; 
+ 0568           ; 
+ 0568           ; 
+ 0568           ; /********************************** HD7279输入输出函数 *******************************************/
+ 0568           ; 
+ 0568           ; void dis_data ( unsigned char dig_start,unsigned char dig_end,signed long num)
+ 0568           ; {
+ 0568                   .dbline 352
+ 0568           ;       unsigned char i,temp_char;
+ 0568           ;       
+ 0568           ;       for( i = dig_start; i <= dig_end; i++ )
+ 0568 AE2C              mov R10,R14
+ 056A 36C0              xjmp L121
+ 056C           L118:
+ 056C                   .dbline 353
+ 056C           ;       {
+ 056C                   .dbline 354
+ 056C           ;               temp_char = num % 10;
+ 056C 4AE0              ldi R20,10
+ 056E 50E0              ldi R21,0
+ 0570 60E0              ldi R22,0
+ 0572 70E0              ldi R23,0
+ 0574 0A85              ldd R16,y+10
+ 0576 1B85              ldd R17,y+11
+ 0578 2C85              ldd R18,y+12
+ 057A 3D85              ldd R19,y+13
+ 057C 7A93              st -y,R23
+ 057E 6A93              st -y,R22
+ 0580 5A93              st -y,R21
+ 0582 4A93              st -y,R20
+ 0584 0E940000          xcall mod32s
+ 0588 E02E              mov R14,R16
+ 058A                   .dbline 355
+ 058A           ;               num -= temp_char;
+ 058A 2E2C              mov R2,R14
+ 058C 3324              clr R3
+ 058E 4424              clr R4
+ 0590 5524              clr R5
+ 0592 6A84              ldd R6,y+10
+ 0594 7B84              ldd R7,y+11
+ 0596 8C84              ldd R8,y+12
+ 0598 9D84              ldd R9,y+13
+ 059A 6218              sub R6,R2
+ 059C 7308              sbc R7,R3
+ 059E 8408              sbc R8,R4
+ 05A0 9508              sbc R9,R5
+ 05A2 6A86              std y+10,R6
+ 05A4 7B86              std y+11,R7
+ 05A6 8C86              std y+12,R8
+ 05A8 9D86              std y+13,R9
+ 05AA                   .dbline 356
+ 05AA           ;               num /= 10;      
+ 05AA 4AE0              ldi R20,10
+ 05AC 50E0              ldi R21,0
+ 05AE 60E0              ldi R22,0
+ 05B0 70E0              ldi R23,0
+ 05B2 0A85              ldd R16,y+10
+ 05B4 1B85              ldd R17,y+11
+ 05B6 2C85              ldd R18,y+12
+ 05B8 3D85              ldd R19,y+13
+ 05BA 7A93              st -y,R23
+ 05BC 6A93              st -y,R22
+ 05BE 5A93              st -y,R21
+ 05C0 4A93              st -y,R20
+ 05C2 0E940000          xcall div32s
+ 05C6 0A87              std y+10,R16
+ 05C8 1B87              std y+11,R17
+ 05CA 2C87              std y+12,R18
+ 05CC 3D87              std y+13,R19
+ 05CE                   .dbline 357
+ 05CE           ;               write7279 ( DECODE0 + i , 0x00 +  temp_char );//0x00为不加点显示，0x80为加点显示
+ 05CE 2E2D              mov R18,R14
+ 05D0 0A2D              mov R16,R10
+ 05D2 0058              subi R16,128    ; addi 128
+ 05D4 2DDD              xcall _write7279
+ 05D6                   .dbline 359
+ 05D6           ; 
+ 05D6           ;       }
+ 05D6           L119:
+ 05D6                   .dbline 352
+ 05D6 A394              inc R10
+ 05D8           L121:
+ 05D8                   .dbline 352
+ 05D8 2C2C              mov R2,R12
+ 05DA 3324              clr R3
+ 05DC 4A2C              mov R4,R10
+ 05DE 5524              clr R5
+ 05E0 2414              cp R2,R4
+ 05E2 3504              cpc R3,R5
+ 05E4 1CF6              brge L118
+ 05E6           X29:
+ 05E6                   .dbline -2
+ 05E6           L117:
+ 05E6                   .dbline 0 ; func end
+ 05E6 0C940000          xjmp pop_xgsetF0FC
+ 05EA                   .dbsym r temp_char 14 c
+ 05EA                   .dbsym r i 10 c
+ 05EA                   .dbsym l num 10 L
+ 05EA                   .dbsym r dig_end 12 c
+ 05EA                   .dbsym r dig_start 14 c
+ 05EA                   .dbend
+ 05EA                   .dbfunc e dis_data_RP _dis_data_RP fV
+ 05EA           ;      temp_char -> R14
+ 05EA           ;              i -> R10
+ 05EA           ;             rp -> R12,R13
+ 05EA           ;            num -> y+12
+ 05EA           ;        dig_end -> y+10
+ 05EA           ;      dig_start -> R14
+                        .even
+ 05EA           _dis_data_RP::
+ 05EA 3A93              st -y,r19
+ 05EC 2A93              st -y,r18
+ 05EE 0E940000          xcall push_xgsetF0FC
+ 05F2 E02E              mov R14,R16
+ 05F4 C888              ldd R12,y+16
+ 05F6 D988              ldd R13,y+17
+ 05F8                   .dbline -1
+ 05F8                   .dbline 365
+ 05F8           ; }
+ 05F8           ; 
+ 05F8           ; 
+ 05F8           ; //带小数点显示，可以在rp位显示小数点
+ 05F8           ; void dis_data_RP ( unsigned char dig_start,unsigned char dig_end,signed long num,int rp)
+ 05F8           ; {
+ 05F8                   .dbline 368
+ 05F8           ;       unsigned char i,temp_char;
+ 05F8           ;       
+ 05F8           ;       for( i = dig_start; i <= dig_end; i++ )
+ 05F8 AE2C              mov R10,R14
+ 05FA 41C0              xjmp L126
+ 05FC           L123:
+ 05FC                   .dbline 369
+ 05FC           ;       {
+ 05FC                   .dbline 370
+ 05FC           ;               temp_char = num % 10;
+ 05FC 4AE0              ldi R20,10
+ 05FE 50E0              ldi R21,0
+ 0600 60E0              ldi R22,0
+ 0602 70E0              ldi R23,0
+ 0604 0C85              ldd R16,y+12
+ 0606 1D85              ldd R17,y+13
+ 0608 2E85              ldd R18,y+14
+ 060A 3F85              ldd R19,y+15
+ 060C 7A93              st -y,R23
+ 060E 6A93              st -y,R22
+ 0610 5A93              st -y,R21
+ 0612 4A93              st -y,R20
+ 0614 0E940000          xcall mod32s
+ 0618 E02E              mov R14,R16
+ 061A                   .dbline 371
+ 061A           ;               num -= temp_char;
+ 061A 2E2C              mov R2,R14
+ 061C 3324              clr R3
+ 061E 4424              clr R4
+ 0620 5524              clr R5
+ 0622 6C84              ldd R6,y+12
+ 0624 7D84              ldd R7,y+13
+ 0626 8E84              ldd R8,y+14
+ 0628 9F84              ldd R9,y+15
+ 062A 6218              sub R6,R2
+ 062C 7308              sbc R7,R3
+ 062E 8408              sbc R8,R4
+ 0630 9508              sbc R9,R5
+ 0632 6C86              std y+12,R6
+ 0634 7D86              std y+13,R7
+ 0636 8E86              std y+14,R8
+ 0638 9F86              std y+15,R9
+ 063A                   .dbline 372
+ 063A           ;               num /= 10;
+ 063A 4AE0              ldi R20,10
+ 063C 50E0              ldi R21,0
+ 063E 60E0              ldi R22,0
+ 0640 70E0              ldi R23,0
+ 0642 0C85              ldd R16,y+12
+ 0644 1D85              ldd R17,y+13
+ 0646 2E85              ldd R18,y+14
+ 0648 3F85              ldd R19,y+15
+ 064A 7A93              st -y,R23
+ 064C 6A93              st -y,R22
+ 064E 5A93              st -y,R21
+ 0650 4A93              st -y,R20
+ 0652 0E940000          xcall div32s
+ 0656 0C87              std y+12,R16
+ 0658 1D87              std y+13,R17
+ 065A 2E87              std y+14,R18
+ 065C 3F87              std y+15,R19
+ 065E                   .dbline 373
+ 065E           ;               if(i!=rp)
+ 065E 2A2C              mov R2,R10
+ 0660 3324              clr R3
+ 0662 2C14              cp R2,R12
+ 0664 3D04              cpc R3,R13
+ 0666 29F0              breq L127
+ 0668           X30:
+ 0668                   .dbline 374
+ 0668           ;               write7279 ( DECODE0 + i , 0x00 +  temp_char );//0x00为不加点显示，0x80为加点显示
+ 0668 2E2D              mov R18,R14
+ 066A 022D              mov R16,R2
+ 066C 0058              subi R16,128    ; addi 128
+ 066E E0DC              xcall _write7279
+ 0670 05C0              xjmp L128
+ 0672           L127:
+ 0672                   .dbline 376
+ 0672           ;               else
+ 0672           ;               write7279 ( DECODE0 + i , 0X80 +  temp_char );
+ 0672 2E2D              mov R18,R14
+ 0674 2058              subi R18,128    ; addi 128
+ 0676 0A2D              mov R16,R10
+ 0678 0058              subi R16,128    ; addi 128
+ 067A DADC              xcall _write7279
+ 067C           L128:
+ 067C                   .dbline 377
+ 067C           ;       }
+ 067C           L124:
+ 067C                   .dbline 368
+ 067C A394              inc R10
+ 067E           L126:
+ 067E                   .dbline 368
+ 067E 2A84              ldd R2,y+10
+ 0680 3324              clr R3
+ 0682 4A2C              mov R4,R10
+ 0684 5524              clr R5
+ 0686 2414              cp R2,R4
+ 0688 3504              cpc R3,R5
+ 068A 0CF0              brlt X32
+ 068C B7CF              xjmp L123
+ 068E           X32:
+ 068E           X31:
+ 068E                   .dbline -2
+ 068E           L122:
+ 068E                   .dbline 0 ; func end
+ 068E 0E940000          xcall pop_xgsetF0FC
+ 0692 2296              adiw R28,2
+ 0694 0895              ret
+ 0696                   .dbsym r temp_char 14 c
+ 0696                   .dbsym r i 10 c
+ 0696                   .dbsym r rp 12 I
+ 0696                   .dbsym l num 12 L
+ 0696                   .dbsym l dig_end 10 c
+ 0696                   .dbsym r dig_start 14 c
+ 0696                   .dbend
+ 0696                   .dbfunc e get_data _get_data fL
+ 0696           ;      temp_long -> y+0
+ 0696           ;      temp_char -> R14
+ 0696           ;              i -> R10
+ 0696           ;        dig_end -> R14
+ 0696           ;      dig_start -> R12
+                        .even
+ 0696           _get_data::
+ 0696 0E940000          xcall push_xgsetF0FC
+ 069A E22E              mov R14,R18
+ 069C C02E              mov R12,R16
+ 069E 2497              sbiw R28,4
+ 06A0                   .dbline -1
+ 06A0                   .dbline 381
+ 06A0           ; }/**/
+ 06A0           ; 
+ 06A0           ; signed long get_data ( signed char dig_start,signed char dig_end )
+ 06A0           ; {
+ 06A0                   .dbline 382
+ 06A0           ;       signed long temp_long = 0;
+ 06A0 80E0              ldi R24,0
+ 06A2 8883              std y+0,R24
+ 06A4 8983              std y+1,R24
+ 06A6 8A83              std y+2,R24
+ 06A8 8B83              std y+3,R24
+ 06AA                   .dbline 385
+ 06AA           ;       signed char i,temp_char;        
+ 06AA           ;       
+ 06AA           ;       for( i = dig_start; i <= dig_end; i++ )
+ 06AA AC2C              mov R10,R12
+ 06AC 05C0              xjmp L133
+ 06AE           L130:
+ 06AE                   .dbline 386
+ 06AE           ;               write7279(UNDECODE + i,0x08);  //显示为'_'
+ 06AE 28E0              ldi R18,8
+ 06B0 0A2D              mov R16,R10
+ 06B2 0057              subi R16,112    ; addi 144
+ 06B4 BDDC              xcall _write7279
+ 06B6           L131:
+ 06B6                   .dbline 385
+ 06B6 A394              inc R10
+ 06B8           L133:
+ 06B8                   .dbline 385
+ 06B8 EA14              cp R14,R10
+ 06BA CCF7              brge L130
+ 06BC           X33:
+ 06BC                   .dbline 388
+ 06BC           ;               
+ 06BC           ;       for( i = dig_end; i >= dig_start ; i-- )
+ 06BC AE2C              mov R10,R14
+ 06BE 32C0              xjmp L137
+ 06C0           L134:
+ 06C0                   .dbline 389
+ 06C0           ;       {
+ 06C0                   .dbline 390
+ 06C0           ;               temp_char = get_key7279();
+ 06C0 C5DC              xcall _get_key7279
+ 06C2 E02E              mov R14,R16
+ 06C4                   .dbline 392
+ 06C4           ;               
+ 06C4           ;               temp_long *= 10;
+ 06C4 2880              ldd R2,y+0
+ 06C6 3980              ldd R3,y+1
+ 06C8 4A80              ldd R4,y+2
+ 06CA 5B80              ldd R5,y+3
+ 06CC 4AE0              ldi R20,10
+ 06CE 50E0              ldi R21,0
+ 06D0 60E0              ldi R22,0
+ 06D2 70E0              ldi R23,0
+ 06D4 5A92              st -y,R5
+ 06D6 4A92              st -y,R4
+ 06D8 3A92              st -y,R3
+ 06DA 2A92              st -y,R2
+ 06DC 8A01              movw R16,R20
+ 06DE 9B01              movw R18,R22
+ 06E0 0E940000          xcall empy32s
+ 06E4 0883              std y+0,R16
+ 06E6 1983              std y+1,R17
+ 06E8 2A83              std y+2,R18
+ 06EA 3B83              std y+3,R19
+ 06EC                   .dbline 393
+ 06EC           ;               temp_long += temp_char;
+ 06EC 2E2C              mov R2,R14
+ 06EE 3324              clr R3
+ 06F0 27FC              sbrc R2,7
+ 06F2 3094              com R3
+ 06F4 4424              clr R4
+ 06F6 37FC              sbrc R3,7
+ 06F8 4094              com R4
+ 06FA 5524              clr R5
+ 06FC 47FC              sbrc R4,7
+ 06FE 5094              com R5
+ 0700 6880              ldd R6,y+0
+ 0702 7980              ldd R7,y+1
+ 0704 8A80              ldd R8,y+2
+ 0706 9B80              ldd R9,y+3
+ 0708 620C              add R6,R2
+ 070A 731C              adc R7,R3
+ 070C 841C              adc R8,R4
+ 070E 951C              adc R9,R5
+ 0710 6882              std y+0,R6
+ 0712 7982              std y+1,R7
+ 0714 8A82              std y+2,R8
+ 0716 9B82              std y+3,R9
+ 0718                   .dbline 395
+ 0718           ;               
+ 0718           ;               write7279 ( DECODE1 + i , 0x80 +  temp_char); //1译码可以显示字母
+ 0718 2E2D              mov R18,R14
+ 071A 2058              subi R18,128    ; addi 128
+ 071C 0A2D              mov R16,R10
+ 071E 0853              subi R16,56    ; addi 200
+ 0720 87DC              xcall _write7279
+ 0722                   .dbline 396
+ 0722           ;       }
+ 0722           L135:
+ 0722                   .dbline 388
+ 0722 AA94              dec R10
+ 0724           L137:
+ 0724                   .dbline 388
+ 0724 AC14              cp R10,R12
+ 0726 64F6              brge L134
+ 0728           X34:
+ 0728                   .dbline 397
+ 0728           ;       delay10ms(5);
+ 0728 05E0              ldi R16,5
+ 072A 10E0              ldi R17,0
+ 072C ACDC              xcall _delay10ms
+ 072E                   .dbline 398
+ 072E           ;       send_byte(CMD_RESET);
+ 072E 04EA              ldi R16,164
+ 0730 C0DC              xcall _send_byte
+ 0732                   .dbline 400
+ 0732           ;               
+ 0732           ;       return temp_long;               
+ 0732 0881              ldd R16,y+0
+ 0734 1981              ldd R17,y+1
+ 0736 2A81              ldd R18,y+2
+ 0738 3B81              ldd R19,y+3
+ 073A                   .dbline -2
+ 073A           L129:
+ 073A                   .dbline 0 ; func end
+ 073A 2496              adiw R28,4
+ 073C 0C940000          xjmp pop_xgsetF0FC
+ 0740                   .dbsym l temp_long 0 L
+ 0740                   .dbsym r temp_char 14 C
+ 0740                   .dbsym r i 10 C
+ 0740                   .dbsym r dig_end 14 C
+ 0740                   .dbsym r dig_start 12 C
+ 0740                   .dbend
+ 0740           ; }
+ 0740           ; 

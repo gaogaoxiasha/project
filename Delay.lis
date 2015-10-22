@@ -1,0 +1,323 @@
+                        .module Delay.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile Delay.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\¸½Ð¡ÊµÑé\³ÌÐò\ÉùÒô+ºìÍâ\Delay.c
+ 0000                   .dbfunc e Delay_us _Delay_us fV
+ 0000           ;              i -> R20,R21
+ 0000           ;              n -> y+2
+                        .even
+ 0000           _Delay_us::
+ 0000 0E940000          xcall push_arg4
+ 0004 4A93              st -y,R20
+ 0006 5A93              st -y,R21
+ 0008                   .dbline -1
+ 0008                   .dbline 40
+ 0008           ; /*******************************************************************************
+ 0008           ; **  Copyright (c)   2011       USTB MEI
+ 0008           ; **                  All Rights Reserved
+ 0008           ; **  
+ 0008           ; **  
+ 0008           ; **-----------------------------------------------------------------------------
+ 0008           ; **  MCU        : ATmega16 (Atmel)
+ 0008           ; **  Compiler   : ICCAVR 7.22
+ 0008           ; **  Module Name: Delay.c
+ 0008           ; **  Module Date: 2011-03-28
+ 0008           ; **  Module Auth: ÎâÇÚ±ø
+ 0008           ; **  Description: Delay functions for ATmega16 at 7.3728MHz
+ 0008           ; **  Version    : V1.0
+ 0008           ; **  Notes      : These delay functions are suited for ATmega8 at 7.3728MHz.
+ 0008           ; **------------------------------------------------------------------------------
+ 0008           ; **  Version    : 
+ 0008           ; **  Modified By: 
+ 0008           ; **  Date       : 
+ 0008           ; **  Content    : 
+ 0008           ; **  Notes      : 
+ 0008           ; *******************************************************************************/
+ 0008           ; 
+ 0008           ; /*----------------------------  I N C L U D E S  -----------------------------*/
+ 0008           ; #include "Delay.h"
+ 0008           ; 
+ 0008           ; /*--------------------------  D E F I N I T I O N  ---------------------------*/
+ 0008           ; 
+ 0008           ; /*---------------------------  F U N C T I O N S  ----------------------------*/
+ 0008           ; /*******************************************************************************
+ 0008           ; Function Name: Delay_us
+ 0008           ; Author       : ÎâÇÚ±ø
+ 0008           ; Date         : 2011-03-14
+ 0008           ; Description  : Delay n us
+ 0008           ; Inputs       : UINT16 n -- n us
+ 0008           ; Outputs      : None
+ 0008           ; Notes        : 
+ 0008           ; Revision     : 
+ 0008           ; *******************************************************************************/
+ 0008           ; void Delay_us(INT32U n)
+ 0008           ; {          
+ 0008                   .dbline 41
+ 0008           ;     unsigned int i = 0;       
+ 0008                   .dbline 42
+ 0008           ;     for(i = 0; i < n; i++)
+ 0008 4427              clr R20
+ 000A 5527              clr R21
+ 000C 03C0              xjmp L5
+ 000E           L2:
+ 000E                   .dbline 43
+ 000E           ;     {
+ 000E                   .dbline 44
+ 000E           ;         NOP();
+ 000E 0000              nop
+ 0010                   .dbline 45
+ 0010           ;     }
+ 0010           L3:
+ 0010                   .dbline 42
+ 0010 4F5F              subi R20,255  ; offset = 1
+ 0012 5F4F              sbci R21,255
+ 0014           L5:
+ 0014                   .dbline 42
+ 0014 2A80              ldd R2,y+2
+ 0016 3B80              ldd R3,y+3
+ 0018 4C80              ldd R4,y+4
+ 001A 5D80              ldd R5,y+5
+ 001C 3A01              movw R6,R20
+ 001E 8824              clr R8
+ 0020 9924              clr R9
+ 0022 6214              cp R6,R2
+ 0024 7304              cpc R7,R3
+ 0026 8404              cpc R8,R4
+ 0028 9504              cpc R9,R5
+ 002A 88F3              brlo L2
+ 002C           X0:
+ 002C                   .dbline -2
+ 002C           L1:
+ 002C                   .dbline 0 ; func end
+ 002C 5991              ld R21,y+
+ 002E 4991              ld R20,y+
+ 0030 2496              adiw R28,4
+ 0032 0895              ret
+ 0034                   .dbsym r i 20 i
+ 0034                   .dbsym l n 2 l
+ 0034                   .dbend
+ 0034                   .dbfunc e Delay_us1 _Delay_us1 fV
+ 0034           ;              j -> R10,R11
+ 0034           ;              i -> R20,R21
+ 0034           ;              n -> R16,R17
+                        .even
+ 0034           _Delay_us1::
+ 0034 0E940000          xcall push_xgset300C
+ 0038                   .dbline -1
+ 0038                   .dbline 50
+ 0038           ; }
+ 0038           ; 
+ 0038           ; 
+ 0038           ; void Delay_us1(int n)
+ 0038           ; {          
+ 0038                   .dbline 51
+ 0038           ;     int i = 0;
+ 0038                   .dbline 52
+ 0038           ;     int j = 0;
+ 0038 AA24              clr R10
+ 003A BB24              clr R11
+ 003C                   .dbline 54
+ 003C           ;       
+ 003C           ;     for(i = 0; i < n; i++)
+ 003C 4427              clr R20
+ 003E 5527              clr R21
+ 0040 0AC0              xjmp L10
+ 0042           L7:
+ 0042                   .dbline 55
+ 0042           ;     {
+ 0042                   .dbline 56
+ 0042           ;          NOP();
+ 0042 0000              nop
+ 0044                   .dbline 57
+ 0044           ;                NOP();
+ 0044 0000              nop
+ 0046                   .dbline 58
+ 0046           ;                NOP();
+ 0046 0000              nop
+ 0048                   .dbline 59
+ 0048           ;                NOP();
+ 0048 0000              nop
+ 004A                   .dbline 60
+ 004A           ;                NOP();
+ 004A 0000              nop
+ 004C                   .dbline 61
+ 004C           ;                NOP();
+ 004C 0000              nop
+ 004E                   .dbline 62
+ 004E           ;                NOP();
+ 004E 0000              nop
+ 0050                   .dbline 63
+ 0050           ;                NOP();         
+ 0050 0000              nop
+ 0052                   .dbline 64
+ 0052           ;     }
+ 0052           L8:
+ 0052                   .dbline 54
+ 0052 4F5F              subi R20,255  ; offset = 1
+ 0054 5F4F              sbci R21,255
+ 0056           L10:
+ 0056                   .dbline 54
+ 0056 4017              cp R20,R16
+ 0058 5107              cpc R21,R17
+ 005A 9CF3              brlt L7
+ 005C           X1:
+ 005C                   .dbline -2
+ 005C           L6:
+ 005C                   .dbline 0 ; func end
+ 005C 0C940000          xjmp pop_xgset300C
+ 0060                   .dbsym r j 10 I
+ 0060                   .dbsym r i 20 I
+ 0060                   .dbsym r n 16 I
+ 0060                   .dbend
+ 0060                   .dbfunc e Delay_ms _Delay_ms fV
+ 0060           ;              i -> R20,R21
+ 0060           ;              j -> R22,R23
+ 0060           ;              n -> R16,R17
+                        .even
+ 0060           _Delay_ms::
+ 0060 0E940000          xcall push_xgsetF000
+ 0064                   .dbline -1
+ 0064                   .dbline 78
+ 0064           ; }
+ 0064           ; 
+ 0064           ; /*******************************************************************************
+ 0064           ; Function Name: Delay_ms
+ 0064           ; Author       : ÎâÇÚ±ø
+ 0064           ; Date         : 2011-03-14
+ 0064           ; Description  : Delay n ms
+ 0064           ; Inputs       : UINT16 n -- n ms
+ 0064           ; Outputs      : None
+ 0064           ; Notes        : 
+ 0064           ; Revision     : 
+ 0064           ; *******************************************************************************/
+ 0064           ; void Delay_ms(unsigned int n)
+ 0064           ; {          
+ 0064                   .dbline 79
+ 0064           ;     unsigned int i = 0;
+ 0064                   .dbline 80
+ 0064           ;     unsigned int j = 0;
+ 0064 6627              clr R22
+ 0066 7727              clr R23
+ 0068                   .dbline 82
+ 0068           ;       
+ 0068           ;     for(i = 0; i < n; i++)
+ 0068 4427              clr R20
+ 006A 5527              clr R21
+ 006C 0BC0              xjmp L15
+ 006E           L12:
+ 006E                   .dbline 83
+ 006E           ;     {
+ 006E                   .dbline 84
+ 006E           ;         for(j = 0; j < 2100; j++)
+ 006E 6627              clr R22
+ 0070 7727              clr R23
+ 0072 02C0              xjmp L19
+ 0074           L16:
+ 0074                   .dbline 85
+ 0074           ;         {
+ 0074                   .dbline 87
+ 0074           ;             // Delay n ms
+ 0074           ;         }
+ 0074           L17:
+ 0074                   .dbline 84
+ 0074 6F5F              subi R22,255  ; offset = 1
+ 0076 7F4F              sbci R23,255
+ 0078           L19:
+ 0078                   .dbline 84
+ 0078 6433              cpi R22,52
+ 007A E8E0              ldi R30,8
+ 007C 7E07              cpc R23,R30
+ 007E D0F3              brlo L16
+ 0080           X2:
+ 0080                   .dbline 88
+ 0080           ;     }
+ 0080           L13:
+ 0080                   .dbline 82
+ 0080 4F5F              subi R20,255  ; offset = 1
+ 0082 5F4F              sbci R21,255
+ 0084           L15:
+ 0084                   .dbline 82
+ 0084 4017              cp R20,R16
+ 0086 5107              cpc R21,R17
+ 0088 90F3              brlo L12
+ 008A           X3:
+ 008A                   .dbline -2
+ 008A           L11:
+ 008A                   .dbline 0 ; func end
+ 008A 0C940000          xjmp pop_xgsetF000
+ 008E                   .dbsym r i 20 i
+ 008E                   .dbsym r j 22 i
+ 008E                   .dbsym r n 16 i
+ 008E                   .dbend
+ 008E                   .dbfunc e Delay_ms1 _Delay_ms1 fV
+ 008E           ;              i -> R20,R21
+ 008E           ;              j -> R22,R23
+ 008E           ;              n -> R16,R17
+                        .even
+ 008E           _Delay_ms1::
+ 008E 0E940000          xcall push_xgsetF000
+ 0092                   .dbline -1
+ 0092                   .dbline 92
+ 0092           ; }
+ 0092           ; 
+ 0092           ; void Delay_ms1(int n)
+ 0092           ; {          
+ 0092                   .dbline 93
+ 0092           ;     int i = 0;
+ 0092                   .dbline 94
+ 0092           ;     int j = 0;
+ 0092 6627              clr R22
+ 0094 7727              clr R23
+ 0096                   .dbline 96
+ 0096           ;       
+ 0096           ;     for(i = 0; i < n; i++)
+ 0096 4427              clr R20
+ 0098 5527              clr R21
+ 009A 0AC0              xjmp L24
+ 009C           L21:
+ 009C                   .dbline 97
+ 009C           ;     {
+ 009C                   .dbline 98
+ 009C           ;         for(j = 0; j < 2000; j++)
+ 009C 6627              clr R22
+ 009E 7727              clr R23
+ 00A0           L25:
+ 00A0                   .dbline 99
+ 00A0           ;         {
+ 00A0                   .dbline 101
+ 00A0           ;             // Delay n ms
+ 00A0           ;         }
+ 00A0           L26:
+ 00A0                   .dbline 98
+ 00A0 6F5F              subi R22,255  ; offset = 1
+ 00A2 7F4F              sbci R23,255
+ 00A4                   .dbline 98
+ 00A4 603D              cpi R22,208
+ 00A6 E7E0              ldi R30,7
+ 00A8 7E07              cpc R23,R30
+ 00AA D4F3              brlt L25
+ 00AC           X4:
+ 00AC                   .dbline 102
+ 00AC           ;     }
+ 00AC           L22:
+ 00AC                   .dbline 96
+ 00AC 4F5F              subi R20,255  ; offset = 1
+ 00AE 5F4F              sbci R21,255
+ 00B0           L24:
+ 00B0                   .dbline 96
+ 00B0 4017              cp R20,R16
+ 00B2 5107              cpc R21,R17
+ 00B4 9CF3              brlt L21
+ 00B6           X5:
+ 00B6                   .dbline -2
+ 00B6           L20:
+ 00B6                   .dbline 0 ; func end
+ 00B6 0C940000          xjmp pop_xgsetF000
+ 00BA                   .dbsym r i 20 I
+ 00BA                   .dbsym r j 22 I
+ 00BA                   .dbsym r n 16 I
+ 00BA                   .dbend
+ 00BA           ; }
+ 00BA           ; 
+ 00BA           ; //==============================  End Of File  ===============================//
+ 00BA           ; 

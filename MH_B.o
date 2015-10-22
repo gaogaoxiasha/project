@@ -1,0 +1,27 @@
+XL
+H 1 areas 2 global symbols
+M MH_B.c
+A text size C flags 0
+dbfile MH_B.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\MH_B.c
+dbfunc e MH_B_Init 0 fV
+dbline FFFFFFFF 0
+dbline 12 0
+dbline 13 0
+dbline FFFFFFFE 2
+dbline 0 2
+dbfunc e Read_MH_B 4 fc
+dbsym r state 10 c
+dbline FFFFFFFF 4
+dbline 17 4
+dbline 18 4
+dbline 19 6
+dbline 1A A
+dbline FFFFFFFE A
+dbline 0 A
+S _Read_MH_B Def0004
+S _MH_B_Init Def0000
+T 00 00 D6 98 08 95
+R 00 00 00 00
+T 04 00 00 27 09 B3 00 74 08 95
+R 00 00 00 00
