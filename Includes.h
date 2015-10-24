@@ -15,6 +15,7 @@
 #include "Delay.h"
 #include "FC04.h"
 #include "MH_B.h"
+#include "HC_SR04.h"
 
 extern INT16U time_on;
 extern INT16U time_off;

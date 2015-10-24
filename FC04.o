@@ -3,7 +3,7 @@ H 1 areas 2 global symbols
 M FC04.c
 A text size C flags 0
 dbfile FC04.c
-dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\FC04.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\FC04.c
 dbfunc e FC04Init 0 fV
 dbline FFFFFFFF 0
 dbline 12 0

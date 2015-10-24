@@ -1,7 +1,7 @@
                         .module Delay.c
                         .area text(rom, con, rel)
  0000                   .dbfile Delay.c
- 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\Delay.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\Delay.c
  0000                   .dbfunc e Delay_us _Delay_us fV
  0000           ;              i -> R20,R21
  0000           ;              n -> y+2

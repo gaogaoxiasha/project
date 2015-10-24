@@ -1,0 +1,340 @@
+                        .module HC_SR04.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile HC_SR04.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile HC_SR04.c
+ 0000           _TimerOut_Flag::
+ 0000                   .blkb 1
+                        .area idata
+ 0000 00                .byte 0
+                        .area data(ram, con, rel)
+ 0001                   .dbfile HC_SR04.c
+ 0001                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HC_SR04.c
+ 0001                   .dbsym e TimerOut_Flag _TimerOut_Flag c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HC_SR04.c
+ 0000                   .dbfunc e HC_SR04_Init _HC_SR04_Init fV
+                        .even
+ 0000           _HC_SR04_Init::
+ 0000                   .dbline -1
+ 0000                   .dbline 21
+ 0000           ; /*******************************************************************************
+ 0000           ; **  MCU        : ATmega16 (Atmel)
+ 0000           ; **  Compiler   : ICCAVR 7.22
+ 0000           ; **  Module Name: HC_SR04.c
+ 0000           ; **  Module Date: 2015-10-22
+ 0000           ; **  Module Auth: 蔡海飘
+ 0000           ; **  Description: 超声波传感器
+ 0000           ; **  Version    : V1.0
+ 0000           ; **  Notes      : 
+ 0000           ; **------------------------------------------------------------------------------
+ 0000           ; /*----------------------------  I N C L U D E S  -----------------------------*/
+ 0000           ; #include "HC_SR04.h"
+ 0000           ; #include "AVRTypes.h"
+ 0000           ; /*--------------------------  D E F I N I T I O N  ---------------------------*/
+ 0000           ; //#define basic_Frequency 7.3728*10^6
+ 0000           ; 
+ 0000           ; 
+ 0000           ; unsigned char TimerOut_Flag = 0;
+ 0000           ; /*---------------------------  F U N C T I O N S  ----------------------------*/
+ 0000           ; void HC_SR04_Init(void)
+ 0000           ; {
+ 0000                   .dbline 22
+ 0000           ;        DDRD |= (0x01<<3);//TRIG output
+ 0000 8B9A              sbi 0x11,3
+ 0002                   .dbline 23
+ 0002           ;        DDRD &= ~(0x01<<4);//ECHO input
+ 0002 8C98              cbi 0x11,4
+ 0004                   .dbline 24
+ 0004           ;        PORTD &=~(0X01<<3);//TRIG output LOW
+ 0004 9398              cbi 0x12,3
+ 0006                   .dbline -2
+ 0006           L1:
+ 0006                   .dbline 0 ; func end
+ 0006 0895              ret
+ 0008                   .dbend
+ 0008                   .dbfunc e timer1_init _timer1_init fV
+                        .even
+ 0008           _timer1_init::
+ 0008                   .dbline -1
+ 0008                   .dbline 32
+ 0008           ; }  
+ 0008           ; 
+ 0008           ; //TIMER1 initialize - prescale:1
+ 0008           ; // WGM: 0) Normal, TOP=0xFFFF
+ 0008           ; // desired value: 1KHz
+ 0008           ; // actual value:  1.000KHz (0.0%)
+ 0008           ; void timer1_init(void)
+ 0008           ; {
+ 0008                   .dbline 33
+ 0008           ;  TCCR1B = 0x00; //stop
+ 0008 2224              clr R2
+ 000A 2EBC              out 0x2e,R2
+ 000C                   .dbline 34
+ 000C           ;  TCNT1H = 0x00; //setup
+ 000C 2DBC              out 0x2d,R2
+ 000E                   .dbline 35
+ 000E           ;  TCNT1L = 0x00;
+ 000E 2CBC              out 0x2c,R2
+ 0010                   .dbline 36
+ 0010           ;  OCR1AH = 0xE0;
+ 0010 80EE              ldi R24,224
+ 0012 8BBD              out 0x2b,R24
+ 0014                   .dbline 37
+ 0014           ;  OCR1AL = 0xFF;
+ 0014 8FEF              ldi R24,255
+ 0016 8ABD              out 0x2a,R24
+ 0018                   .dbline 38
+ 0018           ;  OCR1BH = 0xE0;
+ 0018 80EE              ldi R24,224
+ 001A 89BD              out 0x29,R24
+ 001C                   .dbline 39
+ 001C           ;  OCR1BL = 0xFF;
+ 001C 8FEF              ldi R24,255
+ 001E 88BD              out 0x28,R24
+ 0020                   .dbline 40
+ 0020           ;  ICR1H  = 0xE0;
+ 0020 80EE              ldi R24,224
+ 0022 87BD              out 0x27,R24
+ 0024                   .dbline 41
+ 0024           ;  ICR1L  = 0xFF;
+ 0024 8FEF              ldi R24,255
+ 0026 86BD              out 0x26,R24
+ 0028                   .dbline 42
+ 0028           ;  TCCR1A = 0x00;
+ 0028 2FBC              out 0x2f,R2
+ 002A                   .dbline 43
+ 002A           ;  TCCR1B = 0x00; //start Timer
+ 002A 2EBC              out 0x2e,R2
+ 002C                   .dbline -2
+ 002C           L2:
+ 002C                   .dbline 0 ; func end
+ 002C 0895              ret
+ 002E                   .dbend
+                        .area vector(rom, abs)
+                        .org 32
+ 0020 0C941700          jmp _timer1_ovf_isr
+                        .area text(rom, con, rel)
+ 002E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HC_SR04.c
+ 002E                   .dbfunc e timer1_ovf_isr _timer1_ovf_isr fV
+                        .even
+ 002E           _timer1_ovf_isr::
+ 002E 2A92              st -y,R2
+ 0030 8A93              st -y,R24
+ 0032 2FB6              IN R2,63
+ 0034 2A92              st -y,R2
+ 0036                   .dbline -1
+ 0036                   .dbline 48
+ 0036           ; }
+ 0036           ; 
+ 0036           ; #pragma interrupt_handler timer1_ovf_isr:iv_TIM1_OVF
+ 0036           ; void timer1_ovf_isr(void)
+ 0036           ; {
+ 0036                   .dbline 50
+ 0036           ;  //TIMER1 has overflowed
+ 0036           ;  TCNT1H = 0x00; //reload counter high value
+ 0036 2224              clr R2
+ 0038 2DBC              out 0x2d,R2
+ 003A                   .dbline 51
+ 003A           ;  TCNT1L = 0x00; //reload counter low value
+ 003A 2CBC              out 0x2c,R2
+ 003C                   .dbline 53
+ 003C           ;  //PORTC ^= (0X01<<6);
+ 003C           ;  TimerOut_Flag = 1;
+ 003C 81E0              ldi R24,1
+ 003E 80930000          sts _TimerOut_Flag,R24
+ 0042                   .dbline 54
+ 0042           ;  TCCR1B = 0x00; //stop
+ 0042 2EBC              out 0x2e,R2
+ 0044                   .dbline -2
+ 0044           L3:
+ 0044                   .dbline 0 ; func end
+ 0044 2990              ld R2,y+
+ 0046 2FBE              OUT 63,R2
+ 0048 8991              ld R24,y+
+ 004A 2990              ld R2,y+
+ 004C 1895              reti
+ 004E                   .dbend
+ 004E                   .dbfunc e GetDistance _GetDistance fD
+ 004E           ;           Time -> R10,R11
+ 004E           ;       distance -> y+0
+                        .even
+ 004E           _GetDistance::
+ 004E AA92              st -y,R10
+ 0050 BA92              st -y,R11
+ 0052 2497              sbiw R28,4
+ 0054                   .dbline -1
+ 0054                   .dbline 59
+ 0054           ;  
+ 0054           ; }
+ 0054           ; 
+ 0054           ; float GetDistance(void)
+ 0054           ; {
+ 0054                   .dbline 60
+ 0054           ;     float distance = 0;
+ 0054 00E0              ldi R16,<L5
+ 0056 10E0              ldi R17,>L5
+ 0058 0E940000          xcall lpm32
+ 005C 0883              std y+0,R16
+ 005E 1983              std y+1,R17
+ 0060 2A83              std y+2,R18
+ 0062 3B83              std y+3,R19
+ 0064                   .dbline 61
+ 0064           ;       INT16U Time = 0;
+ 0064 AA24              clr R10
+ 0066 BB24              clr R11
+ 0068                   .dbline 62
+ 0068           ;       TimerOut_Flag = 0;
+ 0068 2224              clr R2
+ 006A 20920000          sts _TimerOut_Flag,R2
+ 006E                   .dbline 63
+ 006E           ;       TRIG_High;
+ 006E 939A              sbi 0x12,3
+ 0070                   .dbline 64
+ 0070           ;       Delay_us(10);
+ 0070 0AE0              ldi R16,10
+ 0072 10E0              ldi R17,0
+ 0074 20E0              ldi R18,0
+ 0076 30E0              ldi R19,0
+ 0078 0E940000          xcall _Delay_us
+ 007C                   .dbline 65
+ 007C           ;       TRIG_Low;
+ 007C 9398              cbi 0x12,3
+ 007E           L6:
+ 007E                   .dbline 66
+ 007E           ;       while(!ECHO_Read);//wait ECHO output high
+ 007E           L7:
+ 007E                   .dbline 66
+ 007E 849B              sbis 0x10,4
+ 0080 FECF              rjmp L6
+ 0082           X0:
+ 0082                   .dbline 67
+ 0082           ;       TCNT1H = 0x0; //reload counter high value
+ 0082 2224              clr R2
+ 0084 2DBC              out 0x2d,R2
+ 0086                   .dbline 68
+ 0086           ;     TCNT1L = 0x0; //reload counter low value
+ 0086 2CBC              out 0x2c,R2
+ 0088                   .dbline 69
+ 0088           ;       TCCR1B = 0x01; //start Timer}
+ 0088 81E0              ldi R24,1
+ 008A 8EBD              out 0x2e,R24
+ 008C           L9:
+ 008C                   .dbline 70
+ 008C           ;       while(ECHO_Read&&!TimerOut_Flag);//  wait ECHO output low or time out
+ 008C           L10:
+ 008C                   .dbline 70
+ 008C 849B              sbis 0x10,4
+ 008E 04C0              rjmp L12
+ 0090           X1:
+ 0090 20900000          lds R2,_TimerOut_Flag
+ 0094 2220              tst R2
+ 0096 D1F3              breq L9
+ 0098           X2:
+ 0098           L12:
+ 0098                   .dbline 71
+ 0098           ;       TCCR1B = 0x00; //stop
+ 0098 2224              clr R2
+ 009A 2EBC              out 0x2e,R2
+ 009C                   .dbline 72
+ 009C           ;       if(TimerOut_Flag)                                  
+ 009C 20900000          lds R2,_TimerOut_Flag
+ 00A0 2220              tst R2
+ 00A2 29F0              breq L13
+ 00A4           X3:
+ 00A4                   .dbline 73
+ 00A4           ;       {
+ 00A4                   .dbline 74
+ 00A4           ;          Time = 0xffff;
+ 00A4 8FEF              ldi R24,65535
+ 00A6 9FEF              ldi R25,255
+ 00A8 5C01              movw R10,R24
+ 00AA                   .dbline 75
+ 00AA           ;          PORTC |= (0X01<<6);   
+ 00AA AE9A              sbi 0x15,6
+ 00AC                   .dbline 76
+ 00AC           ;       }
+ 00AC 03C0              xjmp L14
+ 00AE           L13:
+ 00AE                   .dbline 78
+ 00AE           ;       else
+ 00AE           ;       {
+ 00AE                   .dbline 79
+ 00AE           ;          Time = TCNT1;
+ 00AE ACB4              in R10,0x2c
+ 00B0 BDB4              in R11,0x2d
+ 00B2                   .dbline 80
+ 00B2           ;          PORTC &= ~(0X01<<6);
+ 00B2 AE98              cbi 0x15,6
+ 00B4                   .dbline 81
+ 00B4           ;       }   
+ 00B4           L14:
+ 00B4                   .dbline 83
+ 00B4           ;          
+ 00B4           ;       distance = ((float)Time)*170*1000/7372800;
+ 00B4 00E0              ldi R16,<L15
+ 00B6 10E0              ldi R17,>L15
+ 00B8 0E940000          xcall lpm32
+ 00BC 1801              movw R2,R16
+ 00BE 2901              movw R4,R18
+ 00C0 00E0              ldi R16,<L16
+ 00C2 10E0              ldi R17,>L16
+ 00C4 0E940000          xcall lpm32
+ 00C8 3801              movw R6,R16
+ 00CA 4901              movw R8,R18
+ 00CC 8501              movw R16,R10
+ 00CE 0E940000          xcall uint2fp
+ 00D2 3A93              st -y,R19
+ 00D4 2A93              st -y,R18
+ 00D6 1A93              st -y,R17
+ 00D8 0A93              st -y,R16
+ 00DA 8301              movw R16,R6
+ 00DC 9401              movw R18,R8
+ 00DE 0E940000          xcall fpmule2x
+ 00E2 8101              movw R16,R2
+ 00E4 9201              movw R18,R4
+ 00E6 0E940000          xcall fpmule2
+ 00EA 1801              movw R2,R16
+ 00EC 2901              movw R4,R18
+ 00EE 00E0              ldi R16,<L17
+ 00F0 10E0              ldi R17,>L17
+ 00F2 0E940000          xcall lpm32
+ 00F6 3A93              st -y,R19
+ 00F8 2A93              st -y,R18
+ 00FA 1A93              st -y,R17
+ 00FC 0A93              st -y,R16
+ 00FE 8101              movw R16,R2
+ 0100 9201              movw R18,R4
+ 0102 0E940000          xcall fpdiv2
+ 0106 0883              std y+0,R16
+ 0108 1983              std y+1,R17
+ 010A 2A83              std y+2,R18
+ 010C 3B83              std y+3,R19
+ 010E                   .dbline 84
+ 010E           ;       return distance;
+ 010E 0881              ldd R16,y+0
+ 0110 1981              ldd R17,y+1
+ 0112 2A81              ldd R18,y+2
+ 0114 3B81              ldd R19,y+3
+ 0116                   .dbline -2
+ 0116           L4:
+ 0116                   .dbline 0 ; func end
+ 0116 2496              adiw R28,4
+ 0118 B990              ld R11,y+
+ 011A A990              ld R10,y+
+ 011C 0895              ret
+ 011E                   .dbsym r Time 10 s
+ 011E                   .dbsym l distance 0 D
+ 011E                   .dbend
+                        .area lit(rom, con, rel)
+ 0000           L17:
+ 0000 0000E14A          .word 0x0,0x4ae1
+ 0004           L16:
+ 0004 00002A43          .word 0x0,0x432a
+ 0008           L15:
+ 0008 00007A44          .word 0x0,0x447a
+ 000C           L5:
+ 000C 00000000          .word 0x0,0x0
+ 0010           ; }
+ 0010           ; //==============================  End Of File  ===============================//
+ 0010           ; 

@@ -1,0 +1,124 @@
+/*******************************************************************************
+**  MCU        : ATmega16 (Atmel)
+**  Compiler   : ICCAVR 7.22
+**  Module Name: MH_B.c
+**  Module Date: 2015-10-22
+**  Module Auth: 蔡海飘
+**  Description: 超声波传感器
+**  Version    : V1.0
+**  Notes      : 
+**------------------------------------------------------------------------------
+/*----------------------------  I N C L U D E S  -----------------------------*/
+#include "HC_SR04.h"
+
+/*--------------------------  D E F I N I T I O N  ---------------------------*/
+
+/*---------------------------  F U N C T I O N S  ----------------------------*/
+void HC_SR04_Init(void)
+{
+ 	 DDRA &= ~(0x01<<6);
+}  
+
+//ICC-AVR application builder : 2011-8-25 16:45:09
+// Target : M16
+// Crystal: 16.000Mhz
+//PD6接trig，PD7接echo，系统时钟8分频，用T1的输入补捉
+#include "delay.h"
+#define uint unsigned int
+#define uchar unsigned char
+uchar dist_num[6]="    mm";//存放要显示的数据
+void port_init(void)
+{
+ PORTA = 0x00;
+ DDRA  = 0xFF;
+ PORTB = 0x00;
+ DDRB  = 0x00;
+ PORTC = 0x03; //m103 output only
+ DDRC  = 0xFC;
+ PORTD = 0xb0;
+ DDRD  = 0xbF;
+}
+
+//TIMER1 initialize - prescale:8
+// WGM: 0) Normal, TOP=0xFFFF
+// desired value: 1KHz
+// actual value:  1.000KHz (0.0%)
+void timer1_init(void)
+{
+ TCCR1B = 0x00; //stop
+ TCNT1H = 0xF8; //setup
+ TCNT1L = 0x30;
+ OCR1AH = 0x07;
+ OCR1AL = 0xD0;
+ OCR1BH = 0x07;
+ OCR1BL = 0xD0;
+ ICR1H  = 0x07;
+ ICR1L  = 0xD0;
+ TCCR1A = 0x00;
+ TCCR1B = 0xC2; //start Timer
+}
+
+//call this routine to initialize all peripherals
+void init_devices(void)
+{
+ //stop errant interrupts until set up
+ CLI(); //disable all interrupts
+ port_init();
+ timer1_init();
+ lcd_init();
+ MCUCR = 0x00;
+ GICR  = 0x00;
+ TIMSK = 0x20; //timer interrupt sources
+ SEI(); //re-enable interrupts
+ //all peripherals are now initialized
+}
+
+void main(void)
+{
+ uchar i;
+ init_devices();
+while(1)
+{
+ PORTD|=0x80;
+ delay_us(20);
+ PORTD&=0x7f;
+ write_com(0x80);
+ for(i=0;i<6;i++)
+ {
+ write_data(dist_num[i]);
+ }
+ delay_ms(400);
+}
+}
+
+#pragma interrupt_handler timer1_capt_isr:6
+void timer1_capt_isr(void)
+{
+ uint time=0;
+ float dist=0;
+ if(TCCR1B==0xC2)
+ {
+  TCNT1=0;
+  TCCR1B=0x82;  
+ }
+ else
+ {
+ dist=TCNT1;
+ TCCR1B=0xC2;
+ if(TCNT1>60000);//超过5100mm作为错误处理
+ else
+ {
+ dist*=0.085;//系统时钟8分频，每记1次等于0.085mm
+ time=dist;//转换成整型，可以作取余运算
+ dist_num[0]=time/1000+48;
+ dist_num[1]=time%1000/100+48;
+ dist_num[2]=time%100/10+48;
+ dist_num[3]=time%10+48;
+ }
+ }
+} 
+//中断处理后数据都放在dist_num中，已经转换成asic||码。你可以用自己的显示模块显示。
+
+
+//==============================  End Of File  ===============================//
+

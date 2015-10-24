@@ -1,7 +1,7 @@
                         .module MH_B.c
                         .area text(rom, con, rel)
  0000                   .dbfile MH_B.c
- 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\MH_B.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\MH_B.c
  0000                   .dbfunc e MH_B_Init _MH_B_Init fV
                         .even
  0000           _MH_B_Init::

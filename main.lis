@@ -9,22 +9,29 @@
  0000 0000              .word 0
                         .area data(ram, con, rel)
  0002                   .dbfile main.c
- 0002                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0002                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0002                   .dbsym e note_n _note_n i
  0002           _int_n::
  0002                   .blkb 2
                         .area idata
  0002 0000              .word 0
                         .area data(ram, con, rel)
- 0004                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0004                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0004                   .dbsym e int_n _int_n i
+ 0004           _distance_mm::
+ 0004                   .blkb 2
+                        .area idata
+ 0004 0000              .word 0
+                        .area data(ram, con, rel)
+ 0006                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 0006                   .dbsym e distance_mm _distance_mm s
                         .area text(rom, con, rel)
- 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0000                   .dbfunc e LEDOnBoardInit _LEDOnBoardInit fV
                         .even
  0000           _LEDOnBoardInit::
  0000                   .dbline -1
- 0000                   .dbline 13
+ 0000                   .dbline 14
  0000           ; //ICC-AVR application builder : 2014/7/22 19:16:57
  0000           ; // Target : M16
  0000           ; // Crystal: 7.3728Mhz
@@ -35,15 +42,16 @@
  0000           ; 
  0000           ; unsigned int note_n = 0;
  0000           ; unsigned int int_n = 0;
- 0000           ; 
+ 0000           ; INT16U distance_mm = 0;//距离
+ 0000           ;                
  0000           ; void LEDOnBoardInit(void)
  0000           ; {
- 0000                   .dbline 14
+ 0000                   .dbline 15
  0000           ;     DDRC |= (0x01<<6)|(0x01<<7);
  0000 84B3              in R24,0x14
  0002 806C              ori R24,192
  0004 84BB              out 0x14,R24
- 0006                   .dbline 16
+ 0006                   .dbline 17
  0006           ;       //PORTC |= (0x01<<6)|(0x01<<7);
  0006           ;       PORTC &= ~((0x01<<6)|(0x01<<7));
  0006 85B3              in R24,0x15
@@ -59,11 +67,11 @@
                         .even
  000E           _SET_LED_D10::
  000E                   .dbline -1
- 000E                   .dbline 19
+ 000E                   .dbline 20
  000E           ; }
  000E           ; void SET_LED_D10(unsigned char state)
  000E           ; {
- 000E                   .dbline 20
+ 000E                   .dbline 21
  000E           ;       PORTC = PORTC&(~(0X01<<6))|(state<<6);
  000E 202E              mov R2,R16
  0010 220C              lsl R2
@@ -87,11 +95,11 @@
                         .even
  0026           _SET_LED_D11::
  0026                   .dbline -1
- 0026                   .dbline 23
+ 0026                   .dbline 24
  0026           ; }
  0026           ; void SET_LED_D11(unsigned char state)
  0026           ; {
- 0026                   .dbline 24
+ 0026                   .dbline 25
  0026           ;       PORTC = PORTC&(~(0X01<<7))|(state<<7);
  0026 202E              mov R2,R16
  0028 220C              lsl R2
@@ -112,550 +120,550 @@
  0040                   .dbsym r state 16 c
  0040                   .dbend
                         .area data(ram, con, rel)
- 0004                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
- 0004           _t::
- 0004                   .blkb 2
-                        .area idata
- 0004 0000              .word 0
-                        .area data(ram, con, rel)
- 0006                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0006                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 0006           _t::
  0006                   .blkb 2
                         .area idata
- 0006 F00E              .word 3824
+ 0006 0000              .word 0
                         .area data(ram, con, rel)
- 0008                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0008                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0008                   .blkb 2
                         .area idata
- 0008 840D              .word 3460
+ 0008 F00E              .word 3824
                         .area data(ram, con, rel)
- 000A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 000A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  000A                   .blkb 2
                         .area idata
- 000A DC0B              .word 3036
+ 000A 840D              .word 3460
                         .area data(ram, con, rel)
- 000C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 000C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  000C                   .blkb 2
                         .area idata
- 000C 300B              .word 2864
+ 000C DC0B              .word 3036
                         .area data(ram, con, rel)
- 000E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 000E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  000E                   .blkb 2
                         .area idata
- 000E F809              .word 2552
+ 000E 300B              .word 2864
                         .area data(ram, con, rel)
- 0010                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0010                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0010                   .blkb 2
                         .area idata
- 0010 E008              .word 2272
+ 0010 F809              .word 2552
                         .area data(ram, con, rel)
- 0012                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0012                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0012                   .blkb 2
                         .area idata
- 0012 E807              .word 2024
+ 0012 E008              .word 2272
                         .area data(ram, con, rel)
- 0014                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0014                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0014                   .blkb 2
                         .area idata
- 0014 0000              .word 0
+ 0014 E807              .word 2024
                         .area data(ram, con, rel)
- 0016                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0016                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0016                   .blkb 2
                         .area idata
  0016 0000              .word 0
                         .area data(ram, con, rel)
- 0018                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0018                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0018                   .blkb 2
                         .area idata
  0018 0000              .word 0
                         .area data(ram, con, rel)
- 001A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 001A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  001A                   .blkb 2
                         .area idata
- 001A 5807              .word 1880
+ 001A 0000              .word 0
                         .area data(ram, con, rel)
- 001C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 001C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  001C                   .blkb 2
                         .area idata
- 001C A606              .word 1702
+ 001C 5807              .word 1880
                         .area data(ram, con, rel)
- 001E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 001E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  001E                   .blkb 2
                         .area idata
- 001E ED05              .word 1517
+ 001E A606              .word 1702
                         .area data(ram, con, rel)
- 0020                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0020                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0020                   .blkb 2
                         .area idata
- 0020 9705              .word 1431
+ 0020 ED05              .word 1517
                         .area data(ram, con, rel)
- 0022                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0022                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0022                   .blkb 2
                         .area idata
- 0022 FB04              .word 1275
+ 0022 9705              .word 1431
                         .area data(ram, con, rel)
- 0024                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0024                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0024                   .blkb 2
                         .area idata
- 0024 7004              .word 1136
+ 0024 FB04              .word 1275
                         .area data(ram, con, rel)
- 0026                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0026                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0026                   .blkb 2
                         .area idata
- 0026 F403              .word 1012
+ 0026 7004              .word 1136
                         .area data(ram, con, rel)
- 0028                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0028                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0028                   .blkb 2
                         .area idata
- 0028 0000              .word 0
+ 0028 F403              .word 1012
                         .area data(ram, con, rel)
- 002A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 002A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  002A                   .blkb 2
                         .area idata
  002A 0000              .word 0
                         .area data(ram, con, rel)
- 002C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 002C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  002C                   .blkb 2
                         .area idata
  002C 0000              .word 0
                         .area data(ram, con, rel)
- 002E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 002E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  002E                   .blkb 2
                         .area idata
- 002E D11D              .word 7633
+ 002E 0000              .word 0
                         .area data(ram, con, rel)
- 0030                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0030                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0030                   .blkb 2
                         .area idata
- 0030 921A              .word 6802
+ 0030 D11D              .word 7633
                         .area data(ram, con, rel)
- 0032                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0032                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0032                   .blkb 2
                         .area idata
- 0032 AC17              .word 6060
+ 0032 921A              .word 6802
                         .area data(ram, con, rel)
- 0034                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0034                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0034                   .blkb 2
                         .area idata
- 0034 6216              .word 5730
+ 0034 AC17              .word 6060
                         .area data(ram, con, rel)
- 0036                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0036                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0036                   .blkb 2
                         .area idata
- 0036 EE13              .word 5102
+ 0036 6216              .word 5730
                         .area data(ram, con, rel)
- 0038                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0038                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0038                   .blkb 2
                         .area idata
- 0038 C111              .word 4545
+ 0038 EE13              .word 5102
                         .area data(ram, con, rel)
- 003A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 003A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  003A                   .blkb 2
                         .area idata
- 003A D00F              .word 4048
+ 003A C111              .word 4545
                         .area data(ram, con, rel)
- 003C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
- 003C                   .dbsym e t _t A[56:28]i
- 003C           _d::
+ 003C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  003C                   .blkb 2
                         .area idata
- 003C 0000              .word 0
+ 003C D00F              .word 4048
                         .area data(ram, con, rel)
- 003E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 003E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 003E                   .dbsym e t _t A[56:28]i
+ 003E           _d::
  003E                   .blkb 2
                         .area idata
- 003E 6900              .word 105
+ 003E 0000              .word 0
                         .area data(ram, con, rel)
- 0040                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0040                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0040                   .blkb 2
                         .area idata
- 0040 7400              .word 116
+ 0040 6900              .word 105
                         .area data(ram, con, rel)
- 0042                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0042                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0042                   .blkb 2
                         .area idata
- 0042 8400              .word 132
+ 0042 7400              .word 116
                         .area data(ram, con, rel)
- 0044                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0044                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0044                   .blkb 2
                         .area idata
- 0044 8C00              .word 140
+ 0044 8400              .word 132
                         .area data(ram, con, rel)
- 0046                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0046                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0046                   .blkb 2
                         .area idata
- 0046 9D00              .word 157
+ 0046 8C00              .word 140
                         .area data(ram, con, rel)
- 0048                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0048                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0048                   .blkb 2
                         .area idata
- 0048 B000              .word 176
+ 0048 9D00              .word 157
                         .area data(ram, con, rel)
- 004A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 004A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  004A                   .blkb 2
                         .area idata
- 004A C600              .word 198
+ 004A B000              .word 176
                         .area data(ram, con, rel)
- 004C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 004C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  004C                   .blkb 2
                         .area idata
- 004C 0000              .word 0
+ 004C C600              .word 198
                         .area data(ram, con, rel)
- 004E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 004E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  004E                   .blkb 2
                         .area idata
  004E 0000              .word 0
                         .area data(ram, con, rel)
- 0050                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0050                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0050                   .blkb 2
                         .area idata
  0050 0000              .word 0
                         .area data(ram, con, rel)
- 0052                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0052                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0052                   .blkb 2
                         .area idata
- 0052 D100              .word 209
+ 0052 0000              .word 0
                         .area data(ram, con, rel)
- 0054                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0054                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0054                   .blkb 2
                         .area idata
- 0054 EA00              .word 234
+ 0054 D100              .word 209
                         .area data(ram, con, rel)
- 0056                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0056                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0056                   .blkb 2
                         .area idata
- 0056 0701              .word 263
+ 0056 EA00              .word 234
                         .area data(ram, con, rel)
- 0058                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0058                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0058                   .blkb 2
                         .area idata
- 0058 1701              .word 279
+ 0058 0701              .word 263
                         .area data(ram, con, rel)
- 005A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 005A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  005A                   .blkb 2
                         .area idata
- 005A 3901              .word 313
+ 005A 1701              .word 279
                         .area data(ram, con, rel)
- 005C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 005C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  005C                   .blkb 2
                         .area idata
- 005C 6001              .word 352
+ 005C 3901              .word 313
                         .area data(ram, con, rel)
- 005E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 005E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  005E                   .blkb 2
                         .area idata
- 005E 8B01              .word 395
+ 005E 6001              .word 352
                         .area data(ram, con, rel)
- 0060                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0060                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0060                   .blkb 2
                         .area idata
- 0060 0000              .word 0
+ 0060 8B01              .word 395
                         .area data(ram, con, rel)
- 0062                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0062                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0062                   .blkb 2
                         .area idata
  0062 0000              .word 0
                         .area data(ram, con, rel)
- 0064                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0064                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0064                   .blkb 2
                         .area idata
  0064 0000              .word 0
                         .area data(ram, con, rel)
- 0066                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0066                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0066                   .blkb 2
                         .area idata
- 0066 3400              .word 52
+ 0066 0000              .word 0
                         .area data(ram, con, rel)
- 0068                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0068                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0068                   .blkb 2
                         .area idata
- 0068 3A00              .word 58
+ 0068 3400              .word 52
                         .area data(ram, con, rel)
- 006A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 006A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  006A                   .blkb 2
                         .area idata
- 006A 4200              .word 66
+ 006A 3A00              .word 58
                         .area data(ram, con, rel)
- 006C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 006C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  006C                   .blkb 2
                         .area idata
- 006C 4600              .word 70
+ 006C 4200              .word 66
                         .area data(ram, con, rel)
- 006E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 006E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  006E                   .blkb 2
                         .area idata
- 006E 4E00              .word 78
+ 006E 4600              .word 70
                         .area data(ram, con, rel)
- 0070                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0070                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0070                   .blkb 2
                         .area idata
- 0070 5800              .word 88
+ 0070 4E00              .word 78
                         .area data(ram, con, rel)
- 0072                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0072                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0072                   .blkb 2
                         .area idata
- 0072 6200              .word 98
+ 0072 5800              .word 88
                         .area data(ram, con, rel)
- 0074                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
- 0074                   .dbsym e d _d A[56:28]i
- 0074           _music::
+ 0074                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0074                   .blkb 2
                         .area idata
- 0074 0504              .byte 5,4
+ 0074 6200              .word 98
                         .area data(ram, con, rel)
- 0076                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0076                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 0076                   .dbsym e d _d A[56:28]i
+ 0076           _music::
  0076                   .blkb 2
                         .area idata
  0076 0504              .byte 5,4
                         .area data(ram, con, rel)
- 0078                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0078                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0078                   .blkb 2
                         .area idata
- 0078 0608              .byte 6,8
+ 0078 0504              .byte 5,4
                         .area data(ram, con, rel)
- 007A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 007A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  007A                   .blkb 2
                         .area idata
- 007A 0508              .byte 5,8
+ 007A 0608              .byte 6,8
                         .area data(ram, con, rel)
- 007C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 007C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  007C                   .blkb 2
                         .area idata
- 007C 0B08              .byte 11,8
+ 007C 0508              .byte 5,8
                         .area data(ram, con, rel)
- 007E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 007E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  007E                   .blkb 2
                         .area idata
- 007E 0710              .byte 7,16
+ 007E 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 0080                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0080                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0080                   .blkb 2
                         .area idata
- 0080 0504              .byte 5,4
+ 0080 0710              .byte 7,16
                         .area data(ram, con, rel)
- 0082                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0082                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0082                   .blkb 2
                         .area idata
  0082 0504              .byte 5,4
                         .area data(ram, con, rel)
- 0084                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0084                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0084                   .blkb 2
                         .area idata
- 0084 0608              .byte 6,8
+ 0084 0504              .byte 5,4
                         .area data(ram, con, rel)
- 0086                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0086                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0086                   .blkb 2
                         .area idata
- 0086 0508              .byte 5,8
+ 0086 0608              .byte 6,8
                         .area data(ram, con, rel)
- 0088                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0088                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0088                   .blkb 2
                         .area idata
- 0088 0C08              .byte 12,8
+ 0088 0508              .byte 5,8
                         .area data(ram, con, rel)
- 008A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 008A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  008A                   .blkb 2
                         .area idata
- 008A 0B10              .byte 11,16
+ 008A 0C08              .byte 12,8
                         .area data(ram, con, rel)
- 008C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 008C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  008C                   .blkb 2
                         .area idata
- 008C 0504              .byte 5,4
+ 008C 0B10              .byte 11,16
                         .area data(ram, con, rel)
- 008E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 008E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  008E                   .blkb 2
                         .area idata
  008E 0504              .byte 5,4
                         .area data(ram, con, rel)
- 0090                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0090                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0090                   .blkb 2
                         .area idata
- 0090 0F08              .byte 15,8
+ 0090 0504              .byte 5,4
                         .area data(ram, con, rel)
- 0092                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0092                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0092                   .blkb 2
                         .area idata
- 0092 0D08              .byte 13,8
+ 0092 0F08              .byte 15,8
                         .area data(ram, con, rel)
- 0094                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0094                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0094                   .blkb 2
                         .area idata
- 0094 0B08              .byte 11,8
+ 0094 0D08              .byte 13,8
                         .area data(ram, con, rel)
- 0096                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0096                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0096                   .blkb 2
                         .area idata
- 0096 0708              .byte 7,8
+ 0096 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 0098                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0098                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0098                   .blkb 2
                         .area idata
- 0098 0610              .byte 6,16
+ 0098 0708              .byte 7,8
                         .area data(ram, con, rel)
- 009A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 009A                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  009A                   .blkb 2
                         .area idata
- 009A 0E04              .byte 14,4
+ 009A 0610              .byte 6,16
                         .area data(ram, con, rel)
- 009C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 009C                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  009C                   .blkb 2
                         .area idata
  009C 0E04              .byte 14,4
                         .area data(ram, con, rel)
- 009E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 009E                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  009E                   .blkb 2
                         .area idata
- 009E 0D08              .byte 13,8
+ 009E 0E04              .byte 14,4
                         .area data(ram, con, rel)
- 00A0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00A0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00A0                   .blkb 2
                         .area idata
- 00A0 0B08              .byte 11,8
+ 00A0 0D08              .byte 13,8
                         .area data(ram, con, rel)
- 00A2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00A2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00A2                   .blkb 2
                         .area idata
- 00A2 0C08              .byte 12,8
+ 00A2 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 00A4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00A4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00A4                   .blkb 2
                         .area idata
- 00A4 0B10              .byte 11,16
+ 00A4 0C08              .byte 12,8
                         .area data(ram, con, rel)
- 00A6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00A6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00A6                   .blkb 2
                         .area idata
- 00A6 0504              .byte 5,4
+ 00A6 0B10              .byte 11,16
                         .area data(ram, con, rel)
- 00A8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00A8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00A8                   .blkb 2
                         .area idata
  00A8 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00AA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00AA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00AA                   .blkb 2
                         .area idata
- 00AA 0608              .byte 6,8
+ 00AA 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00AC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00AC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00AC                   .blkb 2
                         .area idata
- 00AC 0508              .byte 5,8
+ 00AC 0608              .byte 6,8
                         .area data(ram, con, rel)
- 00AE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00AE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00AE                   .blkb 2
                         .area idata
- 00AE 0B08              .byte 11,8
+ 00AE 0508              .byte 5,8
                         .area data(ram, con, rel)
- 00B0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00B0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00B0                   .blkb 2
                         .area idata
- 00B0 0710              .byte 7,16
+ 00B0 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 00B2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00B2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00B2                   .blkb 2
                         .area idata
- 00B2 0504              .byte 5,4
+ 00B2 0710              .byte 7,16
                         .area data(ram, con, rel)
- 00B4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00B4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00B4                   .blkb 2
                         .area idata
  00B4 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00B6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00B6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00B6                   .blkb 2
                         .area idata
- 00B6 0608              .byte 6,8
+ 00B6 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00B8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00B8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00B8                   .blkb 2
                         .area idata
- 00B8 0508              .byte 5,8
+ 00B8 0608              .byte 6,8
                         .area data(ram, con, rel)
- 00BA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00BA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00BA                   .blkb 2
                         .area idata
- 00BA 0C08              .byte 12,8
+ 00BA 0508              .byte 5,8
                         .area data(ram, con, rel)
- 00BC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00BC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00BC                   .blkb 2
                         .area idata
- 00BC 0B10              .byte 11,16
+ 00BC 0C08              .byte 12,8
                         .area data(ram, con, rel)
- 00BE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00BE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00BE                   .blkb 2
                         .area idata
- 00BE 0504              .byte 5,4
+ 00BE 0B10              .byte 11,16
                         .area data(ram, con, rel)
- 00C0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00C0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00C0                   .blkb 2
                         .area idata
  00C0 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00C2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00C2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00C2                   .blkb 2
                         .area idata
- 00C2 0F08              .byte 15,8
+ 00C2 0504              .byte 5,4
                         .area data(ram, con, rel)
- 00C4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00C4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00C4                   .blkb 2
                         .area idata
- 00C4 0D08              .byte 13,8
+ 00C4 0F08              .byte 15,8
                         .area data(ram, con, rel)
- 00C6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00C6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00C6                   .blkb 2
                         .area idata
- 00C6 0B08              .byte 11,8
+ 00C6 0D08              .byte 13,8
                         .area data(ram, con, rel)
- 00C8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00C8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00C8                   .blkb 2
                         .area idata
- 00C8 0708              .byte 7,8
+ 00C8 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 00CA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00CA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00CA                   .blkb 2
                         .area idata
- 00CA 0610              .byte 6,16
+ 00CA 0708              .byte 7,8
                         .area data(ram, con, rel)
- 00CC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00CC                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00CC                   .blkb 2
                         .area idata
- 00CC 0E04              .byte 14,4
+ 00CC 0610              .byte 6,16
                         .area data(ram, con, rel)
- 00CE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00CE                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00CE                   .blkb 2
                         .area idata
  00CE 0E04              .byte 14,4
                         .area data(ram, con, rel)
- 00D0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00D0                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00D0                   .blkb 2
                         .area idata
- 00D0 0D08              .byte 13,8
+ 00D0 0E04              .byte 14,4
                         .area data(ram, con, rel)
- 00D2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00D2                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00D2                   .blkb 2
                         .area idata
- 00D2 0B08              .byte 11,8
+ 00D2 0D08              .byte 13,8
                         .area data(ram, con, rel)
- 00D4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00D4                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00D4                   .blkb 2
                         .area idata
- 00D4 0C08              .byte 12,8
+ 00D4 0B08              .byte 11,8
                         .area data(ram, con, rel)
- 00D6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 00D6                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  00D6                   .blkb 2
                         .area idata
- 00D6 0B10              .byte 11,16
+ 00D6 0C08              .byte 12,8
                         .area data(ram, con, rel)
- 00D8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
- 00D8                   .dbsym e music _music A[100:100]c
+ 00D8                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 00D8                   .blkb 2
+                        .area idata
+ 00D8 0B10              .byte 11,16
+                        .area data(ram, con, rel)
+ 00DA                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
+ 00DA                   .dbsym e music _music A[100:100]c
                         .area text(rom, con, rel)
- 0040                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\main.c
+ 0040                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\main.c
  0040                   .dbfunc e port_init _port_init fV
                         .even
  0040           _port_init::
  0040                   .dbline -1
- 0040                   .dbline 47
+ 0040                   .dbline 48
  0040           ; }
  0040           ; unsigned int t[28] = {0,3824,3460,3036,2864,2552,2272,2024,0,0,0,     //中音0-7
  0040           ;                         1880,1702,1517,1431,1275,1136,1012,0,0,0,     //高音11-17   频率
@@ -679,29 +687,29 @@
  0040           ; 
  0040           ; void port_init(void)
  0040           ; {
- 0040                   .dbline 48
+ 0040                   .dbline 49
  0040           ;  PORTA = 0x00;
  0040 2224              clr R2
  0042 2BBA              out 0x1b,R2
- 0044                   .dbline 49
+ 0044                   .dbline 50
  0044           ;  DDRA  = 0x00;
  0044 2ABA              out 0x1a,R2
- 0046                   .dbline 50
+ 0046                   .dbline 51
  0046           ;  PORTB = 0x00;
  0046 28BA              out 0x18,R2
- 0048                   .dbline 51
+ 0048                   .dbline 52
  0048           ;  DDRB  = 0x00;
  0048 27BA              out 0x17,R2
- 004A                   .dbline 52
+ 004A                   .dbline 53
  004A           ;  PORTC = 0x00; //m103 output only
  004A 25BA              out 0x15,R2
- 004C                   .dbline 53
+ 004C                   .dbline 54
  004C           ;  DDRC  = 0x00;
  004C 24BA              out 0x14,R2
- 004E                   .dbline 54
+ 004E                   .dbline 55
  004E           ;  PORTD = 0x00;
  004E 22BA              out 0x12,R2
- 0050                   .dbline 55
+ 0050                   .dbline 56
  0050           ;  DDRD  = 0x00;
  0050 21BA              out 0x11,R2
  0052                   .dbline -2
@@ -713,7 +721,7 @@
                         .even
  0054           _timer2_50Hz::
  0054                   .dbline -1
- 0054                   .dbline 64
+ 0054                   .dbline 65
  0054           ;  }
  0054           ;  
  0054           ;  
@@ -723,22 +731,22 @@
  0054           ; // actual value: 98.630Hz (1.4%)
  0054           ; void timer2_50Hz(void)
  0054           ; {
- 0054                   .dbline 65
+ 0054                   .dbline 66
  0054           ;  TCCR2 = 0x00; //stop
  0054 2224              clr R2
  0056 25BC              out 0x25,R2
- 0058                   .dbline 66
+ 0058                   .dbline 67
  0058           ;  ASSR  = 0x00; //set async mode
  0058 22BC              out 0x22,R2
- 005A                   .dbline 67
+ 005A                   .dbline 68
  005A           ;  TCNT2 = 0xB8; //setup
  005A 88EB              ldi R24,184
  005C 84BD              out 0x24,R24
- 005E                   .dbline 68
+ 005E                   .dbline 69
  005E           ;  OCR2  = 0x48;
  005E 88E4              ldi R24,72
  0060 83BD              out 0x23,R24
- 0062                   .dbline 69
+ 0062                   .dbline 70
  0062           ;  TCCR2 = 0x1F; //start
  0062 8FE1              ldi R24,31
  0064 85BD              out 0x25,R24
@@ -751,7 +759,7 @@
                         .even
  0068           _timer2_100Hz::
  0068                   .dbline -1
- 0068                   .dbline 77
+ 0068                   .dbline 78
  0068           ; }
  0068           ; 
  0068           ; //TIMER2 initialize - prescale:256
@@ -760,22 +768,22 @@
  0068           ; // actual value: 198.621Hz (0.7%)
  0068           ; void timer2_100Hz(void)
  0068           ; {
- 0068                   .dbline 78
+ 0068                   .dbline 79
  0068           ;  TCCR2 = 0x00; //stop
  0068 2224              clr R2
  006A 25BC              out 0x25,R2
- 006C                   .dbline 79
+ 006C                   .dbline 80
  006C           ;  ASSR  = 0x00; //set async mode
  006C 22BC              out 0x22,R2
- 006E                   .dbline 80
+ 006E                   .dbline 81
  006E           ;  TCNT2 = 0x70; //setup
  006E 80E7              ldi R24,112
  0070 84BD              out 0x24,R24
- 0072                   .dbline 81
+ 0072                   .dbline 82
  0072           ;  OCR2  = 0x90;
  0072 80E9              ldi R24,144
  0074 83BD              out 0x23,R24
- 0076                   .dbline 82
+ 0076                   .dbline 83
  0076           ;  TCCR2 = 0x1E; //start
  0076 8EE1              ldi R24,30
  0078 85BD              out 0x25,R24
@@ -788,41 +796,41 @@
                         .even
  007C           _init_devices::
  007C                   .dbline -1
- 007C                   .dbline 88
+ 007C                   .dbline 89
  007C           ; }
  007C           ; 
  007C           ; 
  007C           ; //call this routine to initialize all peripherals
  007C           ; void init_devices(void)
  007C           ; {
- 007C                   .dbline 90
+ 007C                   .dbline 91
  007C           ;  //stop errant interrupts until set up
  007C           ;  CLI(); //disable all interrupts
  007C F894              cli
- 007E                   .dbline 91
+ 007E                   .dbline 92
  007E           ;  port_init(); 
  007E E0DF              xcall _port_init
- 0080                   .dbline 92
+ 0080                   .dbline 93
  0080           ;  LEDOnBoardInit();
  0080 BFDF              xcall _LEDOnBoardInit
- 0082                   .dbline 93
+ 0082                   .dbline 94
  0082           ;  init_7279(); 
  0082 0E940000          xcall _init_7279
- 0086                   .dbline 97
+ 0086                   .dbline 98
  0086           ; 
  0086           ;  //timer2_init();
  0086           ;   
  0086           ;  MCUCR = 0x00;
  0086 2224              clr R2
  0088 25BE              out 0x35,R2
- 008A                   .dbline 98
+ 008A                   .dbline 99
  008A           ;  GICR  = 0x00;
  008A 2BBE              out 0x3b,R2
- 008C                   .dbline 99
+ 008C                   .dbline 100
  008C           ;  TIMSK = 0x80; //timer interrupt sources
  008C 80E8              ldi R24,128
  008E 89BF              out 0x39,R24
- 0090                   .dbline 100
+ 0090                   .dbline 101
  0090           ;  SEI(); //re-enable interrupts
  0090 7894              sei
  0092                   .dbline -2
@@ -839,27 +847,27 @@
  0094           _main::
  0094 2697              sbiw R28,6
  0096                   .dbline -1
- 0096                   .dbline 105
+ 0096                   .dbline 106
  0096           ;  //all peripherals are now initialized
  0096           ; }
  0096           ; 
  0096           ; void main(void)
  0096           ; {
- 0096                   .dbline 108
+ 0096                   .dbline 109
  0096           ;   int temp,temp_yz;
  0096           ;   int CH;
  0096           ;   int led=0; 
  0096 4427              clr R20
  0098 5527              clr R21
- 009A                   .dbline 109
+ 009A                   .dbline 110
  009A           ;   init_devices();
  009A F0DF              xcall _init_devices
- 009C                   .dbline 110
+ 009C                   .dbline 111
  009C           ;   Delay_ms(20);      
  009C 04E1              ldi R16,20
  009E 10E0              ldi R17,0
  00A0 0E940000          xcall _Delay_ms
- 00A4                   .dbline 115
+ 00A4                   .dbline 116
  00A4           ;   
  00A4           ; 
  00A4           ;   /*
@@ -869,653 +877,724 @@
  00A6 0027              clr R16
  00A8 0E940000          xcall _get_data
  00AC B801              movw R22,R16
- 00AE                   .dbline 117
+ 00AE                   .dbline 118
  00AE           ;  // CH = 7;
  00AE           ;   switch (CH)
  00AE 0030              cpi R16,0
  00B0 0107              cpc R16,R17
- 00B2 D1F0              breq L11
+ 00B2 F9F0              breq L11
  00B4           X0:
  00B4 0430              cpi R16,4
  00B6 E0E0              ldi R30,0
  00B8 1E07              cpc R17,R30
- 00BA 09F4              brne X15
- 00BC 50C0              xjmp L19
- 00BE           X15:
+ 00BA 09F4              brne X16
+ 00BC 55C0              xjmp L19
+ 00BE           X16:
  00BE           X1:
- 00BE 0630              cpi R16,6
+ 00BE 0530              cpi R16,5
  00C0 E0E0              ldi R30,0
  00C2 1E07              cpc R17,R30
- 00C4 09F4              brne X16
- 00C6 C5C0              xjmp L27
- 00C8           X16:
+ 00C4 09F4              brne X17
+ 00C6 CAC0              xjmp L27
+ 00C8           X17:
  00C8           X2:
- 00C8 0730              cpi R16,7
+ 00C8 0630              cpi R16,6
  00CA E0E0              ldi R30,0
  00CC 1E07              cpc R17,R30
- 00CE 09F4              brne X17
- 00D0 D6C0              xjmp L33
- 00D2           X17:
+ 00CE 09F4              brne X18
+ 00D0 EAC0              xjmp L31
+ 00D2           X18:
  00D2           X3:
- 00D2 0030              cpi R16,0
+ 00D2 0730              cpi R16,7
  00D4 E0E0              ldi R30,0
  00D6 1E07              cpc R17,R30
- 00D8 0CF4              brge X18
- 00DA 80C1              xjmp L10
- 00DC           X18:
+ 00D8 09F4              brne X19
+ 00DA FBC0              xjmp L37
+ 00DC           X19:
  00DC           X4:
- 00DC           L49:
- 00DC 6D30              cpi R22,13
+ 00DC 0030              cpi R16,0
  00DE E0E0              ldi R30,0
- 00E0 7E07              cpc R23,R30
- 00E2 09F4              brne X19
- 00E4 E2C0              xjmp L39
- 00E6           X19:
+ 00E0 1E07              cpc R17,R30
+ 00E2 0CF4              brge X20
+ 00E4 A5C1              xjmp L10
+ 00E6           X20:
  00E6           X5:
- 00E6 7AC1              xjmp L10
- 00E8           L11:
- 00E8                   .dbline 120
- 00E8           ;   {
- 00E8           ;    case 0://LED模式
- 00E8           ;      {          
- 00E8                   .dbline 121
- 00E8           ;         DDRB = 0xFF;
- 00E8 8FEF              ldi R24,255
- 00EA 87BB              out 0x17,R24
- 00EC                   .dbline 122
- 00EC           ;       PORTB = 0XFF;
- 00EC 88BB              out 0x18,R24
- 00EE                   .dbline 123
- 00EE           ;       DDRD = 0XFF;
- 00EE 81BB              out 0x11,R24
- 00F0                   .dbline 124
- 00F0           ;         PORTD = 0XFF;
- 00F0 82BB              out 0x12,R24
- 00F2 34C0              xjmp L13
- 00F4           L12:
- 00F4                   .dbline 127
- 00F4           ;       
- 00F4           ;         while(1)
- 00F4           ;         {
- 00F4                   .dbline 128
- 00F4           ;          if(led<8)
- 00F4 4830              cpi R20,8
- 00F6 E0E0              ldi R30,0
- 00F8 5E07              cpc R21,R30
- 00FA 94F4              brge L15
- 00FC           X6:
- 00FC                   .dbline 129
- 00FC           ;          {
- 00FC                   .dbline 130
- 00FC           ;           PORTD = 0XFF;
- 00FC 8FEF              ldi R24,255
- 00FE 82BB              out 0x12,R24
- 0100                   .dbline 131
- 0100           ;               PORTB = ~(1<<led);
- 0100 01E0              ldi R16,1
- 0102 10E0              ldi R17,0
- 0104 9A01              movw R18,R20
- 0106 0E940000          xcall lsl16
- 010A 1801              movw R2,R16
- 010C 2094              com R2
- 010E 3094              com R3
- 0110 28BA              out 0x18,R2
- 0112                   .dbline 132
- 0112           ;               Delay_ms(200);
- 0112 08EC              ldi R16,200
- 0114 10E0              ldi R17,0
- 0116 0E940000          xcall _Delay_ms
- 011A                   .dbline 133
- 011A           ;               led++;
- 011A 4F5F              subi R20,255  ; offset = 1
- 011C 5F4F              sbci R21,255
- 011E                   .dbline 134
- 011E           ;          }
- 011E 1EC0              xjmp L16
- 0120           L15:
- 0120                   .dbline 135
- 0120           ;          else if((led>=8)&&(led<16))
- 0120 4830              cpi R20,8
- 0122 E0E0              ldi R30,0
- 0124 5E07              cpc R21,R30
- 0126 C4F0              brlt L17
- 0128           X7:
- 0128 4031              cpi R20,16
- 012A E0E0              ldi R30,0
- 012C 5E07              cpc R21,R30
- 012E A4F4              brge L17
- 0130           X8:
- 0130                   .dbline 136
- 0130           ;          {
- 0130                   .dbline 137
- 0130           ;           PORTB = 0XFF;
- 0130 8FEF              ldi R24,255
- 0132 88BB              out 0x18,R24
- 0134                   .dbline 138
- 0134           ;               PORTD = ~(1<<(led-8));
- 0134 9A01              movw R18,R20
- 0136 2850              subi R18,8
- 0138 3040              sbci R19,0
- 013A 01E0              ldi R16,1
- 013C 10E0              ldi R17,0
- 013E 0E940000          xcall lsl16
- 0142 1801              movw R2,R16
- 0144 2094              com R2
- 0146 3094              com R3
- 0148 22BA              out 0x12,R2
- 014A                   .dbline 139
- 014A           ;               Delay_ms(200);
- 014A 08EC              ldi R16,200
- 014C 10E0              ldi R17,0
- 014E 0E940000          xcall _Delay_ms
- 0152                   .dbline 140
- 0152           ;               led++;
- 0152 4F5F              subi R20,255  ; offset = 1
- 0154 5F4F              sbci R21,255
- 0156                   .dbline 141
- 0156           ;          }
- 0156 02C0              xjmp L18
- 0158           L17:
- 0158                   .dbline 143
- 0158           ;          else
- 0158           ;          {
- 0158                   .dbline 144
- 0158           ;           led=0;
- 0158 4427              clr R20
- 015A 5527              clr R21
- 015C                   .dbline 145
- 015C           ;          } 
- 015C           L18:
- 015C           L16:
- 015C                   .dbline 146
- 015C           ;         }        
- 015C           L13:
- 015C                   .dbline 126
- 015C CBCF              xjmp L12
- 015E           L19:
- 015E                   .dbline 151
- 015E           ;        };
- 015E           ;        break;
- 015E           ;        
- 015E           ;    case 4://温度传感器模式，显示温度值
- 015E           ;      {
- 015E                   .dbline 152
- 015E           ;         dis_data(7,7,4);
- 015E 84E0              ldi R24,4
- 0160 8883              std y+0,R24
- 0162 80E0              ldi R24,0
- 0164 8983              std y+1,R24
- 0166 8A83              std y+2,R24
- 0168 8B83              std y+3,R24
- 016A 27E0              ldi R18,7
- 016C 07E0              ldi R16,7
- 016E 0E940000          xcall _dis_data
- 0172                   .dbline 153
- 0172           ;         DS18B20Init();
- 0172 0E940000          xcall _DS18B20Init
- 0176 6CC0              xjmp L21
- 0178           L20:
- 0178                   .dbline 155
- 0178           ;         while(1)
- 0178           ;         {
- 0178                   .dbline 156
- 0178           ;          temp=gettemp();//读取到的温度数据
- 0178 0E940000          xcall _gettemp
- 017C A801              movw R20,R16
- 017E                   .dbline 157
- 017E           ;        Delay_ms(100);
- 017E 04E6              ldi R16,100
- 0180 10E0              ldi R17,0
- 0182 0E940000          xcall _Delay_ms
- 0186                   .dbline 159
- 0186           ;    
- 0186           ;        if(temp >= 0xf800)//如果为零下，求补码
- 0186 4030              cpi R20,0
- 0188 E8EF              ldi R30,248
- 018A 5E07              cpc R21,R30
- 018C 60F1              brlo L23
- 018E           X9:
- 018E                   .dbline 160
- 018E           ;        {
- 018E                   .dbline 161
- 018E           ;         temp = temp - 0XF800;   //去掉5个符号位
- 018E 4050              subi R20,0
- 0190 584F              sbci R21,248
- 0192                   .dbline 162
- 0192           ;           temp = 0x800 - temp;    //求出补码
- 0192 80E0              ldi R24,2048
- 0194 98E0              ldi R25,8
- 0196 841B              sub R24,R20
- 0198 950B              sbc R25,R21
- 019A AC01              movw R20,R24
+ 00E6           L53:
+ 00E6 6D30              cpi R22,13
+ 00E8 E0E0              ldi R30,0
+ 00EA 7E07              cpc R23,R30
+ 00EC 09F4              brne X21
+ 00EE 07C1              xjmp L43
+ 00F0           X21:
+ 00F0           X6:
+ 00F0 9FC1              xjmp L10
+ 00F2           L11:
+ 00F2                   .dbline 121
+ 00F2           ;   {
+ 00F2           ;    case 0://LED模式
+ 00F2           ;      {          
+ 00F2                   .dbline 122
+ 00F2           ;         DDRB = 0xFF;
+ 00F2 8FEF              ldi R24,255
+ 00F4 87BB              out 0x17,R24
+ 00F6                   .dbline 123
+ 00F6           ;       PORTB = 0XFF;
+ 00F6 88BB              out 0x18,R24
+ 00F8                   .dbline 124
+ 00F8           ;       DDRD = 0XFF;
+ 00F8 81BB              out 0x11,R24
+ 00FA                   .dbline 125
+ 00FA           ;         PORTD = 0XFF;
+ 00FA 82BB              out 0x12,R24
+ 00FC 34C0              xjmp L13
+ 00FE           L12:
+ 00FE                   .dbline 128
+ 00FE           ;       
+ 00FE           ;         while(1)
+ 00FE           ;         {
+ 00FE                   .dbline 129
+ 00FE           ;          if(led<8)
+ 00FE 4830              cpi R20,8
+ 0100 E0E0              ldi R30,0
+ 0102 5E07              cpc R21,R30
+ 0104 94F4              brge L15
+ 0106           X7:
+ 0106                   .dbline 130
+ 0106           ;          {
+ 0106                   .dbline 131
+ 0106           ;           PORTD = 0XFF;
+ 0106 8FEF              ldi R24,255
+ 0108 82BB              out 0x12,R24
+ 010A                   .dbline 132
+ 010A           ;               PORTB = ~(1<<led);
+ 010A 01E0              ldi R16,1
+ 010C 10E0              ldi R17,0
+ 010E 9A01              movw R18,R20
+ 0110 0E940000          xcall lsl16
+ 0114 1801              movw R2,R16
+ 0116 2094              com R2
+ 0118 3094              com R3
+ 011A 28BA              out 0x18,R2
+ 011C                   .dbline 133
+ 011C           ;               Delay_ms(200);
+ 011C 08EC              ldi R16,200
+ 011E 10E0              ldi R17,0
+ 0120 0E940000          xcall _Delay_ms
+ 0124                   .dbline 134
+ 0124           ;               led++;
+ 0124 4F5F              subi R20,255  ; offset = 1
+ 0126 5F4F              sbci R21,255
+ 0128                   .dbline 135
+ 0128           ;          }
+ 0128 1EC0              xjmp L16
+ 012A           L15:
+ 012A                   .dbline 136
+ 012A           ;          else if((led>=8)&&(led<16))
+ 012A 4830              cpi R20,8
+ 012C E0E0              ldi R30,0
+ 012E 5E07              cpc R21,R30
+ 0130 C4F0              brlt L17
+ 0132           X8:
+ 0132 4031              cpi R20,16
+ 0134 E0E0              ldi R30,0
+ 0136 5E07              cpc R21,R30
+ 0138 A4F4              brge L17
+ 013A           X9:
+ 013A                   .dbline 137
+ 013A           ;          {
+ 013A                   .dbline 138
+ 013A           ;           PORTB = 0XFF;
+ 013A 8FEF              ldi R24,255
+ 013C 88BB              out 0x18,R24
+ 013E                   .dbline 139
+ 013E           ;               PORTD = ~(1<<(led-8));
+ 013E 9A01              movw R18,R20
+ 0140 2850              subi R18,8
+ 0142 3040              sbci R19,0
+ 0144 01E0              ldi R16,1
+ 0146 10E0              ldi R17,0
+ 0148 0E940000          xcall lsl16
+ 014C 1801              movw R2,R16
+ 014E 2094              com R2
+ 0150 3094              com R3
+ 0152 22BA              out 0x12,R2
+ 0154                   .dbline 140
+ 0154           ;               Delay_ms(200);
+ 0154 08EC              ldi R16,200
+ 0156 10E0              ldi R17,0
+ 0158 0E940000          xcall _Delay_ms
+ 015C                   .dbline 141
+ 015C           ;               led++;
+ 015C 4F5F              subi R20,255  ; offset = 1
+ 015E 5F4F              sbci R21,255
+ 0160                   .dbline 142
+ 0160           ;          }
+ 0160 02C0              xjmp L18
+ 0162           L17:
+ 0162                   .dbline 144
+ 0162           ;          else
+ 0162           ;          {
+ 0162                   .dbline 145
+ 0162           ;           led=0;
+ 0162 4427              clr R20
+ 0164 5527              clr R21
+ 0166                   .dbline 146
+ 0166           ;          } 
+ 0166           L18:
+ 0166           L16:
+ 0166                   .dbline 147
+ 0166           ;         }        
+ 0166           L13:
+ 0166                   .dbline 127
+ 0166 CBCF              xjmp L12
+ 0168           L19:
+ 0168                   .dbline 152
+ 0168           ;        };
+ 0168           ;        break;
+ 0168           ;        
+ 0168           ;    case 4://温度传感器模式，显示温度值
+ 0168           ;      {
+ 0168                   .dbline 153
+ 0168           ;         dis_data(7,7,4);
+ 0168 84E0              ldi R24,4
+ 016A 8883              std y+0,R24
+ 016C 80E0              ldi R24,0
+ 016E 8983              std y+1,R24
+ 0170 8A83              std y+2,R24
+ 0172 8B83              std y+3,R24
+ 0174 27E0              ldi R18,7
+ 0176 07E0              ldi R16,7
+ 0178 0E940000          xcall _dis_data
+ 017C                   .dbline 154
+ 017C           ;         DS18B20Init();
+ 017C 0E940000          xcall _DS18B20Init
+ 0180 6CC0              xjmp L21
+ 0182           L20:
+ 0182                   .dbline 156
+ 0182           ;         while(1)
+ 0182           ;         {
+ 0182                   .dbline 157
+ 0182           ;          temp=gettemp();//读取到的温度数据
+ 0182 0E940000          xcall _gettemp
+ 0186 A801              movw R20,R16
+ 0188                   .dbline 158
+ 0188           ;        Delay_ms(100);
+ 0188 04E6              ldi R16,100
+ 018A 10E0              ldi R17,0
+ 018C 0E940000          xcall _Delay_ms
+ 0190                   .dbline 160
+ 0190           ;    
+ 0190           ;        if(temp >= 0xf800)//如果为零下，求补码
+ 0190 4030              cpi R20,0
+ 0192 E8EF              ldi R30,248
+ 0194 5E07              cpc R21,R30
+ 0196 60F1              brlo L23
+ 0198           X10:
+ 0198                   .dbline 161
+ 0198           ;        {
+ 0198                   .dbline 162
+ 0198           ;         temp = temp - 0XF800;   //去掉5个符号位
+ 0198 4050              subi R20,0
+ 019A 584F              sbci R21,248
  019C                   .dbline 163
- 019C           ;           temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
- 019C 00E0              ldi R16,<L25
- 019E 10E0              ldi R17,>L25
- 01A0 0E940000          xcall lpm32
- 01A4 1801              movw R2,R16
- 01A6 2901              movw R4,R18
- 01A8 8A01              movw R16,R20
- 01AA 0E940000          xcall int2fp
- 01AE 3A93              st -y,R19
- 01B0 2A93              st -y,R18
- 01B2 1A93              st -y,R17
- 01B4 0A93              st -y,R16
- 01B6 8101              movw R16,R2
- 01B8 9201              movw R18,R4
- 01BA 0E940000          xcall fpmule2
- 01BE 1801              movw R2,R16
- 01C0 2901              movw R4,R18
- 01C2 00E0              ldi R16,<L26
- 01C4 10E0              ldi R17,>L26
- 01C6 0E940000          xcall lpm32
- 01CA 3A93              st -y,R19
- 01CC 2A93              st -y,R18
- 01CE 1A93              st -y,R17
- 01D0 0A93              st -y,R16
- 01D2 8101              movw R16,R2
- 01D4 9201              movw R18,R4
- 01D6 0E940000          xcall fpdiv2
- 01DA 0E940000          xcall fpint
- 01DE A801              movw R20,R16
- 01E0                   .dbline 164
- 01E0           ;           temp = (1000*16)+temp;      //在最高位显示负号
- 01E0 4058              subi R20,128  ; offset = 16000
- 01E2 514C              sbci R21,193
- 01E4                   .dbline 165
- 01E4           ;          }
- 01E4 22C0              xjmp L24
- 01E6           L23:
- 01E6                   .dbline 167
- 01E6           ;        else
- 01E6           ;        {
- 01E6                   .dbline 168
- 01E6           ;         temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示              
- 01E6 00E0              ldi R16,<L25
- 01E8 10E0              ldi R17,>L25
- 01EA 0E940000          xcall lpm32
- 01EE 1801              movw R2,R16
- 01F0 2901              movw R4,R18
- 01F2 8A01              movw R16,R20
- 01F4 0E940000          xcall int2fp
- 01F8 3A93              st -y,R19
- 01FA 2A93              st -y,R18
- 01FC 1A93              st -y,R17
- 01FE 0A93              st -y,R16
- 0200 8101              movw R16,R2
- 0202 9201              movw R18,R4
- 0204 0E940000          xcall fpmule2
- 0208 1801              movw R2,R16
- 020A 2901              movw R4,R18
- 020C 00E0              ldi R16,<L26
- 020E 10E0              ldi R17,>L26
- 0210 0E940000          xcall lpm32
- 0214 3A93              st -y,R19
- 0216 2A93              st -y,R18
- 0218 1A93              st -y,R17
- 021A 0A93              st -y,R16
- 021C 8101              movw R16,R2
- 021E 9201              movw R18,R4
- 0220 0E940000          xcall fpdiv2
- 0224 0E940000          xcall fpint
- 0228 A801              movw R20,R16
- 022A                   .dbline 169
- 022A           ;        }    
- 022A           L24:
- 022A                   .dbline 170
- 022A           ;          dis_data_RP(0,3,temp,1);//显示温度值    
- 022A 81E0              ldi R24,1
- 022C 90E0              ldi R25,0
- 022E 9D83              std y+5,R25
- 0230 8C83              std y+4,R24
- 0232 1A01              movw R2,R20
- 0234 4424              clr R4
- 0236 37FC              sbrc R3,7
- 0238 4094              com R4
- 023A 5524              clr R5
- 023C 47FC              sbrc R4,7
- 023E 5094              com R5
- 0240 2882              std y+0,R2
- 0242 3982              std y+1,R3
- 0244 4A82              std y+2,R4
- 0246 5B82              std y+3,R5
- 0248 23E0              ldi R18,3
- 024A 0027              clr R16
- 024C 0E940000          xcall _dis_data_RP
- 0250                   .dbline 171
- 0250           ;         }        
- 0250           L21:
- 0250                   .dbline 154
- 0250 93CF              xjmp L20
- 0252           L27:
- 0252                   .dbline 176
- 0252           ;        };
- 0252           ;        break;
- 0252           ;        
- 0252           ;        case 6:
- 0252           ;        {
- 0252                   .dbline 177
- 0252           ;                MH_B_Init();
- 0252 0E940000          xcall _MH_B_Init
- 0256                   .dbline 178
- 0256           ;                SET_LED_D11(1);
- 0256 01E0              ldi R16,1
- 0258 E6DE              xcall _SET_LED_D11
- 025A                   .dbline 179
- 025A           ;                Delay_ms(100);
- 025A 04E6              ldi R16,100
- 025C 10E0              ldi R17,0
- 025E 0E940000          xcall _Delay_ms
- 0262 0CC0              xjmp L29
- 0264           L28:
- 0264                   .dbline 181
- 0264           ;            while(1)
- 0264           ;                {
- 0264                   .dbline 182
- 0264           ;                   if(!Read_MH_B())
- 0264 0E940000          xcall _Read_MH_B
- 0268 0023              tst R16
- 026A 31F4              brne L31
- 026C           X10:
+ 019C           ;           temp = 0x800 - temp;    //求出补码
+ 019C 80E0              ldi R24,2048
+ 019E 98E0              ldi R25,8
+ 01A0 841B              sub R24,R20
+ 01A2 950B              sbc R25,R21
+ 01A4 AC01              movw R20,R24
+ 01A6                   .dbline 164
+ 01A6           ;           temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
+ 01A6 00E0              ldi R16,<L25
+ 01A8 10E0              ldi R17,>L25
+ 01AA 0E940000          xcall lpm32
+ 01AE 1801              movw R2,R16
+ 01B0 2901              movw R4,R18
+ 01B2 8A01              movw R16,R20
+ 01B4 0E940000          xcall int2fp
+ 01B8 3A93              st -y,R19
+ 01BA 2A93              st -y,R18
+ 01BC 1A93              st -y,R17
+ 01BE 0A93              st -y,R16
+ 01C0 8101              movw R16,R2
+ 01C2 9201              movw R18,R4
+ 01C4 0E940000          xcall fpmule2
+ 01C8 1801              movw R2,R16
+ 01CA 2901              movw R4,R18
+ 01CC 00E0              ldi R16,<L26
+ 01CE 10E0              ldi R17,>L26
+ 01D0 0E940000          xcall lpm32
+ 01D4 3A93              st -y,R19
+ 01D6 2A93              st -y,R18
+ 01D8 1A93              st -y,R17
+ 01DA 0A93              st -y,R16
+ 01DC 8101              movw R16,R2
+ 01DE 9201              movw R18,R4
+ 01E0 0E940000          xcall fpdiv2
+ 01E4 0E940000          xcall fpint
+ 01E8 A801              movw R20,R16
+ 01EA                   .dbline 165
+ 01EA           ;           temp = (1000*16)+temp;      //在最高位显示负号
+ 01EA 4058              subi R20,128  ; offset = 16000
+ 01EC 514C              sbci R21,193
+ 01EE                   .dbline 166
+ 01EE           ;          }
+ 01EE 22C0              xjmp L24
+ 01F0           L23:
+ 01F0                   .dbline 168
+ 01F0           ;        else
+ 01F0           ;        {
+ 01F0                   .dbline 169
+ 01F0           ;         temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示              
+ 01F0 00E0              ldi R16,<L25
+ 01F2 10E0              ldi R17,>L25
+ 01F4 0E940000          xcall lpm32
+ 01F8 1801              movw R2,R16
+ 01FA 2901              movw R4,R18
+ 01FC 8A01              movw R16,R20
+ 01FE 0E940000          xcall int2fp
+ 0202 3A93              st -y,R19
+ 0204 2A93              st -y,R18
+ 0206 1A93              st -y,R17
+ 0208 0A93              st -y,R16
+ 020A 8101              movw R16,R2
+ 020C 9201              movw R18,R4
+ 020E 0E940000          xcall fpmule2
+ 0212 1801              movw R2,R16
+ 0214 2901              movw R4,R18
+ 0216 00E0              ldi R16,<L26
+ 0218 10E0              ldi R17,>L26
+ 021A 0E940000          xcall lpm32
+ 021E 3A93              st -y,R19
+ 0220 2A93              st -y,R18
+ 0222 1A93              st -y,R17
+ 0224 0A93              st -y,R16
+ 0226 8101              movw R16,R2
+ 0228 9201              movw R18,R4
+ 022A 0E940000          xcall fpdiv2
+ 022E 0E940000          xcall fpint
+ 0232 A801              movw R20,R16
+ 0234                   .dbline 170
+ 0234           ;        }    
+ 0234           L24:
+ 0234                   .dbline 171
+ 0234           ;          dis_data_RP(0,3,temp,1);//显示温度值    
+ 0234 81E0              ldi R24,1
+ 0236 90E0              ldi R25,0
+ 0238 9D83              std y+5,R25
+ 023A 8C83              std y+4,R24
+ 023C 1A01              movw R2,R20
+ 023E 4424              clr R4
+ 0240 37FC              sbrc R3,7
+ 0242 4094              com R4
+ 0244 5524              clr R5
+ 0246 47FC              sbrc R4,7
+ 0248 5094              com R5
+ 024A 2882              std y+0,R2
+ 024C 3982              std y+1,R3
+ 024E 4A82              std y+2,R4
+ 0250 5B82              std y+3,R5
+ 0252 23E0              ldi R18,3
+ 0254 0027              clr R16
+ 0256 0E940000          xcall _dis_data_RP
+ 025A                   .dbline 172
+ 025A           ;         }        
+ 025A           L21:
+ 025A                   .dbline 155
+ 025A 93CF              xjmp L20
+ 025C           L27:
+ 025C                   .dbline 177
+ 025C           ;        };
+ 025C           ;        break;
+ 025C           ;        
+ 025C           ;        case 5://温度传感器模式，显示温度值
+ 025C           ;      {
+ 025C                   .dbline 178
+ 025C           ;            HC_SR04_Init();
+ 025C 0E940000          xcall _HC_SR04_Init
+ 0260                   .dbline 179
+ 0260           ;                CLI();
+ 0260 F894              cli
+ 0262                   .dbline 180
+ 0262           ;                timer1_init();
+ 0262 0E940000          xcall _timer1_init
+ 0266                   .dbline 181
+ 0266           ;                MCUCR = 0x00;
+ 0266 2224              clr R2
+ 0268 25BE              out 0x35,R2
+ 026A                   .dbline 182
+ 026A           ;                GICR  = 0x00;
+ 026A 2BBE              out 0x3b,R2
  026C                   .dbline 183
- 026C           ;                       {
- 026C                   .dbline 184
- 026C           ;                  SET_LED_D11(1);
- 026C 01E0              ldi R16,1
- 026E DBDE              xcall _SET_LED_D11
- 0270                   .dbline 185
- 0270           ;                          Delay_ms(20);
- 0270 04E1              ldi R16,20
- 0272 10E0              ldi R17,0
- 0274 0E940000          xcall _Delay_ms
- 0278                   .dbline 186
- 0278           ;                       }
- 0278           L31:
- 0278                   .dbline 187
- 0278           ;                       SET_LED_D11(0);
- 0278 0027              clr R16
- 027A D5DE              xcall _SET_LED_D11
- 027C                   .dbline 188
- 027C           ;            }
- 027C           L29:
- 027C                   .dbline 180
- 027C F3CF              xjmp L28
- 027E           L33:
- 027E                   .dbline 191
- 027E           ;        };
- 027E           ;        case 7:
- 027E           ;        {                
- 027E                   .dbline 192
- 027E           ;            FC04Init();
- 027E 0E940000          xcall _FC04Init
- 0282                   .dbline 193
- 0282           ;                SET_LED_D10(1);
- 0282 01E0              ldi R16,1
- 0284 C4DE              xcall _SET_LED_D10
- 0286                   .dbline 194
- 0286           ;                Delay_ms(100);
- 0286 04E6              ldi R16,100
- 0288 10E0              ldi R17,0
- 028A 0E940000          xcall _Delay_ms
- 028E 0CC0              xjmp L35
- 0290           L34:
- 0290                   .dbline 196
- 0290           ;            while(1)
- 0290           ;                {
- 0290                   .dbline 197
- 0290           ;                  if(!Read_FC04())
- 0290 0E940000          xcall _Read_FC04
- 0294 0023              tst R16
- 0296 31F4              brne L37
- 0298           X11:
- 0298                   .dbline 198
- 0298           ;                  {
- 0298                   .dbline 199
- 0298           ;              SET_LED_D10(1);
- 0298 01E0              ldi R16,1
- 029A B9DE              xcall _SET_LED_D10
- 029C                   .dbline 200
- 029C           ;                        Delay_ms(20);
- 029C 04E1              ldi R16,20
+ 026C           ;                TIMSK |= (0x01<<2); //溢出中断使能
+ 026C 89B7              in R24,0x39
+ 026E 8460              ori R24,4
+ 0270 89BF              out 0x39,R24
+ 0272                   .dbline 184
+ 0272           ;                SEI();
+ 0272 7894              sei
+ 0274 17C0              xjmp L29
+ 0276           L28:
+ 0276                   .dbline 186
+ 0276           ;                while(1)
+ 0276           ;                {
+ 0276                   .dbline 188
+ 0276           ;                    
+ 0276           ;                    distance_mm = (INT16U)GetDistance();//单位mm
+ 0276 0E940000          xcall _GetDistance
+ 027A 0E940000          xcall fpint
+ 027E 10930500          sts _distance_mm+1,R17
+ 0282 00930400          sts _distance_mm,R16
+ 0286                   .dbline 189
+ 0286           ;                        dis_data(0,3,distance_mm);
+ 0286 1801              movw R2,R16
+ 0288 4424              clr R4
+ 028A 5524              clr R5
+ 028C 2882              std y+0,R2
+ 028E 3982              std y+1,R3
+ 0290 4A82              std y+2,R4
+ 0292 5B82              std y+3,R5
+ 0294 23E0              ldi R18,3
+ 0296 0027              clr R16
+ 0298 0E940000          xcall _dis_data
+ 029C                   .dbline 190
+ 029C           ;                        Delay_ms(100);
+ 029C 04E6              ldi R16,100
  029E 10E0              ldi R17,0
  02A0 0E940000          xcall _Delay_ms
- 02A4                   .dbline 201
- 02A4           ;              }
- 02A4           L37:
- 02A4                   .dbline 202
- 02A4           ;                  SET_LED_D10(0);
- 02A4 0027              clr R16
- 02A6 B3DE              xcall _SET_LED_D10
- 02A8                   .dbline 203
- 02A8           ;                }
- 02A8           L35:
- 02A8                   .dbline 195
- 02A8 F3CF              xjmp L34
- 02AA           L39:
- 02AA                   .dbline 208
- 02AA           ;        };
- 02AA           ;        break;
- 02AA           ;        
- 02AA           ;        case 13://d 温度报警模式，设置阈值温度，超过温度进行报警
- 02AA           ;      {
- 02AA                   .dbline 209
- 02AA           ;         DS18B20Init();
- 02AA 0E940000          xcall _DS18B20Init
- 02AE                   .dbline 210
- 02AE           ;         temp_yz = get_data(0,2);//温度阈值
- 02AE 22E0              ldi R18,2
- 02B0 0027              clr R16
- 02B2 0E940000          xcall _get_data
- 02B6 5801              movw R10,R16
- 02B8                   .dbline 211
- 02B8           ;         temp_yz = temp_yz*10;   
- 02B8 0AE0              ldi R16,10
- 02BA 10E0              ldi R17,0
- 02BC 9501              movw R18,R10
- 02BE 0E940000          xcall empy16s
- 02C2 5801              movw R10,R16
- 02C4 8AC0              xjmp L41
- 02C6           L40:
- 02C6                   .dbline 214
- 02C6           ;         
- 02C6           ;         while(1)
- 02C6           ;         {
- 02C6                   .dbline 215
- 02C6           ;          temp=gettemp();//读取到的温度数据
- 02C6 0E940000          xcall _gettemp
- 02CA A801              movw R20,R16
- 02CC                   .dbline 216
- 02CC           ;        Delay_ms(100);
- 02CC 04E6              ldi R16,100
- 02CE 10E0              ldi R17,0
- 02D0 0E940000          xcall _Delay_ms
- 02D4                   .dbline 218
- 02D4           ;          
- 02D4           ;        if(temp >= 0xf800)//如果为零下，求补码
- 02D4 4030              cpi R20,0
- 02D6 E8EF              ldi R30,248
- 02D8 5E07              cpc R21,R30
- 02DA 60F1              brlo L43
- 02DC           X12:
- 02DC                   .dbline 219
- 02DC           ;        {
- 02DC                   .dbline 220
- 02DC           ;         temp = temp - 0XF800;   //去掉5个符号位
- 02DC 4050              subi R20,0
- 02DE 584F              sbci R21,248
- 02E0                   .dbline 221
- 02E0           ;           temp = 0x800 - temp;    //求出补码
- 02E0 80E0              ldi R24,2048
- 02E2 98E0              ldi R25,8
- 02E4 841B              sub R24,R20
- 02E6 950B              sbc R25,R21
- 02E8 AC01              movw R20,R24
- 02EA                   .dbline 222
- 02EA           ;           temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
- 02EA 00E0              ldi R16,<L25
- 02EC 10E0              ldi R17,>L25
- 02EE 0E940000          xcall lpm32
- 02F2 1801              movw R2,R16
- 02F4 2901              movw R4,R18
- 02F6 8A01              movw R16,R20
- 02F8 0E940000          xcall int2fp
- 02FC 3A93              st -y,R19
- 02FE 2A93              st -y,R18
- 0300 1A93              st -y,R17
- 0302 0A93              st -y,R16
- 0304 8101              movw R16,R2
- 0306 9201              movw R18,R4
- 0308 0E940000          xcall fpmule2
- 030C 1801              movw R2,R16
- 030E 2901              movw R4,R18
- 0310 00E0              ldi R16,<L26
- 0312 10E0              ldi R17,>L26
- 0314 0E940000          xcall lpm32
- 0318 3A93              st -y,R19
- 031A 2A93              st -y,R18
- 031C 1A93              st -y,R17
- 031E 0A93              st -y,R16
- 0320 8101              movw R16,R2
- 0322 9201              movw R18,R4
- 0324 0E940000          xcall fpdiv2
- 0328 0E940000          xcall fpint
- 032C A801              movw R20,R16
- 032E                   .dbline 223
- 032E           ;           temp = (1000*16)+temp;      //在最高位显示负号
- 032E 4058              subi R20,128  ; offset = 16000
- 0330 514C              sbci R21,193
- 0332                   .dbline 224
- 0332           ;          }
- 0332 22C0              xjmp L44
- 0334           L43:
- 0334                   .dbline 226
- 0334           ;        else
- 0334           ;        {
- 0334                   .dbline 227
- 0334           ;         temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示              
- 0334 00E0              ldi R16,<L25
- 0336 10E0              ldi R17,>L25
- 0338 0E940000          xcall lpm32
- 033C 1801              movw R2,R16
- 033E 2901              movw R4,R18
- 0340 8A01              movw R16,R20
- 0342 0E940000          xcall int2fp
- 0346 3A93              st -y,R19
- 0348 2A93              st -y,R18
- 034A 1A93              st -y,R17
- 034C 0A93              st -y,R16
- 034E 8101              movw R16,R2
- 0350 9201              movw R18,R4
- 0352 0E940000          xcall fpmule2
- 0356 1801              movw R2,R16
- 0358 2901              movw R4,R18
- 035A 00E0              ldi R16,<L26
- 035C 10E0              ldi R17,>L26
- 035E 0E940000          xcall lpm32
- 0362 3A93              st -y,R19
- 0364 2A93              st -y,R18
- 0366 1A93              st -y,R17
- 0368 0A93              st -y,R16
- 036A 8101              movw R16,R2
- 036C 9201              movw R18,R4
- 036E 0E940000          xcall fpdiv2
- 0372 0E940000          xcall fpint
- 0376 A801              movw R20,R16
- 0378                   .dbline 228
- 0378           ;        }/**/             
- 0378           L44:
- 0378                   .dbline 230
- 0378           ;   
- 0378           ;        if(temp > temp_yz)
- 0378 A416              cp R10,R20
- 037A B506              cpc R11,R21
- 037C 1CF4              brge L45
- 037E           X13:
- 037E                   .dbline 231
- 037E           ;          {
- 037E                   .dbline 232
- 037E           ;           PORTC |= (1<<6);PORTC |= (1<<7);       
- 037E AE9A              sbi 0x15,6
- 0380                   .dbline 232
- 0380 AF9A              sbi 0x15,7
- 0382                   .dbline 233
- 0382           ;          }
- 0382 05C0              xjmp L46
- 0384           L45:
- 0384                   .dbline 234
- 0384           ;          else if(temp <= temp_yz)
- 0384 A416              cp R10,R20
- 0386 B506              cpc R11,R21
- 0388 14F0              brlt L47
- 038A           X14:
- 038A                   .dbline 235
- 038A           ;          {
- 038A                   .dbline 236
- 038A           ;           PORTC &= ~(1<<7);PORTC &= ~(1<<6);
- 038A AF98              cbi 0x15,7
- 038C                   .dbline 236
- 038C AE98              cbi 0x15,6
- 038E                   .dbline 237
- 038E           ;          }       
- 038E           L47:
- 038E           L46:
- 038E                   .dbline 239
- 038E           ;           
- 038E           ;          dis_data_RP(0,3,temp,1);//显示温度值   
- 038E 81E0              ldi R24,1
- 0390 90E0              ldi R25,0
- 0392 9D83              std y+5,R25
- 0394 8C83              std y+4,R24
- 0396 1A01              movw R2,R20
- 0398 4424              clr R4
- 039A 37FC              sbrc R3,7
- 039C 4094              com R4
- 039E 5524              clr R5
- 03A0 47FC              sbrc R4,7
- 03A2 5094              com R5
- 03A4 2882              std y+0,R2
- 03A6 3982              std y+1,R3
- 03A8 4A82              std y+2,R4
- 03AA 5B82              std y+3,R5
- 03AC 23E0              ldi R18,3
- 03AE 0027              clr R16
- 03B0 0E940000          xcall _dis_data_RP
- 03B4                   .dbline 240
- 03B4           ;          dis_data_RP(4,7,temp_yz,5);     
- 03B4 85E0              ldi R24,5
- 03B6 90E0              ldi R25,0
- 03B8 9D83              std y+5,R25
- 03BA 8C83              std y+4,R24
- 03BC 1501              movw R2,R10
- 03BE 4424              clr R4
- 03C0 37FC              sbrc R3,7
- 03C2 4094              com R4
- 03C4 5524              clr R5
- 03C6 47FC              sbrc R4,7
- 03C8 5094              com R5
- 03CA 2882              std y+0,R2
- 03CC 3982              std y+1,R3
- 03CE 4A82              std y+2,R4
- 03D0 5B82              std y+3,R5
- 03D2 27E0              ldi R18,7
- 03D4 04E0              ldi R16,4
- 03D6 0E940000          xcall _dis_data_RP
- 03DA                   .dbline 241
- 03DA           ;         }        
- 03DA           L41:
- 03DA                   .dbline 213
- 03DA 75CF              xjmp L40
- 03DC           L10:
- 03DC                   .dbline -2
- 03DC           L8:
- 03DC                   .dbline 0 ; func end
- 03DC 2696              adiw R28,6
- 03DE 0895              ret
- 03E0                   .dbsym r CH 22 I
- 03E0                   .dbsym r temp_yz 10 I
- 03E0                   .dbsym r led 20 I
- 03E0                   .dbsym r temp 20 I
- 03E0                   .dbend
+ 02A4                   .dbline 191
+ 02A4           ;                }
+ 02A4           L29:
+ 02A4                   .dbline 185
+ 02A4 E8CF              xjmp L28
+ 02A6           L31:
+ 02A6                   .dbline 195
+ 02A6           ;        }
+ 02A6           ;        
+ 02A6           ;        case 6:
+ 02A6           ;        {
+ 02A6                   .dbline 196
+ 02A6           ;                MH_B_Init();
+ 02A6 0E940000          xcall _MH_B_Init
+ 02AA                   .dbline 197
+ 02AA           ;                SET_LED_D11(1);
+ 02AA 01E0              ldi R16,1
+ 02AC BCDE              xcall _SET_LED_D11
+ 02AE                   .dbline 198
+ 02AE           ;                Delay_ms(100);
+ 02AE 04E6              ldi R16,100
+ 02B0 10E0              ldi R17,0
+ 02B2 0E940000          xcall _Delay_ms
+ 02B6 0CC0              xjmp L33
+ 02B8           L32:
+ 02B8                   .dbline 200
+ 02B8           ;            while(1)
+ 02B8           ;                {
+ 02B8                   .dbline 201
+ 02B8           ;                   if(!Read_MH_B())
+ 02B8 0E940000          xcall _Read_MH_B
+ 02BC 0023              tst R16
+ 02BE 31F4              brne L35
+ 02C0           X11:
+ 02C0                   .dbline 202
+ 02C0           ;                       {
+ 02C0                   .dbline 203
+ 02C0           ;                  SET_LED_D11(1);
+ 02C0 01E0              ldi R16,1
+ 02C2 B1DE              xcall _SET_LED_D11
+ 02C4                   .dbline 204
+ 02C4           ;                          Delay_ms(20);
+ 02C4 04E1              ldi R16,20
+ 02C6 10E0              ldi R17,0
+ 02C8 0E940000          xcall _Delay_ms
+ 02CC                   .dbline 205
+ 02CC           ;                       }
+ 02CC           L35:
+ 02CC                   .dbline 206
+ 02CC           ;                       SET_LED_D11(0);
+ 02CC 0027              clr R16
+ 02CE ABDE              xcall _SET_LED_D11
+ 02D0                   .dbline 207
+ 02D0           ;            }
+ 02D0           L33:
+ 02D0                   .dbline 199
+ 02D0 F3CF              xjmp L32
+ 02D2           L37:
+ 02D2                   .dbline 210
+ 02D2           ;        };
+ 02D2           ;        case 7:
+ 02D2           ;        {                
+ 02D2                   .dbline 211
+ 02D2           ;            FC04Init();
+ 02D2 0E940000          xcall _FC04Init
+ 02D6                   .dbline 212
+ 02D6           ;                SET_LED_D10(1);
+ 02D6 01E0              ldi R16,1
+ 02D8 9ADE              xcall _SET_LED_D10
+ 02DA                   .dbline 213
+ 02DA           ;                Delay_ms(100);
+ 02DA 04E6              ldi R16,100
+ 02DC 10E0              ldi R17,0
+ 02DE 0E940000          xcall _Delay_ms
+ 02E2 0CC0              xjmp L39
+ 02E4           L38:
+ 02E4                   .dbline 215
+ 02E4           ;            while(1)
+ 02E4           ;                {
+ 02E4                   .dbline 216
+ 02E4           ;                  if(!Read_FC04())
+ 02E4 0E940000          xcall _Read_FC04
+ 02E8 0023              tst R16
+ 02EA 31F4              brne L41
+ 02EC           X12:
+ 02EC                   .dbline 217
+ 02EC           ;                  {
+ 02EC                   .dbline 218
+ 02EC           ;              SET_LED_D10(1);
+ 02EC 01E0              ldi R16,1
+ 02EE 8FDE              xcall _SET_LED_D10
+ 02F0                   .dbline 219
+ 02F0           ;                        Delay_ms(20);
+ 02F0 04E1              ldi R16,20
+ 02F2 10E0              ldi R17,0
+ 02F4 0E940000          xcall _Delay_ms
+ 02F8                   .dbline 220
+ 02F8           ;              }
+ 02F8           L41:
+ 02F8                   .dbline 221
+ 02F8           ;                  SET_LED_D10(0);
+ 02F8 0027              clr R16
+ 02FA 89DE              xcall _SET_LED_D10
+ 02FC                   .dbline 222
+ 02FC           ;                }
+ 02FC           L39:
+ 02FC                   .dbline 214
+ 02FC F3CF              xjmp L38
+ 02FE           L43:
+ 02FE                   .dbline 227
+ 02FE           ;        };
+ 02FE           ;        break;
+ 02FE           ;        
+ 02FE           ;        case 13://d 温度报警模式，设置阈值温度，超过温度进行报警
+ 02FE           ;      {
+ 02FE                   .dbline 228
+ 02FE           ;         DS18B20Init();
+ 02FE 0E940000          xcall _DS18B20Init
+ 0302                   .dbline 229
+ 0302           ;         temp_yz = get_data(0,2);//温度阈值
+ 0302 22E0              ldi R18,2
+ 0304 0027              clr R16
+ 0306 0E940000          xcall _get_data
+ 030A 5801              movw R10,R16
+ 030C                   .dbline 230
+ 030C           ;         temp_yz = temp_yz*10;   
+ 030C 0AE0              ldi R16,10
+ 030E 10E0              ldi R17,0
+ 0310 9501              movw R18,R10
+ 0312 0E940000          xcall empy16s
+ 0316 5801              movw R10,R16
+ 0318 8AC0              xjmp L45
+ 031A           L44:
+ 031A                   .dbline 233
+ 031A           ;         
+ 031A           ;         while(1)
+ 031A           ;         {
+ 031A                   .dbline 234
+ 031A           ;          temp=gettemp();//读取到的温度数据
+ 031A 0E940000          xcall _gettemp
+ 031E A801              movw R20,R16
+ 0320                   .dbline 235
+ 0320           ;        Delay_ms(100);
+ 0320 04E6              ldi R16,100
+ 0322 10E0              ldi R17,0
+ 0324 0E940000          xcall _Delay_ms
+ 0328                   .dbline 237
+ 0328           ;          
+ 0328           ;        if(temp >= 0xf800)//如果为零下，求补码
+ 0328 4030              cpi R20,0
+ 032A E8EF              ldi R30,248
+ 032C 5E07              cpc R21,R30
+ 032E 60F1              brlo L47
+ 0330           X13:
+ 0330                   .dbline 238
+ 0330           ;        {
+ 0330                   .dbline 239
+ 0330           ;         temp = temp - 0XF800;   //去掉5个符号位
+ 0330 4050              subi R20,0
+ 0332 584F              sbci R21,248
+ 0334                   .dbline 240
+ 0334           ;           temp = 0x800 - temp;    //求出补码
+ 0334 80E0              ldi R24,2048
+ 0336 98E0              ldi R25,8
+ 0338 841B              sub R24,R20
+ 033A 950B              sbc R25,R21
+ 033C AC01              movw R20,R24
+ 033E                   .dbline 241
+ 033E           ;           temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
+ 033E 00E0              ldi R16,<L25
+ 0340 10E0              ldi R17,>L25
+ 0342 0E940000          xcall lpm32
+ 0346 1801              movw R2,R16
+ 0348 2901              movw R4,R18
+ 034A 8A01              movw R16,R20
+ 034C 0E940000          xcall int2fp
+ 0350 3A93              st -y,R19
+ 0352 2A93              st -y,R18
+ 0354 1A93              st -y,R17
+ 0356 0A93              st -y,R16
+ 0358 8101              movw R16,R2
+ 035A 9201              movw R18,R4
+ 035C 0E940000          xcall fpmule2
+ 0360 1801              movw R2,R16
+ 0362 2901              movw R4,R18
+ 0364 00E0              ldi R16,<L26
+ 0366 10E0              ldi R17,>L26
+ 0368 0E940000          xcall lpm32
+ 036C 3A93              st -y,R19
+ 036E 2A93              st -y,R18
+ 0370 1A93              st -y,R17
+ 0372 0A93              st -y,R16
+ 0374 8101              movw R16,R2
+ 0376 9201              movw R18,R4
+ 0378 0E940000          xcall fpdiv2
+ 037C 0E940000          xcall fpint
+ 0380 A801              movw R20,R16
+ 0382                   .dbline 242
+ 0382           ;           temp = (1000*16)+temp;      //在最高位显示负号
+ 0382 4058              subi R20,128  ; offset = 16000
+ 0384 514C              sbci R21,193
+ 0386                   .dbline 243
+ 0386           ;          }
+ 0386 22C0              xjmp L48
+ 0388           L47:
+ 0388                   .dbline 245
+ 0388           ;        else
+ 0388           ;        {
+ 0388                   .dbline 246
+ 0388           ;         temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示              
+ 0388 00E0              ldi R16,<L25
+ 038A 10E0              ldi R17,>L25
+ 038C 0E940000          xcall lpm32
+ 0390 1801              movw R2,R16
+ 0392 2901              movw R4,R18
+ 0394 8A01              movw R16,R20
+ 0396 0E940000          xcall int2fp
+ 039A 3A93              st -y,R19
+ 039C 2A93              st -y,R18
+ 039E 1A93              st -y,R17
+ 03A0 0A93              st -y,R16
+ 03A2 8101              movw R16,R2
+ 03A4 9201              movw R18,R4
+ 03A6 0E940000          xcall fpmule2
+ 03AA 1801              movw R2,R16
+ 03AC 2901              movw R4,R18
+ 03AE 00E0              ldi R16,<L26
+ 03B0 10E0              ldi R17,>L26
+ 03B2 0E940000          xcall lpm32
+ 03B6 3A93              st -y,R19
+ 03B8 2A93              st -y,R18
+ 03BA 1A93              st -y,R17
+ 03BC 0A93              st -y,R16
+ 03BE 8101              movw R16,R2
+ 03C0 9201              movw R18,R4
+ 03C2 0E940000          xcall fpdiv2
+ 03C6 0E940000          xcall fpint
+ 03CA A801              movw R20,R16
+ 03CC                   .dbline 247
+ 03CC           ;        }/**/             
+ 03CC           L48:
+ 03CC                   .dbline 249
+ 03CC           ;   
+ 03CC           ;        if(temp > temp_yz)
+ 03CC A416              cp R10,R20
+ 03CE B506              cpc R11,R21
+ 03D0 1CF4              brge L49
+ 03D2           X14:
+ 03D2                   .dbline 250
+ 03D2           ;          {
+ 03D2                   .dbline 251
+ 03D2           ;           PORTC |= (1<<6);PORTC |= (1<<7);       
+ 03D2 AE9A              sbi 0x15,6
+ 03D4                   .dbline 251
+ 03D4 AF9A              sbi 0x15,7
+ 03D6                   .dbline 252
+ 03D6           ;          }
+ 03D6 05C0              xjmp L50
+ 03D8           L49:
+ 03D8                   .dbline 253
+ 03D8           ;          else if(temp <= temp_yz)
+ 03D8 A416              cp R10,R20
+ 03DA B506              cpc R11,R21
+ 03DC 14F0              brlt L51
+ 03DE           X15:
+ 03DE                   .dbline 254
+ 03DE           ;          {
+ 03DE                   .dbline 255
+ 03DE           ;           PORTC &= ~(1<<7);PORTC &= ~(1<<6);
+ 03DE AF98              cbi 0x15,7
+ 03E0                   .dbline 255
+ 03E0 AE98              cbi 0x15,6
+ 03E2                   .dbline 256
+ 03E2           ;          }       
+ 03E2           L51:
+ 03E2           L50:
+ 03E2                   .dbline 258
+ 03E2           ;           
+ 03E2           ;          dis_data_RP(0,3,temp,1);//显示温度值   
+ 03E2 81E0              ldi R24,1
+ 03E4 90E0              ldi R25,0
+ 03E6 9D83              std y+5,R25
+ 03E8 8C83              std y+4,R24
+ 03EA 1A01              movw R2,R20
+ 03EC 4424              clr R4
+ 03EE 37FC              sbrc R3,7
+ 03F0 4094              com R4
+ 03F2 5524              clr R5
+ 03F4 47FC              sbrc R4,7
+ 03F6 5094              com R5
+ 03F8 2882              std y+0,R2
+ 03FA 3982              std y+1,R3
+ 03FC 4A82              std y+2,R4
+ 03FE 5B82              std y+3,R5
+ 0400 23E0              ldi R18,3
+ 0402 0027              clr R16
+ 0404 0E940000          xcall _dis_data_RP
+ 0408                   .dbline 259
+ 0408           ;          dis_data_RP(4,7,temp_yz,5);     
+ 0408 85E0              ldi R24,5
+ 040A 90E0              ldi R25,0
+ 040C 9D83              std y+5,R25
+ 040E 8C83              std y+4,R24
+ 0410 1501              movw R2,R10
+ 0412 4424              clr R4
+ 0414 37FC              sbrc R3,7
+ 0416 4094              com R4
+ 0418 5524              clr R5
+ 041A 47FC              sbrc R4,7
+ 041C 5094              com R5
+ 041E 2882              std y+0,R2
+ 0420 3982              std y+1,R3
+ 0422 4A82              std y+2,R4
+ 0424 5B82              std y+3,R5
+ 0426 27E0              ldi R18,7
+ 0428 04E0              ldi R16,4
+ 042A 0E940000          xcall _dis_data_RP
+ 042E                   .dbline 260
+ 042E           ;         }        
+ 042E           L45:
+ 042E                   .dbline 232
+ 042E 75CF              xjmp L44
+ 0430           L10:
+ 0430                   .dbline -2
+ 0430           L8:
+ 0430                   .dbline 0 ; func end
+ 0430 2696              adiw R28,6
+ 0432 0895              ret
+ 0434                   .dbsym r CH 22 I
+ 0434                   .dbsym r temp_yz 10 I
+ 0434                   .dbsym r led 20 I
+ 0434                   .dbsym r temp 20 I
+ 0434                   .dbend
                         .area lit(rom, con, rel)
  0000           L26:
  0000 00002041          .word 0x0,0x4120

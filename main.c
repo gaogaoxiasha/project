@@ -8,7 +8,8 @@
 
 unsigned int note_n = 0;
 unsigned int int_n = 0;
-
+INT16U distance_mm = 0;//距离
+		 
 void LEDOnBoardInit(void)
 {
     DDRC |= (0x01<<6)|(0x01<<7);
@@ -171,6 +172,24 @@ void main(void)
 	  }	   
 	 };
 	 break;
+	 
+	 case 5://温度传感器模式，显示温度值
+     {
+	     HC_SR04_Init();
+		 CLI();
+		 timer1_init();
+		 MCUCR = 0x00;
+ 		 GICR  = 0x00;
+ 		 TIMSK |= (0x01<<2); //溢出中断使能
+		 SEI();
+		 while(1)
+		 {
+		     
+		     distance_mm = (INT16U)GetDistance();//单位mm
+			 dis_data(0,3,distance_mm);
+			 Delay_ms(100);
+		 }
+	 }
 	 
 	 case 6:
 	 {

@@ -1,0 +1,145 @@
+XL
+H 5 areas B global symbols
+M HC_SR04.c
+S fpmule2x Ref0000
+S fpdiv2 Ref0000
+S _Delay_us Ref0000
+S lpm32 Ref0000
+S fpmule2 Ref0000
+S uint2fp Ref0000
+A text size 11E flags 0
+dbfile HC_SR04.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HC_SR04.c
+dbfunc e HC_SR04_Init 0 fV
+dbline FFFFFFFF 0
+dbline 15 0
+dbline 16 0
+dbline 17 2
+dbline 18 4
+dbline FFFFFFFE 6
+dbline 0 6
+dbfunc e timer1_init 8 fV
+dbline FFFFFFFF 8
+dbline 20 8
+dbline 21 8
+dbline 22 C
+dbline 23 E
+dbline 24 10
+dbline 25 14
+dbline 26 18
+dbline 27 1C
+dbline 28 20
+dbline 29 24
+dbline 2A 28
+dbline 2B 2A
+dbline FFFFFFFE 2C
+dbline 0 2C
+dbfunc e timer1_ovf_isr 2E fV
+dbline FFFFFFFF 36
+dbline 30 36
+dbline 32 36
+dbline 33 3A
+dbline 35 3C
+dbline 36 42
+dbline FFFFFFFE 44
+dbline 0 44
+dbfunc e GetDistance 4E fD
+dbsym r Time A s
+dbsym l distance 0 D
+dbline FFFFFFFF 54
+dbline 3B 54
+dbline 3C 54
+dbline 3D 64
+dbline 3E 68
+dbline 3F 6E
+dbline 40 70
+dbline 41 7C
+dbline 42 7E
+dbline 42 7E
+dbline 43 82
+dbline 44 86
+dbline 45 88
+dbline 46 8C
+dbline 46 8C
+dbline 47 98
+dbline 48 9C
+dbline 49 A4
+dbline 4A A4
+dbline 4B AA
+dbline 4C AC
+dbline 4E AE
+dbline 4F AE
+dbline 50 B2
+dbline 51 B4
+dbline 53 B4
+dbline 54 10E
+dbline FFFFFFFE 116
+dbline 0 116
+S _timer1_ovf_isr Def002E
+S _HC_SR04_Init Def0000
+S _GetDistance Def004E
+S _timer1_init Def0008
+A data size 1 flags 20
+dbfile HC_SR04.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HC_SR04.c
+dbsym e TimerOut_Flag 0 c
+S _TimerOut_Flag Def0000
+A idata size 1 flags 0
+A vector size 24 flags C
+A lit size 10 flags 0
+T 00 00 00
+R 00 00 02 00
+T 00 00 8B 9A 8C 98 93 98 08 95
+R 00 00 00 00
+T 08 00 22 24 2E BC 2D BC 2C BC 80 EE 8B BD 8F EF
+R 00 00 00 00
+T 16 00 8A BD 80 EE 89 BD 8F EF 88 BD 80 EE 87 BD
+R 00 00 00 00
+T 24 00 8F EF 86 BD 2F BC 2E BC 08 95
+R 00 00 00 00
+T 20 00 0C 94 17 00
+R 00 00 03 00 10 04 00 00
+T 2E 00 2A 92 8A 93 2F B6 2A 92 22 24 2D BC 2C BC
+R 00 00 00 00
+T 3C 00 81 E0 80 93 00 00 2E BC 29 90 2F BE 89 91
+R 00 00 00 00 00 06 01 00
+T 4A 00 29 90 18 95
+R 00 00 00 00
+T 4E 00 AA 92 BA 92 24 97 00 E0 10 E0
+R 00 00 00 00 20 08 04 00 0C 00 40 0A 04 00 0C 00
+T 58 00 0E 94 00 00 08 83 19 83 2A 83 3B 83 AA 24
+R 00 00 00 00 12 04 03 00
+T 66 00 BB 24 22 24 20 92 00 00 93 9A 0A E0 10 E0
+R 00 00 00 00 00 08 01 00
+T 74 00 20 E0 30 E0 0E 94 00 00 93 98 84 9B FE CF
+R 00 00 00 00 12 08 02 00
+T 82 00 22 24 2D BC 2C BC 81 E0 8E BD 84 9B 04 C0
+R 00 00 00 00
+T 90 00 20 90 00 00 22 20 D1 F3 22 24 2E BC 20 90
+R 00 00 00 00 00 04 01 00
+T 9E 00 00 00 22 20 29 F0 8F EF 9F EF 5C 01 AE 9A
+R 00 00 00 00 00 02 01 00
+T AC 00 03 C0 AC B4 BD B4 AE 98 00 E0 10 E0
+R 00 00 00 00 20 0A 04 00 08 00 40 0C 04 00 08 00
+T B8 00 0E 94 00 00 18 01 29 01 00 E0
+R 00 00 00 00 12 04 03 00 20 0A 04 00 04 00
+T C2 00 10 E0 0E 94 00 00 38 01 49 01 85 01
+R 00 00 00 00 40 02 04 00 04 00 12 06 03 00
+T CE 00 0E 94 00 00 3A 93 2A 93 1A 93 0A 93 83 01
+R 00 00 00 00 12 04 05 00
+T DC 00 94 01 0E 94 00 00 81 01 92 01 0E 94 00 00
+R 00 00 00 00 12 06 00 00 12 0E 04 00
+T EA 00 18 01 29 01 00 E0 10 E0
+R 00 00 00 00 20 06 04 00 00 00 40 08 04 00 00 00
+T F2 00 0E 94 00 00 3A 93 2A 93 1A 93 0A 93 81 01
+R 00 00 00 00 12 04 03 00
+T 00 01 92 01 0E 94 00 00 08 83 19 83 2A 83 3B 83
+R 00 00 00 00 12 06 01 00
+T 0E 01 08 81 19 81 2A 81 3B 81 24 96 B9 90 A9 90
+R 00 00 00 00
+T 1C 01 08 95
+R 00 00 00 00
+T 00 00 00 00 E1 4A 00 00 2A 43 00 00 7A 44 00 00
+R 00 00 04 00
+T 0E 00 00 00
+R 00 00 04 00

@@ -1,0 +1,258 @@
+//ICC-AVR application builder : 2014/7/22 19:16:57
+// Target : M16
+// Crystal: 7.3728Mhz
+
+#include "Includes.h"
+
+#define Max_note      100
+
+unsigned int note_n = 0;
+unsigned int int_n = 0;
+float distance = 0;//距离
+		 
+void LEDOnBoardInit(void)
+{
+    DDRC |= (0x01<<6)|(0x01<<7);
+	//PORTC |= (0x01<<6)|(0x01<<7);
+	PORTC &= ~((0x01<<6)|(0x01<<7));
+}
+void SET_LED_D10(unsigned char state)
+{
+ 	PORTC = PORTC&(~(0X01<<6))|(state<<6);
+}
+void SET_LED_D11(unsigned char state)
+{
+ 	PORTC = PORTC&(~(0X01<<7))|(state<<7);
+}
+unsigned int t[28] = {0,3824,3460,3036,2864,2552,2272,2024,0,0,0,     //中音0-7
+                        1880,1702,1517,1431,1275,1136,1012,0,0,0,     //高音11-17   频率
+						7633,6802,6060,5730,5102,4545,4048};          //低音21-27
+						
+unsigned int d[28] = {0, 105, 116, 132, 140, 157, 176, 198,0,0,0,     //中音0-7
+                         209, 234, 263, 279, 313, 352, 395,0,0,0,     //高音11-17   节拍
+						  52,  58,  66,  70,  78,  88,  98};          //低音21-27
+
+unsigned char music[Max_note] = { 5,4, 5,4, 6,8, 5,8,11,8, 7,16,
+                                  5,4, 5,4, 6,8, 5,8,12,8,11,16,
+								  5,4, 5,4,15,8,13,8,11,8, 7,8, 6,16,
+								 14,4,14,4,13,8,11,8,12,8,11,16,
+								 5,4, 5,4, 6,8, 5,8,11,8, 7,16,
+                                  5,4, 5,4, 6,8, 5,8,12,8,11,16,
+								  5,4, 5,4,15,8,13,8,11,8, 7,8, 6,16,
+								 14,4,14,4,13,8,11,8,12,8,11,16};//祝你生日快乐100
+						  
+
+
+
+void port_init(void)
+{
+ PORTA = 0x00;
+ DDRA  = 0x00;
+ PORTB = 0x00;
+ DDRB  = 0x00;
+ PORTC = 0x00; //m103 output only
+ DDRC  = 0x00;
+ PORTD = 0x00;
+ DDRD  = 0x00;
+ }
+ 
+ 
+//TIMER2 initialize - prescale:1024
+// WGM: CTC
+// desired value: 100Hz
+// actual value: 98.630Hz (1.4%)
+void timer2_50Hz(void)
+{
+ TCCR2 = 0x00; //stop
+ ASSR  = 0x00; //set async mode
+ TCNT2 = 0xB8; //setup
+ OCR2  = 0x48;
+ TCCR2 = 0x1F; //start
+}
+
+//TIMER2 initialize - prescale:256
+// WGM: CTC
+// desired value: 200Hz
+// actual value: 198.621Hz (0.7%)
+void timer2_100Hz(void)
+{
+ TCCR2 = 0x00; //stop
+ ASSR  = 0x00; //set async mode
+ TCNT2 = 0x70; //setup
+ OCR2  = 0x90;
+ TCCR2 = 0x1E; //start
+}
+
+
+//call this routine to initialize all peripherals
+void init_devices(void)
+{
+ //stop errant interrupts until set up
+ CLI(); //disable all interrupts
+ port_init(); 
+ LEDOnBoardInit();
+ init_7279(); 
+
+ //timer2_init();
+  
+ MCUCR = 0x00;
+ GICR  = 0x00;
+ TIMSK = 0x80; //timer interrupt sources
+ SEI(); //re-enable interrupts
+ //all peripherals are now initialized
+}
+
+void main(void)
+{
+  int temp,temp_yz;
+  int CH;
+  int led=0; 
+  init_devices();
+  Delay_ms(20);      
+  
+
+  /*
+  */
+  CH = get_data(0,0);
+ // CH = 7;
+  switch (CH)
+  {
+   case 0://LED模式
+     {	  
+	  DDRB = 0xFF;
+      PORTB = 0XFF;
+      DDRD = 0XFF;
+	  PORTD = 0XFF;
+      
+	  while(1)
+	  {
+	   if(led<8)
+	   {
+	    PORTD = 0XFF;
+		PORTB = ~(1<<led);
+		Delay_ms(200);
+		led++;
+	   }
+	   else if((led>=8)&&(led<16))
+	   {
+	    PORTB = 0XFF;
+		PORTD = ~(1<<(led-8));
+		Delay_ms(200);
+		led++;
+	   }
+	   else
+	   {
+	    led=0;
+	   } 
+	  }	   
+	 };
+	 break;
+	 
+   case 4://温度传感器模式，显示温度值
+     {
+	  dis_data(7,7,4);
+	  DS18B20Init();
+	  while(1)
+	  {
+	   temp=gettemp();//读取到的温度数据
+       Delay_ms(100);
+   
+       if(temp >= 0xf800)//如果为零下，求补码
+       {
+        temp = temp - 0XF800;   //去掉5个符号位
+	    temp = 0x800 - temp;    //求出补码
+	    temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
+	    temp = (1000*16)+temp;	//在最高位显示负号
+	   }
+       else
+       {
+        temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示		
+       }    
+	   dis_data_RP(0,3,temp,1);//显示温度值	   
+	  }	   
+	 };
+	 break;
+	 
+	 case 5://温度传感器模式，显示温度值
+     {
+	     HC_SR04_Init();
+		 timer1_init();
+		 while(1)
+		 {
+		     GetDistance();
+		 }
+	 }
+	 
+	 case 6:
+	 {
+ 		 MH_B_Init();
+		 SET_LED_D11(1);
+		 Delay_ms(100);
+	     while(1)
+  		 {
+      	    if(!Read_MH_B())
+	  		{
+          	   SET_LED_D11(1);
+		   	   Delay_ms(20);
+	  		}
+	  		SET_LED_D11(0);
+  	     }
+	 };
+	 case 7:
+	 {	  	  
+	     FC04Init();
+		 SET_LED_D10(1);
+		 Delay_ms(100);
+	     while(1)
+  		 {
+      	   if(!Read_FC04())
+	  	   {
+             SET_LED_D10(1);
+		  	 Delay_ms(20);
+	       }
+	  	   SET_LED_D10(0);
+  		 }
+	 };
+	 break;
+	 
+	 case 13://d 温度报警模式，设置阈值温度，超过温度进行报警
+     {
+	  DS18B20Init();
+	  temp_yz = get_data(0,2);//温度阈值
+	  temp_yz = temp_yz*10;	  
+	  
+	  while(1)
+	  {
+	   temp=gettemp();//读取到的温度数据
+       Delay_ms(100);
+	   
+       if(temp >= 0xf800)//如果为零下，求补码
+       {
+        temp = temp - 0XF800;   //去掉5个符号位
+	    temp = 0x800 - temp;    //求出补码
+	    temp = (temp*6.25)/10;  //计算温度值，应该乘0.0625，现在乘0.625可以显示一位小数位
+	    temp = (1000*16)+temp;	//在最高位显示负号
+	   }
+       else
+       {
+        temp = (temp*6.25)/10;//如果为正，补码为它本身，直接转换为温度值进行显示		
+       }/**/   	   
+  
+       if(temp > temp_yz)
+	   {
+	    PORTC |= (1<<6);PORTC |= (1<<7);	   
+	   }
+	   else if(temp <= temp_yz)
+	   {
+	    PORTC &= ~(1<<7);PORTC &= ~(1<<6);
+	   }	   
+	    
+	   dis_data_RP(0,3,temp,1);//显示温度值	  
+	   dis_data_RP(4,7,temp_yz,5);	   
+	  }	   
+	 };
+	 break;
+	 default: break;
+  }
+  
+}
