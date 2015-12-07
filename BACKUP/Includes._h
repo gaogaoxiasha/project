@@ -10,11 +10,12 @@
 #include <macros.h>
 #include "AVRDefs.h"
 #include "AVRTypes.h"
-#include "HD7279.h"
-#include "DS18B20.h"
-#include "Delay.h"
-#include "FC04.h"
-#include "MH_B.h"
+#include "../HD7279/HD7279.h"
+#include "../DS18B20/DS18B20.h"
+#include "../Delay/Delay.h"
+#include "../FC04/FC04.h"
+#include "../MH_B/MH_B.h"
+#include "../HC_SR04/HC_SR04.h"
 
 extern INT16U time_on;
 extern INT16U time_off;

@@ -7,8 +7,8 @@ S push_arg4 Ref0000
 S pop_xgsetF000 Ref0000
 S pop_xgset300C Ref0000
 A text size BA flags 0
-dbfile Delay.c
-dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\Delay.c
+dbfile Delay\Delay.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\Delay\Delay.c
 dbfunc e Delay_us 0 fV
 dbsym r i 14 i
 dbsym l n 2 l

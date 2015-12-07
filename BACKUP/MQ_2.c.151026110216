@@ -1,0 +1,43 @@
+/*******************************************************************************
+**  MCU        : ATmega16 (Atmel)
+**  Compiler   : ICCAVR 7.22
+**  Module Name: MH_B.c
+**  Module Date: 2015-10-16
+**  Module Auth: 蔡海飘
+**  Description: 气体传感器
+**  Version    : V1.0
+**  Notes      : 
+**------------------------------------------------------------------------------
+/*----------------------------  I N C L U D E S  -----------------------------*/
+#include "MQ_2.h"
+
+/*--------------------------  D E F I N I T I O N  ---------------------------*/
+#define MQ2_DO_PNUM 		0
+#define MQ2_DO_DDR 			DDRD
+#define MQ2_DO_PIN 			PIND
+
+#define MQ2_AO_PNUM 		1
+#define MQ2_AO_DDR 			DDRA
+#define MQ2_AO_PIN 			PINA
+/*---------------------------  F U N C T I O N S  ----------------------------*/
+void MQ_2_Init(void)
+{
+ 	 MQ2_DO_DDR &= ~(0x01<<MQ2_DO_PNUM);
+	 MQ2_AO_DDR &= ~(0x01<<MQ2_AO_PNUM);
+	 
+	 ADCSR = 0x00; //disable adc
+ 	 ADMUX |= (0x01<<0)|(0x01<<5); //select adc input 1,左对齐
+ 	 ACSR  = 0x80;
+ 	 ADCSR = 0xC1;
+}  
+
+unsigned char Read_MQ2_DO(void)  
+{
+    unsigned char state = 0;
+	state = MQ2_DO_PIN&(0x01<<MQ2_DO_PNUM);
+	return state;
+}
+
+
+//==============================  End Of File  ===============================//
+

@@ -1,0 +1,143 @@
+                        .module MQ_2.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile MQ_2\MQ_2.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\MQ_2\MQ_2.c
+ 0000                   .dbfunc e MQ2_Init _MQ2_Init fV
+                        .even
+ 0000           _MQ2_Init::
+ 0000                   .dbline -1
+ 0000                   .dbline 24
+ 0000           ; /*******************************************************************************
+ 0000           ; **  MCU        : ATmega16 (Atmel)
+ 0000           ; **  Compiler   : ICCAVR 7.22
+ 0000           ; **  Module Name: MH_B.c
+ 0000           ; **  Module Date: 2015-10-16
+ 0000           ; **  Module Auth: 蔡海飘
+ 0000           ; **  Description: 气体传感器
+ 0000           ; **  Version    : V1.0
+ 0000           ; **  Notes      : 
+ 0000           ; **------------------------------------------------------------------------------
+ 0000           ; /*----------------------------  I N C L U D E S  -----------------------------*/
+ 0000           ; #include "MQ_2.h"
+ 0000           ; 
+ 0000           ; /*--------------------------  D E F I N I T I O N  ---------------------------*/
+ 0000           ; #define MQ2_DO_PNUM           0
+ 0000           ; #define MQ2_DO_DDR                    DDRD
+ 0000           ; #define MQ2_DO_PIN                    PIND
+ 0000           ; 
+ 0000           ; #define MQ2_AO_PNUM           1
+ 0000           ; #define MQ2_AO_DDR                    DDRA
+ 0000           ; #define MQ2_AO_PIN                    PINA
+ 0000           ; /*---------------------------  F U N C T I O N S  ----------------------------*/
+ 0000           ; void MQ2_Init(void)
+ 0000           ; {
+ 0000                   .dbline 25
+ 0000           ;        MQ2_DO_DDR &= ~(0x01<<MQ2_DO_PNUM);
+ 0000 8898              cbi 0x11,0
+ 0002                   .dbline 26
+ 0002           ;        MQ2_AO_DDR &= ~(0x01<<MQ2_AO_PNUM);
+ 0002 D198              cbi 0x1a,1
+ 0004                   .dbline 28
+ 0004           ;        
+ 0004           ;        ADCSR = 0x00; //disable adc
+ 0004 2224              clr R2
+ 0006 26B8              out 0x6,R2
+ 0008                   .dbline 29
+ 0008           ;        ADMUX |= (0x01<<0)|(0x01<<5)|(0x01<<6); //select adc input 1,左对齐，参考电压AVCC， AREF 引脚外加滤波电容
+ 0008 87B1              in R24,0x7
+ 000A 8166              ori R24,97
+ 000C 87B9              out 0x7,R24
+ 000E                   .dbline 30
+ 000E           ;        ACSR  = 0x80;
+ 000E 80E8              ldi R24,128
+ 0010 88B9              out 0x8,R24
+ 0012                   .dbline 31
+ 0012           ;        ADCSR |= (0x01<<7);//ADC enable
+ 0012 379A              sbi 0x6,7
+ 0014                   .dbline -2
+ 0014           L1:
+ 0014                   .dbline 0 ; func end
+ 0014 0895              ret
+ 0016                   .dbend
+ 0016                   .dbfunc e Read_MQ2_DO _Read_MQ2_DO fc
+ 0016           ;          state -> R16
+                        .even
+ 0016           _Read_MQ2_DO::
+ 0016                   .dbline -1
+ 0016                   .dbline 35
+ 0016           ; }  
+ 0016           ; 
+ 0016           ; unsigned char Read_MQ2_DO(void)  
+ 0016           ; {
+ 0016                   .dbline 36
+ 0016           ;     unsigned char state = 0;
+ 0016 0027              clr R16
+ 0018                   .dbline 37
+ 0018           ;       state = MQ2_DO_PIN&(0x01<<MQ2_DO_PNUM);
+ 0018 00B3              in R16,0x10
+ 001A 0170              andi R16,1
+ 001C                   .dbline 38
+ 001C           ;       return state;
+ 001C                   .dbline -2
+ 001C           L2:
+ 001C                   .dbline 0 ; func end
+ 001C 0895              ret
+ 001E                   .dbsym r state 16 c
+ 001E                   .dbend
+ 001E                   .dbfunc e Read_MQ2_AO _Read_MQ2_AO fs
+ 001E           ;          state -> R10,R11
+                        .even
+ 001E           _Read_MQ2_AO::
+ 001E AA92              st -y,R10
+ 0020 BA92              st -y,R11
+ 0022                   .dbline -1
+ 0022                   .dbline 42
+ 0022           ; }
+ 0022           ; 
+ 0022           ; INT16U Read_MQ2_AO(void)  
+ 0022           ; {
+ 0022                   .dbline 43
+ 0022           ;     INT16U state = 0;
+ 0022 AA24              clr R10
+ 0024 BB24              clr R11
+ 0026                   .dbline 44
+ 0026           ;       ADCSR |= (0x01<<6);//convert start
+ 0026 369A              sbi 0x6,6
+ 0028           L4:
+ 0028                   .dbline 45
+ 0028           ;       while(ADCSR&(0x01<<6));//wait convert end
+ 0028           L5:
+ 0028                   .dbline 45
+ 0028 3699              sbic 0x6,6
+ 002A FECF              rjmp L4
+ 002C           X0:
+ 002C                   .dbline 46
+ 002C           ;       state = (ADCH<<2)|(ADCL>>6);
+ 002C 26E0              ldi R18,6
+ 002E 30E0              ldi R19,0
+ 0030 04B1              in R16,0x4
+ 0032 1127              clr R17
+ 0034 0E940000          xcall asr16
+ 0038 A5B0              in R10,0x5
+ 003A BB24              clr R11
+ 003C AA0C              lsl R10
+ 003E BB1C              rol R11
+ 0040 AA0C              lsl R10
+ 0042 BB1C              rol R11
+ 0044 A02A              or R10,R16
+ 0046 B12A              or R11,R17
+ 0048                   .dbline 47
+ 0048           ;       return state;
+ 0048 8501              movw R16,R10
+ 004A                   .dbline -2
+ 004A           L3:
+ 004A                   .dbline 0 ; func end
+ 004A B990              ld R11,y+
+ 004C A990              ld R10,y+
+ 004E 0895              ret
+ 0050                   .dbsym r state 10 s
+ 0050                   .dbend
+ 0050           ; }
+ 0050           ; 
+ 0050           ; //==============================  End Of File  ===============================//
+ 0050           ; 

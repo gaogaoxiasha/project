@@ -1,7 +1,7 @@
                         .module HD7279.C
                         .area text(rom, con, rel)
- 0000                   .dbfile HD7279.C
- 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\HD7279.C
+ 0000                   .dbfile HD7279\HD7279.C
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HD7279\HD7279.C
  0000                   .dbfunc e init_7279 _init_7279 fV
  0000           ;            tmr -> R20,R21
                         .even
@@ -638,7 +638,7 @@
  0142 F101              movw R30,R2
  0144 0994               ijmp
  0146           X14:
- 0146                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\HD7279.C
+ 0146                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HD7279\HD7279.C
  0146                   .dbline 197
  0146           ;       {
  0146           L56:

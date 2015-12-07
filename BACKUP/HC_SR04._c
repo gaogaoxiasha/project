@@ -55,7 +55,7 @@ void timer1_ovf_isr(void)
  
 }
 
-INT16U GetDistance(void)
+float GetDistance(void)
 {
     float distance = 0;
 	INT16U Time = 0;
@@ -80,7 +80,7 @@ INT16U GetDistance(void)
 	   PORTC &= ~(0X01<<6);
 	}   
 	   
-	distance = (INT16U)(((float)Time)*170*1000/7372800);
+	distance = ((float)Time)*170*1000/7372800;
 	return distance;
 }
 //==============================  End Of File  ===============================//

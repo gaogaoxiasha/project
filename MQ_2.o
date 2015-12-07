@@ -1,0 +1,56 @@
+XL
+H 1 areas 4 global symbols
+M MQ_2.c
+S asr16 Ref0000
+A text size 50 flags 0
+dbfile MQ_2\MQ_2.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\MQ_2\MQ_2.c
+dbfunc e MQ2_Init 0 fV
+dbline FFFFFFFF 0
+dbline 18 0
+dbline 19 0
+dbline 1A 2
+dbline 1C 4
+dbline 1D 8
+dbline 1E E
+dbline 1F 12
+dbline FFFFFFFE 14
+dbline 0 14
+dbfunc e Read_MQ2_DO 16 fc
+dbsym r state 10 c
+dbline FFFFFFFF 16
+dbline 23 16
+dbline 24 16
+dbline 25 18
+dbline 26 1C
+dbline FFFFFFFE 1C
+dbline 0 1C
+dbfunc e Read_MQ2_AO 1E fs
+dbsym r state A s
+dbline FFFFFFFF 22
+dbline 2A 22
+dbline 2B 22
+dbline 2C 26
+dbline 2D 28
+dbline 2D 28
+dbline 2E 2C
+dbline 2F 48
+dbline FFFFFFFE 4A
+dbline 0 4A
+S _MQ2_Init Def0000
+S _Read_MQ2_AO Def001E
+S _Read_MQ2_DO Def0016
+T 00 00 88 98 D1 98 22 24 26 B8 87 B1 81 66 87 B9
+R 00 00 00 00
+T 0E 00 80 E8 88 B9 37 9A 08 95
+R 00 00 00 00
+T 16 00 00 27 00 B3 01 70 08 95
+R 00 00 00 00
+T 1E 00 AA 92 BA 92 AA 24 BB 24 36 9A 36 99 FE CF
+R 00 00 00 00
+T 2C 00 26 E0 30 E0 04 B1 11 27 0E 94 00 00 A5 B0
+R 00 00 00 00 12 0C 00 00
+T 3A 00 BB 24 AA 0C BB 1C AA 0C BB 1C A0 2A B1 2A
+R 00 00 00 00
+T 48 00 85 01 B9 90 A9 90 08 95
+R 00 00 00 00

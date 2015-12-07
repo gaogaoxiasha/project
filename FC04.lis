@@ -1,7 +1,7 @@
                         .module FC04.c
                         .area text(rom, con, rel)
- 0000                   .dbfile FC04.c
- 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\FC04.c
+ 0000                   .dbfile FC04\FC04.c
+ 0000                   .dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\FC04\FC04.c
  0000                   .dbfunc e FC04Init _FC04Init fV
                         .even
  0000           _FC04Init::

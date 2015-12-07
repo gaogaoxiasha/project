@@ -6,8 +6,8 @@ S _Delay_us Ref0000
 S pop_xgset003C Ref0000
 S _Delay_us1 Ref0000
 A text size D2 flags 0
-dbfile DS18B20.c
-dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\DS18B20.c
+dbfile DS18B20\DS18B20.c
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\DS18B20\DS18B20.c
 dbfunc e DS18B20Init 0 fV
 dbline FFFFFFFF 0
 dbline 23 0

@@ -2,7 +2,7 @@
 // Target : M16
 // Crystal: 7.3728Mhz
 
-#include "Includes.h"
+#include "../main/sIncludes.h"
 
 #define Max_note      100
 
@@ -185,7 +185,7 @@ void main(void)
 		 while(1)
 		 {
 		     
-		     distance_mm = GetDistance();//单位mm
+		     distance_mm = (INT16U)GetDistance();//单位mm
 			 dis_data(0,3,distance_mm);
 			 Delay_ms(100);
 		 }

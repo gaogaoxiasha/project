@@ -1,1 +1,1 @@
-main.o FC04.o MH_B.o HD7279.o DS18B20.o Delay.o HC_SR04.o 
+main.o FC04.o MH_B.o HD7279.o DS18B20.o Delay.o HC_SR04.o MQ_2.o 

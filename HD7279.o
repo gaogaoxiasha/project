@@ -9,8 +9,8 @@ S empy32s Ref0000
 S pop_xgsetF00C Ref0000
 S pop_xgsetF0FC Ref0000
 A text size 740 flags 0
-dbfile HD7279.C
-dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\声音+红外\HD7279.C
+dbfile HD7279\HD7279.C
+dbfile C:\Users\HaiPiao\Desktop\附小实验\程序\project\HD7279\HD7279.C
 dbfunc e init_7279 0 fV
 dbsym r tmr 14 i
 dbline FFFFFFFF 4
